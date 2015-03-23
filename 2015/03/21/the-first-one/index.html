@@ -7,25 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="用hexo搭建的博客首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；
 在搭建博客的过程中，首先感谢下面两个博主:
-
-http://zipperary.com/categories/hexo/
-http://blog.csdn.net/poem_of_sunshine/article/details/29369785">
+http://zipperary.com/categories/hexo/http://blog.csdn.net/poem_of_sunshine/article/details/29369785/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="the first one">
 <meta property="og:url" content="http://yoursite.com/2015/03/21/the-first-one/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="用hexo搭建的博客首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；
 在搭建博客的过程中，首先感谢下面两个博主:
-
-http://zipperary.com/categories/hexo/
-http://blog.csdn.net/poem_of_sunshine/article/details/29369785">
+http://zipperary.com/categories/hexo/http://blog.csdn.net/poem_of_sunshine/article/details/29369785/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="the first one">
 <meta name="twitter:description" content="用hexo搭建的博客首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；
 在搭建博客的过程中，首先感谢下面两个博主:
-
-http://zipperary.com/categories/hexo/
-http://blog.csdn.net/poem_of_sunshine/article/details/29369785">
+http://zipperary.com/categories/hexo/http://blog.csdn.net/poem_of_sunshine/article/details/29369785/">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -234,66 +228,52 @@ http://blog.csdn.net/poem_of_sunshine/article/details/29369785">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="用hexo搭建的博客">用hexo搭建的博客</h2><p>首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；</p>
+        <h1 id="用hexo搭建的博客">用hexo搭建的博客</h1><p>首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；</p>
 <p>在搭建博客的过程中，首先感谢下面两个博主:</p>
-<ul>
-<li><a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">http://zipperary.com/categories/hexo/</a></li>
-<li><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">http://blog.csdn.net/poem_of_sunshine/article/details/29369785/</a></li>
-</ul>
-<h3 id="1-hexo搭建">1.hexo搭建</h3><p>本地环境：mac、git、node</p>
-<ul>
-<li><p>安装hexo</p>
+<p><a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">http://zipperary.com/categories/hexo/</a><br><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">http://blog.csdn.net/poem_of_sunshine/article/details/29369785/</a></p>
+<h3 id="1-_hexo搭建">1. hexo搭建</h3><p>本地环境：mac、git、node</p>
+<p>安装hexo</p>
 <pre><code>npm <span class="keyword">install</span> -g hexo
 hexo init
 npm <span class="keyword">install</span>
-</code></pre><p>  安装完之后，本地启动服务</p>
+</code></pre><p>安装完之后，本地启动服务</p>
 <pre><code>hexo generate
 hexo <span class="keyword">server</span>
-</code></pre><p>  这样在本地就可以通过<a href="http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看" target="_blank" rel="external">http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看</a>    </p>
-</li>
-</ul>
-<h3 id="2-配置git托管page">2.配置git托管page</h3><ul>
+</code></pre><p>这样在本地就可以通过<a href="http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看" target="_blank" rel="external">http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看</a></p>
+<h3 id="2-_配置git托管page">2. 配置git托管page</h3><ol>
 <li>配置ssh 避免每次提交都输入git的账号密码</li>
-</ul>
-<pre><code><span class="number">1.</span> 查看是否有以前的key,有责备份
+</ol>
+<p>查看是否有以前的key,有责备份</p>
+<pre><code><span class="built_in">cd</span> ~/.ssh
 
-    <span class="string">`cd ~/.ssh`</span>
+<span class="built_in">mkdir</span> key_backup
 
-    <span class="string">`mkdir key_backup`</span>
+mv id_rsa* key_backup
+</code></pre><p>设置git账号信息</p>
+<pre><code>git config --global user<span class="class">.name</span> <span class="string">"你的git账号"</span>
 
-    <span class="string">`mv id_rsa* key_backup`</span>
+git config --global user<span class="class">.email</span> <span class="string">"你的邮箱"</span>
+</code></pre><p>生成SSH key</p>
+<pre><code>ssh-keygen -t rsa -C "你的邮箱”
 
-<span class="number">2.</span> 生成SSH key
+Enter <span class="keyword">file</span> <span class="keyword">in</span> <span class="keyword">which</span> to <span class="keyword">save</span> the key (/Users/helonghua/.ssh/id_rsa):直接回车就
 
-    <span class="string">`ssh-keygen -t rsa -C "xxxx@xxxx.com”`</span>
-
-<span class="number">3.</span> 登录到GitHub页面，Account Settings<span class="subst">-&gt;</span>SSH <span class="keyword">Public</span> Keys<span class="subst">-&gt;</span>Add another key将生成的key(id_rsa<span class="built_in">.</span>pub文件）内容copy到输入框中，save。
-
-<span class="number">4.</span> 测试链接
-
-    <span class="string">`ssh git@github.com`</span>
-
-<span class="number">5.</span> 设置git账号信息
-
-    <span class="string">`git config --global user.name "treason258”`</span>
-    <span class="string">`git config --global user.email ma.tengfei2008@163.com`</span>
-
-<span class="number">6.</span> 设置托管git的路径 编辑根目录_config<span class="built_in">.</span>yml 【很重要以上<span class="number">5</span>步都可以先不做】
-
-        deploy:
-              <span class="keyword">type</span>: git
-             repo: git@github<span class="built_in">.</span>com:xxxx/xxxx<span class="built_in">.</span>github<span class="built_in">.</span>io<span class="built_in">.</span>git
-             branch: master
-<span class="number">7.</span> 提交至git
-
-    <span class="string">`hexo generate`</span>
-
-    <span class="string">`hexo deploy`</span>    
-
-<span class="number">8.</span> 这样就ok了，yidiandianlan<span class="built_in">.</span>github<span class="built_in">.</span>io可以查看
-</code></pre><h3 id="3-创建新的文档">3.创建新的文档</h3><p><code>hexo new &quot;My New Post&quot;</code></p>
-<p>创建名为My-New-Post的项目<br>在source/_post下面生成My-New-Post.MD</p>
-<h3 id="4-配置自己的域名">4.配置自己的域名</h3><p>在source目录下创建文件CNAME 写入  helonghua.com 即可</p>
+复制~/.ssh/id_rsa 这里面的密钥，为了避免格式错误，建议用sublime打开
+</code></pre><p>登录到GitHub页面，Account Settings-&gt;SSH Public Keys-&gt;Add another key将生成的key(id_rsa.pub文件）内容copy到输入框中，save。</p>
+<p>测试链接</p>
+<pre><code><span class="title">ssh</span> git<span class="variable">@github</span>.com
+</code></pre><p>设置托管git的路径 编辑根目录_config.yml 【很重要以上5步都可以先不做】</p>
+<pre><code><span class="attribute">deploy</span>: 
+    <span class="attribute">type</span>: git 
+    <span class="attribute">repo</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxxx/xxxx.github.io.git 
+    <span class="attribute">branch</span>: master
+</code></pre><p>提交至git</p>
+<pre><code><span class="title">hexo</span> generate
+hexo deploy
+</code></pre><p>这样就ok了，yidiandianlan.github.io可以查看</p>
+<h3 id="3-创建新的文档">3.创建新的文档</h3><pre><code>hexo <span class="keyword">new</span> <span class="string">"My New Post"</span>
+</code></pre><p>创建名为My-New-Post的项目 在source/_post下面生成My-New-Post.MD</p>
+<h3 id="4-配置自己的域名">4.配置自己的域名</h3><p>在source目录下创建文件CNAME 写入 helonghua.com 即可</p>
 <p>上传至git，再将helonghua.com 解析@.heonghua.com</p>
 <ul>
 <li><p>192.30.252.153</p>
@@ -302,19 +282,19 @@ hexo <span class="keyword">server</span>
 </li>
 </ul>
 <p>这两个ip</p>
-<h3 id="5-常见问题">5.常见问题</h3><ol>
-<li><p>更换主题，下载之后放置theme下即可、修改_config.yml</p>
+<h3 id="5-常见问题">5.常见问题</h3><p>更换主题，下载之后放置theme下即可、修改_config.yml</p>
 <pre><code><span class="attribute">theme</span>: <span class="string">yilia</span>
-</code></pre></li>
-<li><p>快捷命令</p>
+</code></pre><p>快捷命令</p>
 <pre><code>hexo <span class="variable">g =</span>= hexo generate
 hexo <span class="variable">d =</span>= hexo deploy
 hexo <span class="variable">s =</span>= hexo server
-hexo <span class="variable">n =</span>= hexo new    
-</code></pre><p> 快速提交上传git</p>
+hexo <span class="variable">n =</span>= hexo new  
+</code></pre><p>快速提交上传git</p>
 <pre><code>sudo hexo <span class="keyword">d</span> -<span class="keyword">g</span>
-</code></pre></li>
-</ol>
+</code></pre><p>碰见疑难杂症?</p>
+<blockquote>
+<p>直接删除根目录的db.json</p>
+</blockquote>
 
       
     </div>
@@ -324,18 +304,9 @@ hexo <span class="variable">n =</span>= hexo new
     
 <nav id="article-nav">
   
-    <a href="/2015/03/23/dedecms-wap/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          dedecms wap
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/03/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2015/03/21/dedecms-wap/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dedecms wap</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
