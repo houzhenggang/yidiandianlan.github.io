@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mac下重新编译php新版本 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="解决掉mac自带的php我的处理方式有点暴力~ 自己删除文件，把下面的干掉基本自带的php就没有了，还不放心？find一下php
+/private/etc/           sudo rm -rf php-fpm.conf.default php.ini php.ini.default
+/usr/bin/               sudo rm -rf php php-config php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mac下重新编译php新版本">
+<meta property="og:url" content="http://yoursite.com/2015/04/01/mac-install-new-php/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="解决掉mac自带的php我的处理方式有点暴力~ 自己删除文件，把下面的干掉基本自带的php就没有了，还不放心？find一下php
+/private/etc/           sudo rm -rf php-fpm.conf.default php.ini php.ini.default
+/usr/bin/               sudo rm -rf php php-config php">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mac下重新编译php新版本">
+<meta name="twitter:description" content="解决掉mac自带的php我的处理方式有点暴力~ 自己删除文件，把下面的干掉基本自带的php就没有了，还不放心？find一下php
+/private/etc/           sudo rm -rf php-fpm.conf.default php.ini php.ini.default
+/usr/bin/               sudo rm -rf php php-config php">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/dedecms/" style="font-size: NaNpx;">dedecms</a><a href="/tags/mac/" style="font-size: NaNpx;">mac</a><a href="/tags/php/" style="font-size: NaNpx;">php</a><a href="/tags/wap/" style="font-size: NaNpx;">wap</a><a href="/tags/移动端/" style="font-size: NaNpx;">移动端</a><a href="/tags/织梦/" style="font-size: NaNpx;">织梦</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">John Doe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="">
+				<hgroup>
+				  <h1 class="header-author">John Doe</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-mac-install-new-php" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/01/mac-install-new-php/" class="article-date">
+  	<time datetime="2015-03-31T16:11:42.000Z" itemprop="datePublished">2015-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mac下重新编译php新版本
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="解决掉mac自带的php">解决掉mac自带的php</h1><p>我的处理方式有点暴力~ 自己删除文件，把下面的干掉基本自带的php就没有了，还不放心？find一下php</p>
+<pre><code><span class="regexp">/private/</span>etc/           sudo rm -rf php-fpm.conf.<span class="keyword">default</span> php.ini php.ini.<span class="keyword">default</span>
+<span class="regexp">/usr/</span>bin/               sudo rm -rf php php-config phpdoc phpize
+<span class="regexp">/usr/</span>include            sudo rm -rf php
+<span class="regexp">/usr/</span>lib                sudo rm -rf php
+<span class="regexp">/usr/</span>sbin               sudo rm -rf php-fpm
+<span class="regexp">/usr/</span>share              sudo rm -rf php
+<span class="regexp">/usr/</span>share<span class="regexp">/man/</span>man1     sudo rm -rf php-config<span class="number">.1</span> php<span class="number">.1</span> phpize<span class="number">.1</span>
+<span class="regexp">/usr/</span>share<span class="regexp">/man/</span>man8     sudo rm -rf php-fpm<span class="number">.8</span>
+</code></pre><p>为什么要重新装php呢？mac下自带的php让人忍受不了，升级了一下系统，发现gd库生成图片不行了~</p>
+<h1 id="基本环境的安装">基本环境的安装</h1><h3 id="libpng安装">libpng安装</h3><ul>
+<li>下载地址：<a href="http://jaist.dl.sourceforge.net/project/libpng/libpng16/1.6.16/libpng-1.6.16.tar.xz" target="_blank" rel="external">http://jaist.dl.sourceforge.net/project/libpng/libpng16/1.6.16/libpng-1.6.16.tar.xz</a></li>
+</ul>
+<ul>
+<li><p>安装</p>
+<pre><code>tar zxf libpng-<span class="number">1.6</span>.<span class="number">16</span><span class="class">.tar</span><span class="class">.xz</span>
+cd libpng-<span class="number">1.6</span>.<span class="number">16</span><span class="class">.tar</span><span class="class">.xz</span>
+./configure --prefix=/usr/local/libpng
+make
+make install
+</code></pre></li>
+</ul>
+<h3 id="jpeg安装">jpeg安装</h3><ul>
+<li>下载地址 <a href="http://down1.chinaunix.net/distfiles/jpegsrc.v7.tar.gz" target="_blank" rel="external">http://down1.chinaunix.net/distfiles/jpegsrc.v7.tar.gz</a>   【chinaunix】下载站得资源挺靠谱。sourceforge下载还是比较慢得。</li>
+<li>安装同上，记得修改安装路径prefix</li>
+</ul>
+<h3 id="freetype安装">freetype安装</h3><ul>
+<li>下载地址：<a href="http://jaist.dl.sourceforge.net/project/freetype/freetype2/2.5.5/freetype-2.5.5.tar.bz2" target="_blank" rel="external">http://jaist.dl.sourceforge.net/project/freetype/freetype2/2.5.5/freetype-2.5.5.tar.bz2</a></li>
+</ul>
+<h3 id="zlib安装">zlib安装</h3><ul>
+<li>mac自带了~~</li>
+</ul>
+<h3 id="libmcrypt安装">libmcrypt安装</h3><ul>
+<li>安装php的时候提示我加密库没有，这个最开始也是下载安装包编译~，不过一直不成功，直接用brew装了</li>
+</ul>
+<h1 id="php编译">php编译</h1><p>开始进入正题了、先把安装包下载回来，直接上php.net down安装包、5.6： <a href="http://cn2.php.net/distributions/php-5.6.6.tar.gz" target="_blank" rel="external">http://cn2.php.net/distributions/php-5.6.6.tar.gz</a>  解压…..</p>
+<h3 id="编译参数">编译参数</h3><p>参数仿照aliyun、记得把fpm参数加上（第一次没加上，重新编译一次）<br>其中apx2 路径需要先查看，libpng、freetype、jpeg参数都是上面编译的路径</p>
+<pre><code>./configure --prefix=/usr/local/php \
+-<span class="ruby">-with-config-file-path=<span class="regexp">/usr/local</span><span class="regexp">/php/etc</span> \
+</span>-<span class="ruby">-with-apxs2=<span class="regexp">/usr/sbin</span><span class="regexp">/apxs \
+</span></span>-<span class="ruby">-with-mysql=mysqlnd \
+</span>-<span class="ruby">-with-mysqli=mysqlnd \
+</span>-<span class="ruby">-with-pdo-mysql=mysqlnd \
+</span>-<span class="ruby">-enable-static \
+</span>-<span class="ruby">-enable-maintainer-zts \
+</span>-<span class="ruby">-enable-zend-multibyte \
+</span>-<span class="ruby">-enable-inline-optimization \
+</span>-<span class="ruby">-enable-sockets \
+</span>-<span class="ruby">-enable-wddx \
+</span>-<span class="ruby">-enable-zip \
+</span>-<span class="ruby">-enable-fpm \
+</span>-<span class="ruby">-with-fpm-user=www \
+</span>-<span class="ruby">-with-fpm-group=www \
+</span>-<span class="ruby">-enable-calendar \
+</span>-<span class="ruby">-enable-bcmath \
+</span>-<span class="ruby">-enable-soap \
+</span>-<span class="ruby">-with-zlib \
+</span>-<span class="ruby">-with-iconv \
+</span>-<span class="ruby">-with-gd \
+</span>-<span class="ruby">-with-xmlrpc \
+</span>-<span class="ruby">-enable-mbstring \
+</span>-<span class="ruby">-without-sqlite \
+</span>-<span class="ruby">-with-curl \
+</span>-<span class="ruby">-enable-ftp \
+</span>-<span class="ruby">-with-mcrypt  \
+</span>-<span class="ruby">-with-freetype-dir=<span class="regexp">/usr/local</span><span class="regexp">/freetype \
+</span></span>-<span class="ruby">-with-jpeg-dir=<span class="regexp">/usr/local</span><span class="regexp">/jpeg \
+</span></span>-<span class="ruby">-with-png-dir=<span class="regexp">/usr/local</span><span class="regexp">/libpng
+</span></span>
+
+make &amp;&amp; make install
+</code></pre><p>这两个参数可以在<code>/usr/local/php/etc/php-fpm.conf</code>里面修改</p>
+<pre><code>--<span class="keyword">with</span>-fpm-user=www <span class="string">\</span>
+--<span class="keyword">with</span>-fpm-group=www <span class="string">\</span>
+</code></pre><p>[其他常见问题<a href="http://blog.csdn.net/dc_726/article/details/9519619" target="_blank" rel="external">http://blog.csdn.net/dc_726/article/details/9519619</a>]</p>
+<p>编译完后，设置php全局变量[非必须]；</p>
+<p>我是做软链形式<code>sudo ln -s /usr/local/php/bin/php /usr/bin/php</code>，也可以加入全局变量$PATH</p>
+<h3 id="php查看模块安装">php查看模块安装</h3><p> php -m | grep pdo</p>
+<h3 id="php-fpm_设置：">php-fpm 设置：</h3><p>复制php-fpm配置文件 </p>
+<pre><code>cp /usr/local/php/etc/php-fpm<span class="class">.conf</span><span class="class">.default</span> /usr/local/php/etc/php-fpm<span class="class">.conf</span>
+
+vim php-fpm<span class="class">.conf</span>   
+
+<span class="comment">//   #pid = run/php-fpm.pid 将#号去掉</span>
+</code></pre><h3 id="php-fpm启动">php-fpm启动</h3><p>以下在mac上没做测试</p>
+<p>【fpm开机自启动】</p>
+<p>网上有各种版本的php-fpm开机自动启动脚本, 其实你编译后源目录已经生成自动脚本。不用做任何修改即用。</p>
+<pre><code>cp {php-5.6.x-source-<span class="keyword">dir</span>}/sapi/fpm/init.<span class="keyword">d</span>.php-fpm /etc/init.<span class="keyword">d</span>/php-fpm
+chmod +x /etc/init.<span class="keyword">d</span>/php-fpm
+chkconfig --add php-fpm
+chkconfig php-fpm <span class="keyword">on</span>
+service php-fpm start
+</code></pre><p>启动fpm /usr/local/php/sbin/php-fpm </p>
+<p>kill fpm 进程 </p>
+<p>lsof -i:9000 </p>
+<p>sudo kill **</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/03/23/dedecms-wap/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">织梦移动端生成静态页的开发</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="mac-install-new-php" data-title="mac下重新编译php新版本" data-url="http://yoursite.com/2015/04/01/mac-install-new-php/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 John Doe
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
