@@ -113,7 +113,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/php/" style="font-size: 10px;">php</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
 					</div>
 				</section>
 				
@@ -194,6 +194,182 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-process-understand" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/04/07/process-understand/" class="article-date">
+  	<time datetime="2015-04-07T15:07:42.000Z" itemprop="datePublished">2015-04-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/07/process-understand/">nodejs|php|nginx|apache多进程与多线程的理解</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h2 id="多线程与多进程概念">多线程与多进程概念</h2><p>首先要理解这两个名词的概念<br>参考博客<a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html</a></p>
+<ul>
+<li>进程：程序的一次执行</li>
+<li>线程：CPU的基本调度单位</li>
+<li>一个进程可以包括多个线程</li>
+<li>单个CPU一次只能运行一个进程</li>
+</ul>
+<h2 id="nodejs的单线程与I/O异步">nodejs的单线程与I/O异步</h2><p>技术选型的时候，碰到I/O密集型的项目（文件、网络的读写、数据库操作、Web Service、HttpRequest以及.net Remoting等跨进程）我们会首选nodejs</p>
+<p>nodejs只有一个主线程（event loop）,也只占用一个CPU内核,但是看下面这句话：</p>
+<blockquote>
+<p>所有阻塞的部分交给一个线程池处理，然后这个主线程通过一个队列跟线池协作，于是对我们写到的js代码部分，不再关心线程问题，代码也主要由一堆callback回调构成，然后主线程在不停的循环过程中，适时调用这些代码。<br>除了你的代码是单线程，其余都是多线程（线程池），nodejs本身是事件驱动，一个io事件完成会被放到一个事件队列中，主线程负责轮训这个队列，然后执行相应的回调函数</p>
+</blockquote>
+<p>当nodejs碰到CPU密集型的应用场景就有些头痛了（比如：复杂的算法,大规模图形处理）；这个时候我们或许可以fork一个子进程<code>child_process.fork()</code></p>
+<p>主进程文件forkParent.js</p>
+<pre><code><span class="keyword">var</span> cp = <span class="keyword">require</span>(<span class="string">'child_process'</span>);
+
+<span class="keyword">var</span> child = cp.fork(__dirname+<span class="string">'/forkChild.js'</span>);
+
+child.<span class="keyword">on</span>(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span><span class="params">(m)</span> <span class="comment">{
+  process.stdout.write(m.result.toString());
+}</span>);</span>
+
+(<span class="function"><span class="keyword">function</span> <span class="title">fiboLoop</span> <span class="params">()</span> <span class="comment">{
+  child.send({v:40}</span>);</span>
+  process.nextTick(fiboLoop);
+})();
+
+
+(<span class="function"><span class="keyword">function</span> <span class="title">spinForever</span> <span class="params">()</span> <span class="comment">{
+  process.stdout.write(".");
+  process.nextTick(spinForever);
+}</span>)<span class="params">()</span>;</span>
+</code></pre><p>计算斐波那契数列的子进程文件forkChild.js</p>
+<pre><code>function fibo (n) {
+  <span class="keyword">return</span> n &gt; <span class="number">1</span> ? fibo(n - <span class="number">1</span>) + fibo(n - <span class="number">2</span>) : <span class="number">1</span>;
+}
+
+process.on('message', function(m) {
+  process.send({ <span class="literal">result</span>: fibo(m.v) });
+});
+</code></pre><p>这样就可以利用cpu的使用率了，关于nodejs的fork：</p>
+<blockquote>
+<p>实际上fork()得到的并不是子进程，而是一个全新的Node.js程序实例。并且每个新实例至少需要30ms的启动时间和10M内存，也就是说通过fork()繁衍进程，不光是充分利用了CPU，也需要很多内存，所以不能fork()太多。如果你有兴趣，可以再fork()一个或几个进程，并创建跟这个（些）进程交互的函数，查看下资源占用情况。</p>
+</blockquote>
+<p>当然碰到大项目的时候，建议使用node官方的cluster模块进行多线程、充分利用多核CPU资源</p>
+<p>本文参考网址：<a href="http://www.infoq.com/cn/articles/nodejs-weakness-cpu-intensive-tasks" target="_blank" rel="external">http://www.infoq.com/cn/articles/nodejs-weakness-cpu-intensive-tasks</a></p>
+<h2 id="nginx与apache的进程与线程">nginx与apache的进程与线程</h2><h3 id="nginx多进程">nginx多进程</h3><p>其实nginx也是有多线程的，只不过一般不用，我们只用默认的多进程</p>
+<h5 id="daemon守护线程">daemon守护线程</h5><p>nginx在启动后，在unix系统中会以daemon的方式在后台运行，后台进程包含一个master进程和多个worker进程。如下图：<br><img src="http://images.cnitblog.com/blog/452899/201306/18090843-02db8793402a4e1e978fe68ac75c23cf.png" alt=""></p>
+<blockquote>
+<p>master进程主要用来管理worker进程，包含：接收来自外界的信号，向各worker进程发送信号，监控worker进程的运行状态，当worker进程退出后(异常情况下)，会自动重新启动新的worker进程。</p>
+<p>worker进程则是处理基本的网络事件。多个worker进程之间是对等的，他们同等竞争来自客户端的请求，各进程互相之间是独立的。一个请求，只可能在一个worker进程中处理，一个worker进程，不可能处理其它进程的请求。</p>
+<p>worker进程的个数是可以设置的，一般我们会设置与机器cpu核数一致。更多的worker数，只会导致进程来竞争cpu资源了，从而带来不必要的上下文切换。而且，nginx为了更好的利用多核特性，具有cpu绑定选项，我们可以将某一个进程绑定在某一个核上，这样就不会因为进程的切换带来cache的失效。</p>
+</blockquote>
+<h5 id="惊群现象">惊群现象</h5><blockquote>
+<p>每个worker进程都是从master进程fork过来。在master进程里面，先建立好需要listen的socket之后，然后再fork出多个worker进程，这样每个worker进程都可以去accept这个socket(当然不是同一个socket，只是每个进程的这个socket会监控在同一个ip地址与端口，这个在网络协议里面是允许的)。一般来说，当一个连接进来后，所有在accept在这个socket上面的进程，都会收到通知，而只有一个进程可以accept这个连接，其它的则accept失败。</p>
+</blockquote>
+<h5 id="相对于线程，采用进程的优点">相对于线程，采用进程的优点</h5><ul>
+<li>进程之间不共享资源，不需要加锁，所以省掉了锁带来的开销。</li>
+<li>采用独立的进程，可以让互相之间不会影响，一个进程退出后，其它进程还在工作，服务不会中断，master进程则很快重新启动新的worker进程</li>
+<li><strong>编程上更加容易</strong></li>
+</ul>
+<h5 id="多线程的问题">多线程的问题</h5><p>多线程在多并发情况下，线程的内存占用大，线程<strong>上下文切换</strong>造成CPU大量的开销</p>
+<blockquote>
+<p>想想apache的常用工作方式（apache也有异步非阻塞版本，但因其与自带某些模块冲突，所以不常用），<strong>每个请求会独占一个工作线程，当并发数上到几千时，就同时有几千的线程在处理请求了</strong>。这对操作系统来说，是个不小的挑战，线程带来的内存占用非常大，线程的上下文切换带来的cpu开销很大，自然性能就上不去了，而这些开销完全是没有意义的。</p>
+</blockquote>
+<h5 id="nginx的异步非阻塞">nginx的异步非阻塞</h5><ul>
+<li>不需要创建线程，每个请求只占用少量的内存</li>
+<li>没有上下文切换，事件处理非常轻量</li>
+</ul>
+<blockquote>
+<p>异步的概念和同步相对的，也就是不是事件之间不是同时发生的。</p>
+<p>非阻塞的概念是和阻塞对应的，阻塞是事件按顺序执行，每一事件都要等待上一事件的完成，而非阻塞是如果事件没有准备好，这个事件可以直接返回，过一段时间再进行处理询问，这期间可以做其他事情。但是，多次询问也会带来额外的开销。</p>
+</blockquote>
+<h5 id="关于apache线程开启销毁；nginx进程开启销毁的开销">关于apache线程开启销毁；nginx进程开启销毁的开销</h5><p>进程的开启关闭的开销大于线程的开启关闭</p>
+<ul>
+<li>apache,tomcat 每次请求都会开启一个线程，请求处理之后就会销毁</li>
+<li>nginx处理逻辑都在worker进程。worker进程中有一个函数，执行无限循环，不断处理收到的来自客户端的请求，并进行处理，直到整个nginx服务被停止。</li>
+</ul>
+<p>本文参考网址：<a href="http://www.cnblogs.com/coder2012/p/3141469.html" target="_blank" rel="external">http://www.cnblogs.com/coder2012/p/3141469.html</a><br>更多nginx参考：<a href="http://tengine.taobao.org/book/chapter_2.html" target="_blank" rel="external">http://tengine.taobao.org/book/chapter_2.html</a></p>
+<h3 id="apache的工作模式">apache的工作模式</h3><p>上文已经讲到“apache每个请求会独占一个工作线程”</p>
+<h5 id="prefork工作模式">prefork工作模式</h5><blockquote>
+<p> prefork 进程池模型，用在 UNIX 和类似的系统上比较多，主要是由于写起来方便，也容易移植，还不容易出问题。要知道，如果采用线程模型的话，用户线程、内核线程和混合型线程有不同的特性，移植起来就麻烦。prefork 模型，即预先 fork() 出来一些子进程缓冲一下，用一个锁来控制同步，连接到来了就放行一个子进程，让它去处理。</p>
+</blockquote>
+<h5 id="apache默认是prefork模式">apache默认是prefork模式</h5><blockquote>
+<p>prefork是Unix平台上的默认（缺省）MPM，使用多个子进程，每个子进程只有一个线程。<strong>每个进程在某个确定的时间只能维持一个连接，效率高，但内存占用量比较大。</strong><br>本节点参考：<a href="http://www.cnblogs.com/adforce/archive/2013/10/11/3363148.html" target="_blank" rel="external">http://www.cnblogs.com/adforce/archive/2013/10/11/3363148.html</a></p>
+</blockquote>
+<p>写到这里有些混乱了~~~~<strong>整理一下</strong>：</p>
+<ul>
+<li>nginx 只启用了多进程,一个进程处理多个请求的非阻塞模式</li>
+<li>apache 默认的prefork模式是多个进程，但是一个进程只有一个线程的阻塞模式</li>
+<li>apache 非阻塞模式（worker模式），开启多个进程，一个进程中多线程。由于进程切换带来了开销，与prefork模式相比，带来的性能提升不明显，而且worker模式的兼容性挺差</li>
+<li>IO模型层面，Nginx选择epoll，Apache选择select </li>
+</ul>
+<h2 id="PHP的多线程与异步">PHP的多线程与异步</h2><h3 id="php的生命周期">php的生命周期</h3><h5 id="php单进程生命周期">php单进程生命周期</h5><p>首先说一下php的生命周期吧，便于理解，php单进程模式：<br><img src="http://www.walu.cc/phpbook/image/01fig01.jpg" alt=""></p>
+<p>SAPI运行PHP都经过下面几个阶段:</p>
+<ol>
+<li><p>模块初始化阶段(Module init)     ：</p>
+<p> 即调用每个拓展源码中的的PHP_MINIT_FUNCTION中的方法初始化模块,进行一些模块所需变量的申请,内存分配等。</p>
+</li>
+<li><p>请求初始化阶段(Request init)  ：</p>
+<p> 即接受到客户端的请求后调用每个拓展的PHP_RINIT_FUNCTION中的方法,初始化PHP脚本的执行环境。</p>
+</li>
+<li><p>执行PHP脚本</p>
+</li>
+<li><p>请求结束(Request Shutdown) ：</p>
+<p> 这时候调用每个拓展的PHP_RSHUTDOWN_FUNCTION方法清理请求现场,并且    ZE开始回收变量和内存。</p>
+</li>
+<li><p>关闭模块(Module shutdown)     ：</p>
+<p> Web服务器退出或者命令行脚本执行完毕退出会调用拓展源码中的PHP_MSHUTDOWN_FUNCTION 方法</p>
+</li>
+</ol>
+<h5 id="php多进程生命周期">php多进程生命周期</h5><p>图展示了从apache(prefork模式)的视角来看多进程工作模式下的PHP：</p>
+<p><img src="http://www.walu.cc/phpbook/image/01fig03.jpg" alt=""></p>
+<p><strong>注意</strong>：一个进程处理了多个请求，多个RINIT</p>
+<h5 id="php多线程生命周期">php多线程生命周期</h5><p>apache (worker模式)工作示意图：(支持混合的多线程多进程的多路处理模块)</p>
+<p><img src="http://www.walu.cc/phpbook/image/01fig04.jpg" alt=""></p>
+<p>参考文章:<a href="http://www.walu.cc/phpbook/1.3.md" target="_blank" rel="external">http://www.walu.cc/phpbook/1.3.md</a></p>
+<h3 id="php多线程扩展pthreads">php多线程扩展pthreads</h3><p>安装：<br>编译php时需要加上这个参数<code>--enable-maintainer-zts</code><br>如果已经安装了php，直接重新编译就ok</p>
+<p>下载pthreads安装包，用phpize编译即可</p>
+<p>这个不多说了，我也没用过哈~需要用的时候多查看一下手册，看网上的测试，据说还可以，挺稳定。</p>
+<h3 id="php扩展swoole">php扩展swoole</h3><p>google一下“php异步扩展”第一个就是swoole了。腾讯一大牛开源的扩展。</p>
+<p>swoole分为扩展和框架。提供了PHP语言的异步多线程服务器。优势非常明显，异步同步、多进程多线程都可以。评价也非常高，不过目前用的人还是比较少。</p>
+<p>这个可以上官网学习一下。<a href="http://www.swoole.com/" target="_blank" rel="external">http://www.swoole.com/</a><br>博客：rango.swoole.com</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/process/">process</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-linux-vim" class="article article-type-post" itemscope itemprop="blogPost">
   
