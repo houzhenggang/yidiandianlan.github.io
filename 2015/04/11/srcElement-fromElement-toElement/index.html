@@ -3,36 +3,101 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mac下改造vim编辑器 | yidiandianlan的个人博客</title>
+  <title>srcElement、fromElement、toElement、target、currentTarget这些都是什么 | yidiandianlan的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
+  <meta name="description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
+分派系首先分一下派系：
+
+
+
+对象\浏览器
+FF
+Chrom
+IE678
+
+
+
+
+srcElement
+no
+yes
+yes
+
+
+fromElement
+no
+yes
+yes
+
+
+toElement
+no
+yes
+yes">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mac下改造vim编辑器">
-<meta property="og:url" content="http://yoursite.com/2015/04/02/linux-vim/index.html">
+<meta property="og:title" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么">
+<meta property="og:url" content="http://yoursite.com/2015/04/11/srcElement-fromElement-toElement/index.html">
 <meta property="og:site_name" content="yidiandianlan的个人博客">
-<meta property="og:description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/005ItG0Rtw1eqqgy4jee2j30s208i0ue.jpg">
+<meta property="og:description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
+分派系首先分一下派系：
+
+
+
+对象\浏览器
+FF
+Chrom
+IE678
+
+
+
+
+srcElement
+no
+yes
+yes
+
+
+fromElement
+no
+yes
+yes
+
+
+toElement
+no
+yes
+yes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mac下改造vim编辑器">
-<meta name="twitter:description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
+<meta name="twitter:title" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么">
+<meta name="twitter:description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
+分派系首先分一下派系：
+
+
+
+对象\浏览器
+FF
+Chrom
+IE678
+
+
+
+
+srcElement
+no
+yes
+yes
+
+
+fromElement
+no
+yes
+yes
+
+
+toElement
+no
+yes
+yes">
   
     <link rel="alternative" href="/atom.xml" title="yidiandianlan的个人博客" type="application/atom+xml">
   
@@ -212,11 +277,11 @@ touch .vimrc
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-linux-vim" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-srcElement-fromElement-toElement" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/04/02/linux-vim/" class="article-date">
-  	<time datetime="2015-04-02T14:01:22.000Z" itemprop="datePublished">2015-04-02</time>
+      <a href="/2015/04/11/srcElement-fromElement-toElement/" class="article-date">
+  	<time datetime="2015-04-10T16:16:52.000Z" itemprop="datePublished">2015-04-11</time>
 </a>
     </div>
   
@@ -229,7 +294,7 @@ touch .vimrc
         
   
     <h1 class="article-title" itemprop="name">
-      mac下改造vim编辑器
+      srcElement、fromElement、toElement、target、currentTarget这些都是什么
     </h1>
   
 
@@ -238,7 +303,7 @@ touch .vimrc
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
 	</div>
 
         
@@ -249,77 +314,108 @@ touch .vimrc
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本地环境：macbook pro 系统：10.10.1 </p>
-<h2 id="建造自己的-vimrc">建造自己的.vimrc</h2><p>mac的用户更目录没有自己的vimrc</p>
-<pre><code><span class="title">cd</span> <span class="regexp">~
-touch</span> .vimrc
-</code></pre><h2 id="修改vim的默认编辑主题colorscheme">修改vim的默认编辑主题colorscheme</h2><h4 id="查看主题：">查看主题：</h4><pre><code>ls -l  <span class="regexp">/usr/</span>share<span class="regexp">/vim/</span>vim73<span class="regexp">/colors/</span>
-</code></pre><p>里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的<code>evening</code></p>
-<p>感觉还不错。哈哈哈</p>
-<h4 id="修改主题">修改主题</h4><pre><code><span class="title">vim</span> .vimrc
-</code></pre><p>添加:</p>
-<pre><code><span class="keyword">colorscheme</span> evening
-
-<span class="string">"顺便设置一下代码高亮，这是php的，也可以去下载php.vim
-</span><span class="keyword">syntax</span>   <span class="keyword">on</span> = php 
-</code></pre><h2 id="安装ctags">安装ctags</h2><ol>
-<li>从<a href="http://ctags.sourceforge.net/下载源代码包后，解压缩生成源代码目录，" target="_blank" rel="external">http://ctags.sourceforge.net/下载源代码包后，解压缩生成源代码目录，</a></li>
-<li>进入源代码根目录执行./configure</li>
-<li>执行make</li>
-<li>执行make install</li>
-<li><p>在~/.vimrc中增加以下这行</p>
-<pre><code><span class="built_in">map</span> &lt;C-F12&gt; :!ctags -R --c++<span class="variable">-kinds=</span>+p <span class="variable">--fields=</span>+iaS <span class="variable">--extra=</span>+q .&lt;CR&gt;  
-<span class="string">"上面的意思是创建一个快捷键 ctrl+F12 可以执行ctags -R 
-"</span>进入需要ctags的文件夹更根目录 打开vim 按ctrl+F12即可
-</code></pre></li>
-<li><p>ctags -R “你需要的文件夹”</p>
-</li>
-</ol>
-<h2 id="安装Taglist">安装Taglist</h2><ol>
-<li>下载地址<a href="http://www.vim.org/scripts/script.php?script_id=273" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=273</a></li>
-<li>解压把doc plugin下得东西对应放到 ~/.vim/这个文件夹下面的doc plugin下面</li>
-<li>进入~/.vim/doc目录，在Vim下运行”helptags .”命令。此步骤是将doc下的帮助文档加入到Vim的帮助主题中，这样我们就可以通过在Vim中运行“help taglist.txt”查看taglist帮助</li>
-<li><p>打开.vimrc,添加</p>
-<pre><code><span class="keyword">let</span> <span class="variable">Tlist_Show_One_File=</span><span class="number">1</span>
-<span class="keyword">let</span> <span class="variable">Tlist_Exit_OnlyWindow=</span><span class="number">1</span>
-</code></pre></li>
-</ol>
-<h2 id="安装Winmanager、NERDTree、MiniBufExplorer">安装Winmanager、NERDTree、MiniBufExplorer</h2><p>1.下载同上，地址：</p>
-<pre><code><span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">1658</span>
-<span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">159</span>
-<span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">95</span>
-</code></pre><ol>
-<li>安装同上，解压</li>
-<li><p>编辑.vimrc </p>
-<pre><code><span class="keyword">let</span> g:<span class="variable">miniBufExplMapWindowNavVim =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMapWindowNavArrows =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMapCTabSwitchBufs =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplModSelTarget =</span> <span class="number">1</span>
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMoreThanOne=</span><span class="number">0</span>
-
-<span class="keyword">let</span> g:<span class="variable">winManagerWindowLayout=</span>'NERDTree|TagList'
-
-<span class="string">"设置WM的快捷键，我设置为w
-nmap w :WMToggle&lt;CR&gt;</span>
-</code></pre></li>
-</ol>
-<p>我们可以通过 Ctrl+w 快捷键或鼠标点击在Taglist窗口和编辑区之间切换焦点</p>
-<p>winmanager自带的fileexplorer这个插件实在是比较差。最重要的一点是fileexplorer不能自动更新，如果通过其他的途径修改了文件夹中的内容，fileexplorer是不会显示的。相对而言Nerd_Tree功能就比较强大了。下面要把Nerd_Tree加入winmanager</p>
-<p><code>sudo vim ~/.vim/plugin/NERD_tree.vim</code><br>//最后添加</p>
-<pre><code>let g:NERDTree_title = <span class="string">"[NERDTree]"</span>
-<span class="function"><span class="keyword">function</span>! <span class="title">NERDTree_Start</span><span class="params">()</span></span>
-    exe <span class="string">'NERDTree'</span>
-<span class="function"><span class="keyword">endfunction</span></span>
-<span class="function"><span class="keyword">function</span>! <span class="title">NERDTree_IsValid</span><span class="params">()</span></span>
-    <span class="keyword">return</span> <span class="number">1</span>
-<span class="function"><span class="keyword">endfunction</span></span>
-</code></pre><p>我的mac上出现一个小bug 中间多出现一个空得窗口~~~</p>
-<p>发现每次打开winmanager都会出现一个空白的buffer。打开winmanager.vim，找到函数function! <sid>ToggleWindowsManager()，加入两行，修改后整个函数如下：</sid></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/005ItG0Rtw1eqqgy4jee2j30s208i0ue.jpg" alt=""></p>
-<p>图中参数3 代表第几个窗口，（关闭第三个窗口）</p>
-<p>到此就结束了，vim一个文件之后，可以使用w快捷键调用wm，ctrl-w切换光标窗口</p>
-<p>本文参考网址：<a href="http://blog.csdn.net/bokee/article/details/6633193" target="_blank" rel="external">http://blog.csdn.net/bokee/article/details/6633193</a></p>
-
+        <h4 id="srcElement、fromElement、toElement、target、currentTarget这些都是什么">srcElement、fromElement、toElement、target、currentTarget这些都是什么</h4><p>作为一个javascript的新手很可能经常搞混了这几个对象</p>
+<h5 id="分派系">分派系</h5><p>首先分一下派系：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">对象\浏览器</th>
+<th style="text-align:left">FF</th>
+<th style="text-align:center">Chrom</th>
+<th style="text-align:center">IE678</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">srcElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">fromElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">toElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">target</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+</tr>
+<tr>
+<td style="text-align:left">currentTarget</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+</tr>
+</tbody>
+</table>
+<h6 id="关于：srcElement、fromElement、toElement">关于：srcElement、fromElement、toElement</h6><blockquote>
+<p>event.srcElement：引发事件的目标对象，常用于onclick事件。</p>
+<p>event.fromElement：常用于onmouseout和onmouseover事件</p>
+<p>event.toElement：常用于onmouseout和onmouseover事件</p>
+<p>onmouseover时，srcElement相当于toElement<br>onmouseout时，srcElement相当于fromSrcElement</p>
+</blockquote>
+<h6 id="关于：srcElement_target">关于：srcElement  target</h6><p>火狐下的<code>event.target = event.srcElement</code>(IE)</p>
+<p>所以我们经常看见这样的兼容代码：</p>
+<pre><code><span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{
+    <span class="keyword">var</span> e=event || <span class="built_in">window</span>.event; <span class="comment">//火狐和IE的事件对象区分</span>
+    <span class="keyword">var</span> srcElement = e.srcElement || e.target; 
+}
+</code></pre><h6 id="target_与currentTarget_以及this的区别">target 与currentTarget 以及this的区别</h6><blockquote>
+<p>在事件处理程序内部，对象this始终等于currentTarget的值，而target则只包含事件的实际目标。如果直接将事件处理程序指定给了目标元素，则this、currentTarget和target包含相同的值</p>
+</blockquote>
+<pre><code><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>);
+btn.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
+    alert(event.currentTarget === <span class="keyword">this</span>); <span class="comment">//ture</span>
+    alert(event.target === <span class="keyword">this</span>); <span class="comment">//ture</span>
+};
+</code></pre><p>看一下冒泡的过程，有什么区别：</p>
+<pre><code><span class="built_in">document</span>.body.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
+    alert(event.currentTarget === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
+    alert(<span class="keyword">this</span> === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
+    alert(event.target === <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>)); <span class="comment">//ture</span>
+};
+</code></pre><p>点击上面这个例子的按钮时，this和currentTarget都等于document.body，因为事件处理程序是注册到这个元素的。然而，target元素却等于按钮元素，以为它是click事件真正的目标。由于按钮上并没有注册事件处理程序，结果click事件就冒泡到了document.body，在那里事件才得到了处理。</p>
+<p>所以有以下结论：</p>
+<blockquote>
+<p>js中target与currentTarget的区别的关键在于他们所处在的事件流的阶段是不一样的，target处于事件流的目标阶段，currentTarget处理事件流的捕获、处于目标阶段和冒泡阶段。只有当他们同事处于目标阶段的时候他们的指向才是一样的</p>
+</blockquote>
+<p>例子代码：试一下就明白了</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE HTML&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> /&gt;</span>
+<span class="tag">&lt;<span class="title">title</span>&gt;</span>js性能优化<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span> 
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"outer"</span>&gt;</span>
+        outer
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span>
+            inner
+        <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{
+    <span class="keyword">var</span> a=<span class="built_in">document</span>.getElementById(<span class="string">'outer'</span>);
+        a.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>{
+        alert(e.target.innerHTML);
+        alert(e.currentTarget.innerHTML);
+        alert(e.currentTarget === e.target);
+    },<span class="literal">false</span>);
+})();
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</code></pre>
       
     </div>
     
@@ -328,18 +424,18 @@ nmap w :WMToggle&lt;CR&gt;</span>
     
 <nav id="article-nav">
   
-    <a href="/2015/04/07/process-understand/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/04/11/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          nodejs|php|nginx|apache多进程与多线程的理解
+          Hello World
         
       </div>
     </a>
   
   
-    <a href="/2015/04/01/mac-install-new-php/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">mac下重新编译php新版本</div>
+    <a href="/2015/04/07/process-understand/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">nodejs|php|nginx|apache多进程与多线程的理解</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -368,7 +464,7 @@ nmap w :WMToggle&lt;CR&gt;</span>
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="linux-vim" data-title="mac下改造vim编辑器" data-url="http://yoursite.com/2015/04/02/linux-vim/"></div>
+	<div class="ds-thread" data-thread-key="srcElement-fromElement-toElement" data-title="srcElement、fromElement、toElement、target、currentTarget这些都是什么" data-url="http://yoursite.com/2015/04/11/srcElement-fromElement-toElement/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
