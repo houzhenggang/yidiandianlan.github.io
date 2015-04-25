@@ -3,31 +3,31 @@
 <head>
   <meta charset="utf-8">
   
-  <title>nginx常用配置 | yidiandianlan的个人博客</title>
+  <title>nginx常用配置 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="[toc]
-nginx CPU亲缘性nginx默认是开启单核cpu多进程模式、如果服务器有多个cpu，可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
+nginx CPU亲缘性nginx默认是可以利用多核CPU的，当然也可以设置CPU亲缘性（正常小服务器不建议设置），可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
 通常我们把进程数worker_processes设置为cpu核数，当然也可以设置为cpu数量的倍数，不过这样会造成进程之间哄抢cpu资源
 worker_cpu_affinity规则
-cpu有多少个核，就有几位数，1代表">
+cpu有多">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx常用配置">
 <meta property="og:url" content="http://yoursite.com/2015/04/14/nginx-config/index.html">
-<meta property="og:site_name" content="yidiandianlan的个人博客">
+<meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="[toc]
-nginx CPU亲缘性nginx默认是开启单核cpu多进程模式、如果服务器有多个cpu，可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
+nginx CPU亲缘性nginx默认是可以利用多核CPU的，当然也可以设置CPU亲缘性（正常小服务器不建议设置），可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
 通常我们把进程数worker_processes设置为cpu核数，当然也可以设置为cpu数量的倍数，不过这样会造成进程之间哄抢cpu资源
 worker_cpu_affinity规则
-cpu有多少个核，就有几位数，1代表">
+cpu有多">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx常用配置">
 <meta name="twitter:description" content="[toc]
-nginx CPU亲缘性nginx默认是开启单核cpu多进程模式、如果服务器有多个cpu，可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
+nginx CPU亲缘性nginx默认是可以利用多核CPU的，当然也可以设置CPU亲缘性（正常小服务器不建议设置），可以用worker_cpu_affinity配置参数来充分利用多核cpu的性能
 通常我们把进程数worker_processes设置为cpu核数，当然也可以设置为cpu数量的倍数，不过这样会造成进程之间哄抢cpu资源
 worker_cpu_affinity规则
-cpu有多少个核，就有几位数，1代表">
+cpu有多">
   
-    <link rel="alternative" href="/atom.xml" title="yidiandianlan的个人博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -42,15 +42,13 @@ cpu有多少个核，就有几位数，1代表">
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/img/100.jpeg">
+			<img lazy-src="" class="js-avatar">
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Longhua He</a></h1>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
 		</hgroup>
 
-		
-		<p class="header-subtitle">yidiandianlan</p>
 		
 
 		
@@ -110,11 +108,11 @@ cpu有多少个核，就有几位数，1代表">
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="github" target="_blank" href="https://github.com/yidiandianlan" title="github">github</a>
+								<a class="github" target="_blank" href="/#" title="github">github</a>
 					        
-								<a class="weibo" target="_blank" href="http://weibo.com/u/5237895957/" title="weibo">weibo</a>
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
 					        
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
 					        
 								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
 					        
@@ -125,7 +123,7 @@ cpu有多少个核，就有几位数，1代表">
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 10px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nginx/" style="font-size: 10px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 10px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
 					</div>
 				</section>
 				
@@ -166,18 +164,16 @@ cpu有多少个核，就有几位数，1代表">
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">Longhua He</h1>
+  		<h1 class="header-author js-mobile-header hide">John Doe</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/img/100.jpeg">
-				<hgroup>
-				  <h1 class="header-author">Longhua He</h1>
-				</hgroup>
+				<img lazy-src="" class="js-avatar">
 			</div>
-			
-			<p class="header-subtitle">yidiandianlan</p>
+			<hgroup>
+			  <h1 class="header-author">John Doe</h1>
+			</hgroup>
 			
 			<nav class="header-menu">
 				<ul>
@@ -192,11 +188,11 @@ cpu有多少个核，就有几位数，1代表">
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="https://github.com/yidiandianlan" title="github">github</a>
+						<a class="github" target="_blank" href="/#" title="github">github</a>
 			        
-						<a class="weibo" target="_blank" href="http://weibo.com/u/5237895957/" title="weibo">weibo</a>
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
 			        
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
 			        
 						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
 			        
@@ -243,7 +239,7 @@ cpu有多少个核，就有几位数，1代表">
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
-<h2 id="nginx_CPU亲缘性">nginx CPU亲缘性</h2><p>nginx默认是开启单核cpu多进程模式、如果服务器有多个cpu，可以用<code>worker_cpu_affinity</code>配置参数来充分利用多核cpu的性能</p>
+<h2 id="nginx_CPU亲缘性">nginx CPU亲缘性</h2><p>nginx默认是可以利用多核CPU的，当然也可以设置CPU亲缘性（正常小服务器不建议设置），可以用<code>worker_cpu_affinity</code>配置参数来充分利用多核cpu的性能</p>
 <p>通常我们把进程数<code>worker_processes</code>设置为cpu核数，当然也可以设置为cpu数量的倍数，不过这样会造成进程之间哄抢cpu资源</p>
 <h3 id="worker_cpu_affinity规则">worker_cpu_affinity规则</h3><ul>
 <li>cpu有多少个核，就有<strong>几位数</strong>，1代表内核开启，0代表内核关闭</li>
@@ -382,6 +378,15 @@ cpu有多少个核，就有几位数，1代表">
     
 <nav id="article-nav">
   
+    <a href="/2015/04/23/apache-nginx-rewrite/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          nginx和apache rewrite那点事
+        
+      </div>
+    </a>
+  
   
     <a href="/2015/04/11/srcElement-fromElement-toElement/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">srcElement、fromElement、toElement、target、currentTarget这些都是什么</div>
@@ -437,7 +442,7 @@ cpu有多少个核，就有几位数，1代表">
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 Longhua He
+    		&copy; 2015 John Doe
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
