@@ -117,7 +117,7 @@ http://zipperary.com/categories/hexo/http://blog.csdn.net/poem_of_sunshine/artic
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 10px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 20px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
 					</div>
 				</section>
 				
@@ -263,6 +263,7 @@ Enter <span class="keyword">file</span> <span class="keyword">in</span> <span cl
 <p>测试链接</p>
 <pre><code><span class="title">ssh</span> git<span class="variable">@github</span>.com
 </code></pre><p>设置托管git的路径 编辑根目录_config.yml 【很重要以上5步都可以先不做】</p>
+<p><strong>repo 的地址就是 项目ssh的地址，注意不是https哦。</strong></p>
 <pre><code><span class="attribute">deploy</span>: 
     <span class="attribute">type</span>: git 
     <span class="attribute">repo</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxxx/xxxx.github.io.git 
@@ -295,6 +296,13 @@ hexo <span class="variable">n =</span>= hexo new
 <blockquote>
 <p>直接删除根目录的db.json</p>
 </blockquote>
+<h3 id="重装hexo">重装hexo</h3><p>今天碰到一恶心的事，hexo提交直接卡了，也不报错，直接把hexo删了，找到node_modules/hexo</p>
+<p>直接删了。然后把hexo的主题，配置，文档备份，重装hexo</p>
+<p>重装过程中得问题：</p>
+<p>1.unlink ‘/Users/helonghua/blog/.deploy_git/CNAME’<br>解决：权限不够，sudo</p>
+<p>2.提示：Deployer not found: git<br>解决：npm install hexo-deployer-git —save</p>
+<p>3.Permission denied (publickey).</p>
+<p>git 公钥有问题，直接 <code>hexo new &quot;My New Post&quot;</code></p>
 
       
     </div>
