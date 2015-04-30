@@ -111,7 +111,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 20px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 20px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 15px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 15px;">mac</a><a href="/tags/nginx/" style="font-size: 15px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/redis/" style="font-size: 10px;">redis</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
 					</div>
 				</section>
 				
@@ -190,6 +190,110 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-php-redis" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/05/01/php-redis/" class="article-date">
+  	<time datetime="2015-04-30T18:06:36.000Z" itemprop="datePublished">2015-05-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/01/php-redis/">mac下php redis 初体验</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mac下php_redis_初体验">mac下php redis 初体验</h2><h3 id="redis_php-redis安装">redis php-redis安装</h3><h4 id="redis安装">redis安装</h4><p>redis2.6 (已经不推荐使用了，不过我还是试了一下)</p>
+<p>下载redis2.6<br>解压、安装</p>
+<pre><code>tar zxf redis-<span class="number">2.6</span>.<span class="number">14</span><span class="class">.tar</span><span class="class">.gz</span>
+cd redis-<span class="number">2.6</span>.<span class="number">14</span>
+make &amp;&amp; make install
+</code></pre><p>复制配置文件</p>
+<pre><code>sudo cp ~<span class="regexp">/redis-2.6.14/</span>redis.conf <span class="regexp">/etc/</span>
+</code></pre><p>启动redis 服务</p>
+<pre><code><span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>redis-server <span class="regexp">/etc/</span>redis.conf
+</code></pre><p>连接redis</p>
+<pre><code>redis-<span class="keyword">cli</span> -<span class="keyword">h</span> 127.0.0.1 -p 6379
+&gt;就可以做<span class="keyword">set</span> name 简单的操作了
+</code></pre><h4 id="php_redis扩展安装">php redis扩展安装</h4><p>下载地址，使用说明 <a href="https://github.com/phpredis/phpredis" target="_blank" rel="external">https://github.com/phpredis/phpredis</a></p>
+<pre><code>unzip phpredis-develop.zip 
+cd phpredis-develop
+<span class="regexp">/usr/</span>local<span class="regexp">/php/</span>bin/phpize
+.<span class="regexp">/configure --with-php-config=/</span>usr<span class="regexp">/local/</span>php<span class="regexp">/bin/</span>php-config
+make &amp;&amp; make install
+</code></pre><p>安装成功标志：<br><code>Installing shared extensions:     /usr/local/php/lib/php/extensions/no-debug-zts-20131226/</code></p>
+<p>在php.ini里面，引入扩展redis.so</p>
+<p>extension = redis.so<br>[前提是指定了extension_dir]</p>
+<p>成功标志: 运行 <code>php -m | grep redis</code>就能看见redis</p>
+<h3 id="redis-conf_配置文件">redis.conf 配置文件</h3><pre><code><span class="preprocessor">#是否允许后台运行，一般改为yes</span>
+daemonize: yes
+<span class="preprocessor">#可用数据库数，默认值为16，默认数据库为0</span>
+databases <span class="number">16</span>
+<span class="preprocessor">#保存数据到disk的策略</span>
+<span class="preprocessor">#当有一条Keys数据被改变是，900秒刷新到disk一次</span>
+save <span class="number">900</span> <span class="number">1</span>
+<span class="preprocessor">#当有10条Keys数据被改变时，300秒刷新到disk一次</span>
+save <span class="number">300</span> <span class="number">10</span>
+<span class="preprocessor">#当有1w条keys数据被改变时，60秒刷新到disk一次</span>
+save <span class="number">60</span> <span class="number">10000</span>
+<span class="preprocessor">#当dump .rdb数据库的时候是否压缩数据对象</span>
+rdbcompression yes
+<span class="preprocessor">#本地数据库文件名，默认值为dump.rdb</span>
+dbfilename dump.rdb
+<span class="preprocessor">#本地数据库存放路径,默认值为 ./</span>
+dir ./
+</code></pre><h3 id="php使用redis">php使用redis</h3><p>手册<a href="http://www.cnblogs.com/ikodota/archive/2012/03/05/php_redis_cn.html" target="_blank" rel="external">http://www.cnblogs.com/ikodota/archive/2012/03/05/php_redis_cn.html</a></p>
+<p>例子：</p>
+<pre><code><span class="variable">$redis</span> <span class="subst">=</span> <span class="literal">new</span> Redis();
+<span class="variable">$redis</span><span class="subst">-&gt;</span>connect(<span class="string">'127.0.0.1'</span>, <span class="number">6379</span>);
+<span class="variable">$name</span> <span class="subst">=</span> <span class="variable">$redis</span><span class="subst">-&gt;</span>get(<span class="string">'name'</span>);
+var_dump(<span class="variable">$name</span>);
+</code></pre><h4 id="redis升级">redis升级</h4><p>上官网下载redis-3.0.0</p>
+<pre><code>tar zxf redis-<span class="number">3.0</span>.<span class="number">0</span>.tar.gz
+cd redis-<span class="number">3.0</span>.<span class="number">0</span>
+make
+<span class="comment">//编译之后直接copy 5个程序到/usr/local/bin/ 覆盖以前的5个redis-* 程序</span>
+<span class="comment">//注意不要吧.c .o 这个也复制过去</span>
+cp .<span class="regexp">/src/</span>redis-* <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-open-js-select" class="article article-type-post" itemscope itemprop="blogPost">
   
