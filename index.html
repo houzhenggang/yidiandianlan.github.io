@@ -111,7 +111,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 15px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 15px;">mac</a><a href="/tags/nginx/" style="font-size: 15px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/redis/" style="font-size: 10px;">redis</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 15px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 15px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/redis/" style="font-size: 10px;">redis</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
 					</div>
 				</section>
 				
@@ -190,6 +190,110 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-limit-zone-limie-req-zone" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/05/12/limit-zone-limie-req-zone/" class="article-date">
+  	<time datetime="2015-05-12T13:05:58.000Z" itemprop="datePublished">2015-05-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/12/limit-zone-limie-req-zone/">nginx限制连接模块limit_zone、limie_req_zone测试</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>nginx默认提供的两个限制链接模块（可以用来防止简单地cc攻击）</p>
+<h2 id="区别">区别</h2><p><strong>limit_zone：</strong></p>
+<blockquote>
+<p>limit_zone 功能是限制一个客户端的并发连接数</p>
+</blockquote>
+<p><strong>limie_req_zone:</strong></p>
+<blockquote>
+<p>lit_req_zone的功能是通过 令牌桶原理来限制 用户的连接频率，可以用来设置单个ip访问请求链接数</p>
+</blockquote>
+<h2 id="配置">配置</h2><p>两个可以一起用，也可以单独使用</p>
+<p><strong>http配置：</strong></p>
+<pre><code><span class="built_in">limit</span>_conn_zone   <span class="variable">$binary_remote_addr</span>  zone=myzone_<span class="built_in">test</span>:<span class="number">10</span>m;
+<span class="built_in">limit</span>_req_zone <span class="variable">$binary_remote_addr</span> zone=<span class="built_in">test</span>:<span class="number">10</span>m rate=<span class="number">1</span>r/s;
+</code></pre><p><strong>注：</strong>myzone_test 与 test 都是自定义名称，与下列配置对应</p>
+<p><strong>server配置：</strong></p>
+<pre><code><span class="built_in">limit</span>_conn   myzone_<span class="built_in">test</span>  <span class="number">3</span>;
+<span class="comment">#同一个IP只许建立3个连接</span>
+<span class="built_in">limit</span>_req zone=<span class="built_in">test</span> burst=<span class="number">120</span> nodelay;
+<span class="comment">#每秒请求120个，超过返回503</span>
+</code></pre><p>以上是nginx新版本1.2以后吧，1.2以前的版本http模块略有不同</p>
+<pre><code><span class="built_in">limit</span>_zone   myzone_<span class="built_in">test</span>  <span class="variable">$binary_remote_addr</span>  <span class="number">10</span>m;
+</code></pre><h2 id="测试">测试</h2><p>测试环境：本地mac apache2.3（ab压测）<br><img src="./1431432452780.png" alt="Alt text"></p>
+<p>服务器：阿里云centos乞丐配置、nginx/1.4.4  、php5.4</p>
+<p>两个一起设置：</p>
+<p>http配置：</p>
+<pre><code><span class="built_in">limit</span>_conn_zone   <span class="variable">$binary_remote_addr</span>  zone=myzone_<span class="built_in">test</span>:<span class="number">10</span>m;
+<span class="built_in">limit</span>_req_zone <span class="variable">$binary_remote_addr</span> zone=<span class="built_in">test</span>:<span class="number">10</span>m rate=<span class="number">1</span>r/s;
+</code></pre><p>server配置：</p>
+<pre><code><span class="built_in">limit</span>_conn   myzone_<span class="built_in">test</span>  <span class="number">3</span>;
+<span class="comment">#同一个IP只许建立3个连接</span>
+<span class="built_in">limit</span>_req zone=<span class="built_in">test</span> burst=<span class="number">120</span> nodelay;
+<span class="comment">#每秒请求120个，超过返回503</span>
+</code></pre><p>ab压测：</p>
+<pre><code>ab -c 100 -n 100 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+</code></pre><p>nginx日志：<br><img src="http://ww2.sinaimg.cn/bmiddle/005ItG0Rjw1es1qc9qoizj31060kmwq5.jpg" alt=""></p>
+<hr>
+<p>ab压测：</p>
+<pre><code>ab -c 3 -n 1000 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+<span class="comment">#每秒3并发，日志全部返回200</span>
+</code></pre><hr>
+<p>ab压测：</p>
+<pre><code>ab -c 5 -n 1000 -t 20 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+<span class="comment">#每秒5并发，压20s，大部分返回200</span>
+</code></pre><h2 id="建议">建议</h2><p>个人建议，两个模块一起用，</p>
+<p>limit_zone模块用来限制并发，放在server全局。</p>
+<p>limie_req_zone模块用来限制<strong>PHP的请求次数</strong></p>
+<p>也就是说，limie_req_zone模块的配置放在</p>
+<pre><code><span class="title">location</span> <span class="regexp">~ .*.(php|php5)$</span>
+{
+    <span class="title">limit_req</span> zone=test burst=<span class="number">10</span> nodelay;
+}
+<span class="comment">#此时burst的值应该设置小值</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-php-redis" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -1413,129 +1517,10 @@ $mobile_update_revalue .= "<span class="tag">&lt;<span class="title">table</span
 
 
   
-    <article id="post-the-first-one" class="article article-type-post" itemscope itemprop="blogPost">
   
-    <div class="article-meta">
-      <a href="/2015/03/21/the-first-one/" class="article-date">
-  	<time datetime="2015-03-20T19:09:07.000Z" itemprop="datePublished">2015-03-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/21/the-first-one/">the first one</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="用hexo搭建的博客">用hexo搭建的博客</h1><p>首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；</p>
-<p>在搭建博客的过程中，首先感谢下面两个博主:</p>
-<p><a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">http://zipperary.com/categories/hexo/</a><br><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">http://blog.csdn.net/poem_of_sunshine/article/details/29369785/</a></p>
-<h3 id="1-_hexo搭建">1. hexo搭建</h3><p>本地环境：mac、git、node</p>
-<p>安装hexo</p>
-<pre><code>npm <span class="keyword">install</span> -g hexo
-hexo init
-npm <span class="keyword">install</span>
-</code></pre><p>安装完之后，本地启动服务</p>
-<pre><code>hexo generate
-hexo <span class="keyword">server</span>
-</code></pre><p>这样在本地就可以通过<a href="http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看" target="_blank" rel="external">http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看</a></p>
-<h3 id="2-_配置git托管page">2. 配置git托管page</h3><ol>
-<li>配置ssh 避免每次提交都输入git的账号密码</li>
-</ol>
-<p>查看是否有以前的key,有责备份</p>
-<pre><code><span class="built_in">cd</span> ~/.ssh
-
-<span class="built_in">mkdir</span> key_backup
-
-mv id_rsa* key_backup
-</code></pre><p>设置git账号信息</p>
-<pre><code>git config --global user<span class="class">.name</span> <span class="string">"你的git账号"</span>
-
-git config --global user<span class="class">.email</span> <span class="string">"你的邮箱"</span>
-</code></pre><p>生成SSH key</p>
-<pre><code>ssh-keygen -t rsa -C "你的邮箱”
-
-Enter <span class="keyword">file</span> <span class="keyword">in</span> <span class="keyword">which</span> to <span class="keyword">save</span> the key (/Users/helonghua/.ssh/id_rsa):直接回车就
-
-复制~/.ssh/id_rsa 这里面的密钥，为了避免格式错误，建议用sublime打开
-</code></pre><p>登录到GitHub页面，Account Settings-&gt;SSH Public Keys-&gt;Add another key将生成的key(id_rsa.pub文件）内容copy到输入框中，save。</p>
-<p>测试链接</p>
-<pre><code><span class="title">ssh</span> git<span class="variable">@github</span>.com
-</code></pre><p>设置托管git的路径 编辑根目录_config.yml 【很重要以上5步都可以先不做】</p>
-<p><strong>repo 的地址就是 项目ssh的地址，注意不是https哦。</strong></p>
-<pre><code><span class="attribute">deploy</span>: 
-    <span class="attribute">type</span>: git 
-    <span class="attribute">repo</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxxx/xxxx.github.io.git 
-    <span class="attribute">branch</span>: master
-</code></pre><p>提交至git</p>
-<pre><code><span class="title">hexo</span> generate
-hexo deploy
-</code></pre><p>这样就ok了，yidiandianlan.github.io可以查看</p>
-<h3 id="3-创建新的文档">3.创建新的文档</h3><pre><code>hexo <span class="keyword">new</span> <span class="string">"My New Post"</span>
-</code></pre><p>创建名为My-New-Post的项目 在source/_post下面生成My-New-Post.MD</p>
-<h3 id="4-配置自己的域名">4.配置自己的域名</h3><p>在source目录下创建文件CNAME 写入 helonghua.com 即可</p>
-<p>上传至git，再将helonghua.com 解析@.heonghua.com</p>
-<ul>
-<li><p>192.30.252.153</p>
-</li>
-<li><p>192.30.252.154</p>
-</li>
-</ul>
-<p>这两个ip</p>
-<h3 id="5-常见问题">5.常见问题</h3><p>更换主题，下载之后放置theme下即可、修改_config.yml</p>
-<pre><code><span class="attribute">theme</span>: <span class="string">yilia</span>
-</code></pre><p>快捷命令</p>
-<pre><code>hexo <span class="variable">g =</span>= hexo generate
-hexo <span class="variable">d =</span>= hexo deploy
-hexo <span class="variable">s =</span>= hexo server
-hexo <span class="variable">n =</span>= hexo new  
-</code></pre><p>快速提交上传git</p>
-<pre><code>sudo hexo <span class="keyword">d</span> -<span class="keyword">g</span>
-</code></pre><p>碰见疑难杂症?</p>
-<blockquote>
-<p>直接删除根目录的db.json</p>
-</blockquote>
-<h3 id="重装hexo">重装hexo</h3><p>今天碰到一恶心的事，hexo提交直接卡了，也不报错，直接把hexo删了，找到node_modules/hexo</p>
-<p>直接删了。然后把hexo的主题，配置，文档备份，重装hexo</p>
-<p>重装过程中得问题：</p>
-<p>1.unlink ‘/Users/helonghua/blog/.deploy_git/CNAME’<br>解决：权限不够，sudo</p>
-<p>2.提示：Deployer not found: git<br>解决：npm install hexo-deployer-git —save</p>
-<p>3.Permission denied (publickey).</p>
-<p>git 公钥有问题，直接 <code>hexo new &quot;My New Post&quot;</code></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 </div>
       <footer id="footer">

@@ -3,36 +3,52 @@
 <head>
   <meta charset="utf-8">
   
-  <title>mac下改造vim编辑器 | Hexo</title>
+  <title>nginx限制连接模块limit_zone、limie_req_zone测试 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
+  <meta name="description" content="nginx默认提供的两个限制链接模块（可以用来防止简单地cc攻击）
+区别limit_zone：
+
+limit_zone 功能是限制一个客户端的并发连接数
+
+limie_req_zone:
+
+lit_req_zone的功能是通过 令牌桶原理来限制 用户的连接频率，可以用来设置单个ip访问请求链接数
+
+配置两个可以一起用，也可以单独使用
+http配置：
+limit_conn_zone   $binar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mac下改造vim编辑器">
-<meta property="og:url" content="http://yoursite.com/2015/04/02/linux-vim/index.html">
+<meta property="og:title" content="nginx限制连接模块limit_zone、limie_req_zone测试">
+<meta property="og:url" content="http://yoursite.com/2015/05/12/limit-zone-limie-req-zone/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/005ItG0Rtw1eqqgy4jee2j30s208i0ue.jpg">
+<meta property="og:description" content="nginx默认提供的两个限制链接模块（可以用来防止简单地cc攻击）
+区别limit_zone：
+
+limit_zone 功能是限制一个客户端的并发连接数
+
+limie_req_zone:
+
+lit_req_zone的功能是通过 令牌桶原理来限制 用户的连接频率，可以用来设置单个ip访问请求链接数
+
+配置两个可以一起用，也可以单独使用
+http配置：
+limit_conn_zone   $binar">
+<meta property="og:image" content="./1431432452780.png">
+<meta property="og:image" content="http://ww2.sinaimg.cn/bmiddle/005ItG0Rjw1es1qc9qoizj31060kmwq5.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mac下改造vim编辑器">
-<meta name="twitter:description" content="本地环境：macbook pro 系统：10.10.1 
-建造自己的.vimrcmac的用户更目录没有自己的vimrc
-cd ~
-touch .vimrc
-修改vim的默认编辑主题colorscheme查看主题：ls -l  /usr/share/vim/vim73/colors/
-里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的evening
-感觉还不错">
+<meta name="twitter:title" content="nginx限制连接模块limit_zone、limie_req_zone测试">
+<meta name="twitter:description" content="nginx默认提供的两个限制链接模块（可以用来防止简单地cc攻击）
+区别limit_zone：
+
+limit_zone 功能是限制一个客户端的并发连接数
+
+limie_req_zone:
+
+lit_req_zone的功能是通过 令牌桶原理来限制 用户的连接频率，可以用来设置单个ip访问请求链接数
+
+配置两个可以一起用，也可以单独使用
+http配置：
+limit_conn_zone   $binar">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -208,11 +224,11 @@ touch .vimrc
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-linux-vim" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-limit-zone-limie-req-zone" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/04/02/linux-vim/" class="article-date">
-  	<time datetime="2015-04-02T14:01:22.000Z" itemprop="datePublished">2015-04-02</time>
+      <a href="/2015/05/12/limit-zone-limie-req-zone/" class="article-date">
+  	<time datetime="2015-05-12T13:05:58.000Z" itemprop="datePublished">2015-05-12</time>
 </a>
     </div>
   
@@ -225,7 +241,7 @@ touch .vimrc
         
   
     <h1 class="article-title" itemprop="name">
-      mac下改造vim编辑器
+      nginx限制连接模块limit_zone、limie_req_zone测试
     </h1>
   
 
@@ -234,7 +250,7 @@ touch .vimrc
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
 	</div>
 
         
@@ -245,77 +261,59 @@ touch .vimrc
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本地环境：macbook pro 系统：10.10.1 </p>
-<h2 id="建造自己的-vimrc">建造自己的.vimrc</h2><p>mac的用户更目录没有自己的vimrc</p>
-<pre><code><span class="title">cd</span> <span class="regexp">~
-touch</span> .vimrc
-</code></pre><h2 id="修改vim的默认编辑主题colorscheme">修改vim的默认编辑主题colorscheme</h2><h4 id="查看主题：">查看主题：</h4><pre><code>ls -l  <span class="regexp">/usr/</span>share<span class="regexp">/vim/</span>vim73<span class="regexp">/colors/</span>
-</code></pre><p>里面有mac自带的vim主题，当然你也可以自己去下载vim主题放到这个目录，我用的是默认的<code>evening</code></p>
-<p>感觉还不错。哈哈哈</p>
-<h4 id="修改主题">修改主题</h4><pre><code><span class="title">vim</span> .vimrc
-</code></pre><p>添加:</p>
-<pre><code><span class="keyword">colorscheme</span> evening
-
-<span class="string">"顺便设置一下代码高亮，这是php的，也可以去下载php.vim
-</span><span class="keyword">syntax</span>   <span class="keyword">on</span> = php 
-</code></pre><h2 id="安装ctags">安装ctags</h2><ol>
-<li>从<a href="http://ctags.sourceforge.net/下载源代码包后，解压缩生成源代码目录，" target="_blank" rel="external">http://ctags.sourceforge.net/下载源代码包后，解压缩生成源代码目录，</a></li>
-<li>进入源代码根目录执行./configure</li>
-<li>执行make</li>
-<li>执行make install</li>
-<li><p>在~/.vimrc中增加以下这行</p>
-<pre><code><span class="built_in">map</span> &lt;C-F12&gt; :!ctags -R --c++<span class="variable">-kinds=</span>+p <span class="variable">--fields=</span>+iaS <span class="variable">--extra=</span>+q .&lt;CR&gt;  
-<span class="string">"上面的意思是创建一个快捷键 ctrl+F12 可以执行ctags -R 
-"</span>进入需要ctags的文件夹更根目录 打开vim 按ctrl+F12即可
-</code></pre></li>
-<li><p>ctags -R “你需要的文件夹”</p>
-</li>
-</ol>
-<h2 id="安装Taglist">安装Taglist</h2><ol>
-<li>下载地址<a href="http://www.vim.org/scripts/script.php?script_id=273" target="_blank" rel="external">http://www.vim.org/scripts/script.php?script_id=273</a></li>
-<li>解压把doc plugin下得东西对应放到 ~/.vim/这个文件夹下面的doc plugin下面</li>
-<li>进入~/.vim/doc目录，在Vim下运行”helptags .”命令。此步骤是将doc下的帮助文档加入到Vim的帮助主题中，这样我们就可以通过在Vim中运行“help taglist.txt”查看taglist帮助</li>
-<li><p>打开.vimrc,添加</p>
-<pre><code><span class="keyword">let</span> <span class="variable">Tlist_Show_One_File=</span><span class="number">1</span>
-<span class="keyword">let</span> <span class="variable">Tlist_Exit_OnlyWindow=</span><span class="number">1</span>
-</code></pre></li>
-</ol>
-<h2 id="安装Winmanager、NERDTree、MiniBufExplorer">安装Winmanager、NERDTree、MiniBufExplorer</h2><p>1.下载同上，地址：</p>
-<pre><code><span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">1658</span>
-<span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">159</span>
-<span class="label">http:</span>//www.vim<span class="preprocessor">.org</span>/scripts/script.php?script_id=<span class="number">95</span>
-</code></pre><ol>
-<li>安装同上，解压</li>
-<li><p>编辑.vimrc </p>
-<pre><code><span class="keyword">let</span> g:<span class="variable">miniBufExplMapWindowNavVim =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMapWindowNavArrows =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMapCTabSwitchBufs =</span> <span class="number">1</span> 
-<span class="keyword">let</span> g:<span class="variable">miniBufExplModSelTarget =</span> <span class="number">1</span>
-<span class="keyword">let</span> g:<span class="variable">miniBufExplMoreThanOne=</span><span class="number">0</span>
-
-<span class="keyword">let</span> g:<span class="variable">winManagerWindowLayout=</span>'NERDTree|TagList'
-
-<span class="string">"设置WM的快捷键，我设置为w
-nmap w :WMToggle&lt;CR&gt;</span>
-</code></pre></li>
-</ol>
-<p>我们可以通过 Ctrl+w 快捷键或鼠标点击在Taglist窗口和编辑区之间切换焦点</p>
-<p>winmanager自带的fileexplorer这个插件实在是比较差。最重要的一点是fileexplorer不能自动更新，如果通过其他的途径修改了文件夹中的内容，fileexplorer是不会显示的。相对而言Nerd_Tree功能就比较强大了。下面要把Nerd_Tree加入winmanager</p>
-<p><code>sudo vim ~/.vim/plugin/NERD_tree.vim</code><br>//最后添加</p>
-<pre><code>let g:NERDTree_title = <span class="string">"[NERDTree]"</span>
-<span class="function"><span class="keyword">function</span>! <span class="title">NERDTree_Start</span><span class="params">()</span></span>
-    exe <span class="string">'NERDTree'</span>
-<span class="function"><span class="keyword">endfunction</span></span>
-<span class="function"><span class="keyword">function</span>! <span class="title">NERDTree_IsValid</span><span class="params">()</span></span>
-    <span class="keyword">return</span> <span class="number">1</span>
-<span class="function"><span class="keyword">endfunction</span></span>
-</code></pre><p>我的mac上出现一个小bug 中间多出现一个空得窗口~~~</p>
-<p>发现每次打开winmanager都会出现一个空白的buffer。打开winmanager.vim，找到函数function! <sid>ToggleWindowsManager()，加入两行，修改后整个函数如下：</sid></p>
-<p><img src="http://ww3.sinaimg.cn/mw690/005ItG0Rtw1eqqgy4jee2j30s208i0ue.jpg" alt=""></p>
-<p>图中参数3 代表第几个窗口，（关闭第三个窗口）</p>
-<p>到此就结束了，vim一个文件之后，可以使用w快捷键调用wm，ctrl-w切换光标窗口</p>
-<p>本文参考网址：<a href="http://blog.csdn.net/bokee/article/details/6633193" target="_blank" rel="external">http://blog.csdn.net/bokee/article/details/6633193</a></p>
-
+        <p>nginx默认提供的两个限制链接模块（可以用来防止简单地cc攻击）</p>
+<h2 id="区别">区别</h2><p><strong>limit_zone：</strong></p>
+<blockquote>
+<p>limit_zone 功能是限制一个客户端的并发连接数</p>
+</blockquote>
+<p><strong>limie_req_zone:</strong></p>
+<blockquote>
+<p>lit_req_zone的功能是通过 令牌桶原理来限制 用户的连接频率，可以用来设置单个ip访问请求链接数</p>
+</blockquote>
+<h2 id="配置">配置</h2><p>两个可以一起用，也可以单独使用</p>
+<p><strong>http配置：</strong></p>
+<pre><code><span class="built_in">limit</span>_conn_zone   <span class="variable">$binary_remote_addr</span>  zone=myzone_<span class="built_in">test</span>:<span class="number">10</span>m;
+<span class="built_in">limit</span>_req_zone <span class="variable">$binary_remote_addr</span> zone=<span class="built_in">test</span>:<span class="number">10</span>m rate=<span class="number">1</span>r/s;
+</code></pre><p><strong>注：</strong>myzone_test 与 test 都是自定义名称，与下列配置对应</p>
+<p><strong>server配置：</strong></p>
+<pre><code><span class="built_in">limit</span>_conn   myzone_<span class="built_in">test</span>  <span class="number">3</span>;
+<span class="comment">#同一个IP只许建立3个连接</span>
+<span class="built_in">limit</span>_req zone=<span class="built_in">test</span> burst=<span class="number">120</span> nodelay;
+<span class="comment">#每秒请求120个，超过返回503</span>
+</code></pre><p>以上是nginx新版本1.2以后吧，1.2以前的版本http模块略有不同</p>
+<pre><code><span class="built_in">limit</span>_zone   myzone_<span class="built_in">test</span>  <span class="variable">$binary_remote_addr</span>  <span class="number">10</span>m;
+</code></pre><h2 id="测试">测试</h2><p>测试环境：本地mac apache2.3（ab压测）<br><img src="./1431432452780.png" alt="Alt text"></p>
+<p>服务器：阿里云centos乞丐配置、nginx/1.4.4  、php5.4</p>
+<p>两个一起设置：</p>
+<p>http配置：</p>
+<pre><code><span class="built_in">limit</span>_conn_zone   <span class="variable">$binary_remote_addr</span>  zone=myzone_<span class="built_in">test</span>:<span class="number">10</span>m;
+<span class="built_in">limit</span>_req_zone <span class="variable">$binary_remote_addr</span> zone=<span class="built_in">test</span>:<span class="number">10</span>m rate=<span class="number">1</span>r/s;
+</code></pre><p>server配置：</p>
+<pre><code><span class="built_in">limit</span>_conn   myzone_<span class="built_in">test</span>  <span class="number">3</span>;
+<span class="comment">#同一个IP只许建立3个连接</span>
+<span class="built_in">limit</span>_req zone=<span class="built_in">test</span> burst=<span class="number">120</span> nodelay;
+<span class="comment">#每秒请求120个，超过返回503</span>
+</code></pre><p>ab压测：</p>
+<pre><code>ab -c 100 -n 100 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+</code></pre><p>nginx日志：<br><img src="http://ww2.sinaimg.cn/bmiddle/005ItG0Rjw1es1qc9qoizj31060kmwq5.jpg" alt=""></p>
+<hr>
+<p>ab压测：</p>
+<pre><code>ab -c 3 -n 1000 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+<span class="comment">#每秒3并发，日志全部返回200</span>
+</code></pre><hr>
+<p>ab压测：</p>
+<pre><code>ab -c 5 -n 1000 -t 20 http://<span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>.<span class="keyword">*</span><span class="keyword">*</span>:8088/login
+<span class="comment">#每秒5并发，压20s，大部分返回200</span>
+</code></pre><h2 id="建议">建议</h2><p>个人建议，两个模块一起用，</p>
+<p>limit_zone模块用来限制并发，放在server全局。</p>
+<p>limie_req_zone模块用来限制<strong>PHP的请求次数</strong></p>
+<p>也就是说，limie_req_zone模块的配置放在</p>
+<pre><code><span class="title">location</span> <span class="regexp">~ .*.(php|php5)$</span>
+{
+    <span class="title">limit_req</span> zone=test burst=<span class="number">10</span> nodelay;
+}
+<span class="comment">#此时burst的值应该设置小值</span>
+</code></pre>
       
     </div>
     
@@ -324,18 +322,9 @@ nmap w :WMToggle&lt;CR&gt;</span>
     
 <nav id="article-nav">
   
-    <a href="/2015/04/07/process-understand/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          nodejs|php|nginx|apache多进程与多线程的理解
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/04/01/mac-install-new-php/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">mac下重新编译php新版本</div>
+    <a href="/2015/05/01/php-redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mac下php redis 初体验</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -364,7 +353,7 @@ nmap w :WMToggle&lt;CR&gt;</span>
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="linux-vim" data-title="mac下改造vim编辑器" data-url="http://yoursite.com/2015/04/02/linux-vim/"></div>
+	<div class="ds-thread" data-thread-key="limit-zone-limie-req-zone" data-title="nginx限制连接模块limit_zone、limie_req_zone测试" data-url="http://yoursite.com/2015/05/12/limit-zone-limie-req-zone/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

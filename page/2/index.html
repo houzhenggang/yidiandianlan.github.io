@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/4 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2015/04/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -191,234 +191,133 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-the-first-one" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2015/03/21/the-first-one/" class="article-date">
+  	<time datetime="2015-03-20T19:09:07.000Z" itemprop="datePublished">2015-03-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/21/the-first-one/">the first one</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用hexo搭建的博客">用hexo搭建的博客</h1><p>首先这个博客已经筹备很久了，这几天才弄起来，实在是有些惭愧啊。以此纪念我的hexo搭建的静态博客。目前page托管在github上；</p>
+<p>在搭建博客的过程中，首先感谢下面两个博主:</p>
+<p><a href="http://zipperary.com/categories/hexo/" target="_blank" rel="external">http://zipperary.com/categories/hexo/</a><br><a href="http://blog.csdn.net/poem_of_sunshine/article/details/29369785/" target="_blank" rel="external">http://blog.csdn.net/poem_of_sunshine/article/details/29369785/</a></p>
+<h3 id="1-_hexo搭建">1. hexo搭建</h3><p>本地环境：mac、git、node</p>
+<p>安装hexo</p>
+<pre><code>npm <span class="keyword">install</span> -g hexo
+hexo init
+npm <span class="keyword">install</span>
+</code></pre><p>安装完之后，本地启动服务</p>
+<pre><code>hexo generate
+hexo <span class="keyword">server</span>
+</code></pre><p>这样在本地就可以通过<a href="http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看" target="_blank" rel="external">http://0.0.0.0:4000查看了，hexo服务启动之后，不能关闭，否则本地无法参加查看</a></p>
+<h3 id="2-_配置git托管page">2. 配置git托管page</h3><ol>
+<li>配置ssh 避免每次提交都输入git的账号密码</li>
+</ol>
+<p>查看是否有以前的key,有责备份</p>
+<pre><code><span class="built_in">cd</span> ~/.ssh
+
+<span class="built_in">mkdir</span> key_backup
+
+mv id_rsa* key_backup
+</code></pre><p>设置git账号信息</p>
+<pre><code>git config --global user<span class="class">.name</span> <span class="string">"你的git账号"</span>
+
+git config --global user<span class="class">.email</span> <span class="string">"你的邮箱"</span>
+</code></pre><p>生成SSH key</p>
+<pre><code>ssh-keygen -t rsa -C "你的邮箱”
+
+Enter <span class="keyword">file</span> <span class="keyword">in</span> <span class="keyword">which</span> to <span class="keyword">save</span> the key (/Users/helonghua/.ssh/id_rsa):直接回车就
+
+复制~/.ssh/id_rsa 这里面的密钥，为了避免格式错误，建议用sublime打开
+</code></pre><p>登录到GitHub页面，Account Settings-&gt;SSH Public Keys-&gt;Add another key将生成的key(id_rsa.pub文件）内容copy到输入框中，save。</p>
+<p>测试链接</p>
+<pre><code><span class="title">ssh</span> git<span class="variable">@github</span>.com
+</code></pre><p>设置托管git的路径 编辑根目录_config.yml 【很重要以上5步都可以先不做】</p>
+<p><strong>repo 的地址就是 项目ssh的地址，注意不是https哦。</strong></p>
+<pre><code><span class="attribute">deploy</span>: 
+    <span class="attribute">type</span>: git 
+    <span class="attribute">repo</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:xxxx/xxxx.github.io.git 
+    <span class="attribute">branch</span>: master
+</code></pre><p>提交至git</p>
+<pre><code><span class="title">hexo</span> generate
+hexo deploy
+</code></pre><p>这样就ok了，yidiandianlan.github.io可以查看</p>
+<h3 id="3-创建新的文档">3.创建新的文档</h3><pre><code>hexo <span class="keyword">new</span> <span class="string">"My New Post"</span>
+</code></pre><p>创建名为My-New-Post的项目 在source/_post下面生成My-New-Post.MD</p>
+<h3 id="4-配置自己的域名">4.配置自己的域名</h3><p>在source目录下创建文件CNAME 写入 helonghua.com 即可</p>
+<p>上传至git，再将helonghua.com 解析@.heonghua.com</p>
+<ul>
+<li><p>192.30.252.153</p>
+</li>
+<li><p>192.30.252.154</p>
+</li>
+</ul>
+<p>这两个ip</p>
+<h3 id="5-常见问题">5.常见问题</h3><p>更换主题，下载之后放置theme下即可、修改_config.yml</p>
+<pre><code><span class="attribute">theme</span>: <span class="string">yilia</span>
+</code></pre><p>快捷命令</p>
+<pre><code>hexo <span class="variable">g =</span>= hexo generate
+hexo <span class="variable">d =</span>= hexo deploy
+hexo <span class="variable">s =</span>= hexo server
+hexo <span class="variable">n =</span>= hexo new  
+</code></pre><p>快速提交上传git</p>
+<pre><code>sudo hexo <span class="keyword">d</span> -<span class="keyword">g</span>
+</code></pre><p>碰见疑难杂症?</p>
+<blockquote>
+<p>直接删除根目录的db.json</p>
+</blockquote>
+<h3 id="重装hexo">重装hexo</h3><p>今天碰到一恶心的事，hexo提交直接卡了，也不报错，直接把hexo删了，找到node_modules/hexo</p>
+<p>直接删了。然后把hexo的主题，配置，文档备份，重装hexo</p>
+<p>重装过程中得问题：</p>
+<p>1.unlink ‘/Users/helonghua/blog/.deploy_git/CNAME’<br>解决：权限不够，sudo</p>
+<p>2.提示：Deployer not found: git<br>解决：npm install hexo-deployer-git —save</p>
+<p>3.Permission denied (publickey).</p>
+<p>git 公钥有问题，直接 <code>hexo new &quot;My New Post&quot;</code></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
+
+      
+      <div class="clearfix"></div>
+    </div>
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/26/open-js-select/" class="archive-article-date">
-  	<time datetime="2015-04-26T14:26:26.000Z" itemprop="datePublished">Apr 26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/26/open-js-select/">js表单选择中国大学、大学专业、中国省市区三级联动</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
   </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/23/apache-nginx-rewrite/" class="archive-article-date">
-  	<time datetime="2015-04-22T18:25:47.000Z" itemprop="datePublished">Apr 23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/23/apache-nginx-rewrite/">nginx和apache rewrite那点事</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apache/">apache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/14/nginx-config/" class="archive-article-date">
-  	<time datetime="2015-04-14T07:49:37.000Z" itemprop="datePublished">Apr 14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/14/nginx-config/">nginx常用配置</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/11/srcElement-fromElement-toElement/" class="archive-article-date">
-  	<time datetime="2015-04-10T16:16:52.000Z" itemprop="datePublished">Apr 11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/11/srcElement-fromElement-toElement/">srcElement、fromElement、toElement、target、currentTarget这些都是什么</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/07/process-understand/" class="archive-article-date">
-  	<time datetime="2015-04-07T15:07:42.000Z" itemprop="datePublished">Apr 7</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/07/process-understand/">nodejs|php|nginx|apache多进程与多线程的理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/process/">process</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/02/linux-vim/" class="archive-article-date">
-  	<time datetime="2015-04-02T14:01:22.000Z" itemprop="datePublished">Apr 2</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/02/linux-vim/">mac下改造vim编辑器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/01/mac-install-new-php/" class="archive-article-date">
-  	<time datetime="2015-03-31T16:11:42.000Z" itemprop="datePublished">Apr 1</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/01/mac-install-new-php/">mac下重新编译php新版本</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
   
 </div>
       <footer id="footer">
