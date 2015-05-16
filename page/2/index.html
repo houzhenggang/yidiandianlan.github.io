@@ -111,7 +111,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a><a href="/tags/javascript/" style="font-size: 15px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 15px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/redis/" style="font-size: 10px;">redis</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 10px;">织梦</a>
+						<a href="/tags/apache/" style="font-size: 10px;">apache</a><a href="/tags/dedecms/" style="font-size: 15px;">dedecms</a><a href="/tags/javascript/" style="font-size: 15px;">javascript</a><a href="/tags/linux/" style="font-size: 10px;">linux</a><a href="/tags/mac/" style="font-size: 15px;">mac</a><a href="/tags/nginx/" style="font-size: 20px;">nginx</a><a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a><a href="/tags/php/" style="font-size: 20px;">php</a><a href="/tags/process/" style="font-size: 10px;">process</a><a href="/tags/redis/" style="font-size: 10px;">redis</a><a href="/tags/vim/" style="font-size: 10px;">vim</a><a href="/tags/wap/" style="font-size: 10px;">wap</a><a href="/tags/移动端/" style="font-size: 10px;">移动端</a><a href="/tags/织梦/" style="font-size: 15px;">织梦</a>
 					</div>
 				</section>
 				
@@ -190,6 +190,135 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-dedecms-wap" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/23/dedecms-wap/" class="article-date">
+  	<time datetime="2015-03-22T19:09:07.000Z" itemprop="datePublished">2015-03-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/23/dedecms-wap/">织梦移动端生成静态页的开发</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="织梦dedecms_移动模块安装说明">织梦dedecms 移动模块安装说明</h1><p>@(PHP)[织梦]</p>
+<p>[toc]</p>
+<p>下载地址：<a href="https://github.com/yidiandianlan/dedecmsMobileModule" target="_blank" rel="external">https://github.com/yidiandianlan/dedecmsMobileModule</a></p>
+<p>两个版本(动态|静态)页面都是一致，全都是UTF-8版本、一个伪静态、一个真静态，如果网站小，建议使用动态版，如果网站大，建议使用静态html版本。模板基于妹子UI控件~</p>
+<p><img src="http://img.my.csdn.net/uploads/201504/23/1429718923_4661.gif-thumb.jpg" alt=""></p>
+<p>有问题上博客提问：</p>
+<h2 id="动态版本PHPActionModule">动态版本PHPActionModule</h2><p>文件夹PHPActionModule代表动态版本<br>目录结构：</p>
+<pre><code>-<span class="ruby"><span class="number">9526</span>a6769b7af50b4450ab7f26c30be6.xml
+</span>-<span class="ruby">mobile.php
+</span>-<span class="ruby"><span class="keyword">include</span>/
+</span>-<span class="ruby">templets/</span>
+</code></pre><p><strong>注意：</strong>只有9526a6769b7af50b4450ab7f26c30be6.xml 这个xml插件对你有用，其他的都是源代码，用来参考。</p>
+<h3 id="安装">安装</h3><ol>
+<li>下载xml插件</li>
+<li>登陆织梦后台<br><img src="http://img.my.csdn.net/uploads/201504/21/1429616876_2810.png" alt="Alt text"></li>
+<li>动态版本，不需要后台手动控制，现在配置rewrite<br>以下是配置规则，选择符合自己主机情况去配置</li>
+</ol>
+<hr>
+<ul>
+<li>1.apache vhost配置rewrite（!!!不是.htaccess）</li>
+<li>2.apache .htaccess 配置rewrite</li>
+<li>3.nginx rewrite</li>
+</ul>
+<hr>
+<p>一、apache vhost配置rewrite（!!!不是.htaccess）<br>在http-vhost.conf中增加<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;VirtualHost *:80&gt;</span></span><br><span class="line">	<span class="keyword"><span class="common">RewriteEngine</span></span> <span class="literal">on</span></span><br><span class="line">	<span class="keyword"><span class="common">DocumentRoot</span></span> <span class="string">"/***你的织梦网站根目录/"</span></span><br><span class="line">	<span class="keyword"><span class="common">ServerName</span></span> mobile.dede.com</span><br><span class="line">	<span class="comment">#DirectoryIndex 很重要</span></span><br><span class="line">	<span class="keyword">DirectoryIndex</span> mobile.php </span><br><span class="line">	<span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;DOCUMENT_ROOT&#125;</span><span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-f</span><br><span class="line">	<span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;DOCUMENT_ROOT&#125;</span><span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-d</span><br><span class="line">	<span class="keyword"><span class="common">RewriteRule</span></span> ^/(list|article)/(.*)$ /mobile.php?action=<span class="number">$1</span>&amp;id=<span class="number">$2</span><span class="sqbracket"> [QSA,L]</span></span><br><span class="line"><span class="tag">&lt;/VirtualHost&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>二、apache .htaccess 配置rewrite（!前提是服务器支持.htaccess）</p>
+<p>如果你的网站有.htaccess 则在这个文件中加一段<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword"><span class="common">RewriteCond</span></span> <span class="number">$1</span> ^(list|article)</span><br><span class="line"><span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-f</span><br><span class="line"><span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-d</span><br><span class="line"><span class="keyword"><span class="common">RewriteRule</span></span> ^(.*)/(.*)$ /mobile.php?action=<span class="number">$1</span>&amp;id=<span class="number">$2</span><span class="sqbracket"> [QSA,L]</span></span><br></pre></td></tr></table></figure></p>
+<p>如果没有，则构建一个.htaccess 写入<br><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;IfModule rewrite_module&gt;</span></span><br><span class="line">    <span class="keyword"><span class="common">RewriteEngine</span></span> <span class="literal">on</span></span><br><span class="line">    <span class="keyword">RewriteBase</span> /</span><br><span class="line">    <span class="keyword"><span class="common">RewriteCond</span></span> <span class="number">$1</span> ^(list|article)</span><br><span class="line">    <span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-f</span><br><span class="line">    <span class="keyword"><span class="common">RewriteCond</span></span> <span class="cbracket">%&#123;REQUEST_FILENAME&#125;</span> !-d</span><br><span class="line">    <span class="keyword"><span class="common">RewriteRule</span></span> ^(.*)/(.*)$ /mobile.php?action=<span class="number">$1</span>&amp;id=<span class="number">$2</span><span class="sqbracket"> [QSA,L]</span></span><br><span class="line"><span class="tag">&lt;/IfModule&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>三、nginx rewrite</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">location</span> <span class="regexp">~* /(list|article)/</span> &#123;</span><br><span class="line">	<span class="title">if</span> (!-f <span class="variable">$request_filename</span>)&#123;</span><br><span class="line">		<span class="title">rewrite</span><span class="regexp"> ^/(.*)/(.*)$</span> /mobile.php?action=<span class="variable">$1</span>&amp;id=<span class="variable">$2</span> <span class="built_in">last</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="mobile生成静态版">mobile生成静态版</h2><p>与静态版本一样，下载<code>makeMobileHtml</code>文件夹下的XML 。到织梦后台安装模块</p>
+<p>安装完之后：出现模块控制</p>
+<p><img src="http://ww4.sinaimg.cn/large/005ItG0Rjw1erfh0ey4g4j304608z74e.jpg" alt=""></p>
+<p>按字面意思很好理解。不做解释了</p>
+<p><strong>注意：</strong>以下说的mobile.dede.com 为你的移动端域名;www.dede.com 是你站点主域名www.dede.com;/dede/目录为织梦管理后台目录</p>
+<h3 id="文件说明">文件说明</h3><ul>
+<li>静态文档全都生成在根目录的/m/文件夹下</li>
+<li>模板文件在/templets/mobile/文件夹下</li>
+<li>css js image 资源文件在/m/asset/文件夹下</li>
+<li>php生成html的php控制器在/dede[这是默认的admin后台目录]/makeMobileHtml.php</li>
+</ul>
+<h3 id="安装完第一步【很重要】">安装完第一步【很重要】</h3><p>修改<code>/dede[这是默认的admin后台目录]/makeMobileHtml.php</code> 中<br>第14行<code>$hostName = &#39;http://mobile.dede.com&#39;;</code></p>
+<p>为你的mobile端域名，或者是这种<code>http://www.dede.com/m</code> </p>
+<p><strong>注意不要在末尾加</strong><code>/</code></p>
+<p>最后解析域名 <code>mobile.dede.com</code> 到根目录<code>/m/</code>文件夹下面</p>
+<h3 id="其他配置">其他配置</h3><p>如果你的网站全站资源都是绝对路径，那已经不需要修改什么了。如果你的图片路径是<code>/uploads/img</code><br>这样的相对路径、同时由启用的 二级独立域名<code>mobile.***.com</code></p>
+<p> 那你就需要在apache 或者nginx 中rewrite了</p>
+<h4 id="apache_vhost配置">apache vhost配置</h4><p>增加</p>
+<pre><code><span class="keyword"><span class="common">RewriteEngine</span></span> <span class="literal">on</span>
+<span class="keyword"><span class="common">RewriteCond</span></span> <span class="number">$1</span> ^(uploads)
+<span class="keyword"><span class="common">RewriteRule</span></span> ^/(.*)$ http://www.dede.com/<span class="number">$1</span><span class="sqbracket"> [L]</span>
+</code></pre><p><strong>注意：</strong>www.dede.com 是你主站的主域名。</p>
+<h4 id="-htaccess">.htaccess</h4><p>.htaccess 注意是在 /m/目录哦，不要放错地方了~</p>
+<pre><code><span class="tag">&lt;IfModule rewrite_module&gt;</span>
+    <span class="keyword"><span class="common">RewriteEngine</span></span> <span class="literal">on</span>
+    <span class="keyword">RewriteBase</span> /
+    <span class="keyword"><span class="common">RewriteCond</span></span> <span class="number">$1</span> ^(uploads)
+    <span class="keyword"><span class="common">RewriteRule</span></span> ^(.*)$ http://www.dede.com/<span class="number">$1</span><span class="sqbracket"> [L]</span>
+<span class="tag">&lt;/IfModule&gt;</span>
+</code></pre><h4 id="nginx">nginx</h4><p>在mobile.dede.com 的server 配置里加，别加错了</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">location</span> <span class="regexp">~* /(uploads)/</span> &#123;</span><br><span class="line">		<span class="title">rewrite</span><span class="regexp"> ^/(.*)$</span> <span class="url">http://www.dede.com/<span class="variable">$1</span></span> <span class="built_in">last</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加文章的时候自动生成移动端html">添加文章的时候自动生成移动端html</h3><p><img src="http://ww1.sinaimg.cn/large/005ItG0Rjw1erfh0ga30fj30m8059q38.jpg" alt=""></p>
+<p>如果想要实现上面的功能，很简单，方法我已经写好了。</p>
+<p>打开管理后台目录【默认是/dede/】,找到<code>article_add.php</code></p>
+<p>直接看文档末尾，找到”成功发布文章”</p>
+<p>如图所示添加代码：</p>
+<p><img src="http://ww1.sinaimg.cn/large/005ItG0Rjw1erfh0dtt8ej30m8045t9o.jpg" alt=""></p>
+<p>代码：</p>
+<pre><code>$mobile_update_revalue = "<span class="tag">&lt;<span class="title">table</span> <span class="attribute">width</span>=<span class="value">'40%'</span> <span class="attribute">style</span>=<span class="value">'border:1px dashed #cdcdcd;margin-left:20px;margin-bottom:15px'</span> <span class="attribute">id</span>=<span class="value">'tgtable'</span> <span class="attribute">align</span>=<span class="value">'left'</span>&gt;</span><span class="tag">&lt;<span class="title">tr</span>&gt;</span><span class="tag">&lt;<span class="title">td</span> <span class="attribute">bgcolor</span>=<span class="value">'#EBF5C9'</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="title">strong</span>&gt;</span>更新mobile文档页<span class="tag">&lt;/<span class="title">strong</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">td</span>&gt;</span><span class="tag">&lt;/<span class="title">tr</span>&gt;</span>\r\n<span class="tag">&lt;<span class="title">tr</span>&gt;</span><span class="tag">&lt;<span class="title">td</span>&gt;</span>\r\n<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">name</span>=<span class="value">'stafrm'</span> <span class="attribute">frameborder</span>=<span class="value">'0'</span> <span class="attribute">id</span>=<span class="value">'stafrm'</span> <span class="attribute">width</span>=<span class="value">'100%'</span> <span class="attribute">height</span>=<span class="value">'100px'</span> <span class="attribute">src</span>=<span class="value">'makeMobileHtml.php?action=article&amp;id={$arcID}'</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">td</span>&gt;</span><span class="tag">&lt;/<span class="title">tr</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">table</span>&gt;</span>";
+
+$mobile_update_revalue .= "<span class="tag">&lt;<span class="title">table</span> <span class="attribute">width</span>=<span class="value">'40%'</span> <span class="attribute">style</span>=<span class="value">'border:1px dashed #cdcdcd;margin-left:20px;margin-bottom:15px'</span> <span class="attribute">id</span>=<span class="value">'tgtable'</span> <span class="attribute">align</span>=<span class="value">'left'</span>&gt;</span><span class="tag">&lt;<span class="title">tr</span>&gt;</span><span class="tag">&lt;<span class="title">td</span> <span class="attribute">bgcolor</span>=<span class="value">'#EBF5C9'</span>&gt;</span>&amp;nbsp;<span class="tag">&lt;<span class="title">strong</span>&gt;</span>更新mobile列表页<span class="tag">&lt;/<span class="title">strong</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">td</span>&gt;</span><span class="tag">&lt;/<span class="title">tr</span>&gt;</span>\r\n<span class="tag">&lt;<span class="title">tr</span>&gt;</span><span class="tag">&lt;<span class="title">td</span>&gt;</span>\r\n<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">name</span>=<span class="value">'stafrm'</span> <span class="attribute">frameborder</span>=<span class="value">'0'</span> <span class="attribute">id</span>=<span class="value">'stafrm'</span> <span class="attribute">width</span>=<span class="value">'100%'</span> <span class="attribute">height</span>=<span class="value">'100px'</span> <span class="attribute">src</span>=<span class="value">'makeMobileHtml.php?action=list&amp;id={$typeid}'</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">td</span>&gt;</span><span class="tag">&lt;/<span class="title">tr</span>&gt;</span>\r\n<span class="tag">&lt;/<span class="title">table</span>&gt;</span>";
+</code></pre><p>把原php中</p>
+<p><code>$msg = &quot;&lt;div style=\&quot;line-height:36px;height:36px\&quot;&gt;{$msg}&lt;/div&gt;&quot;.GetUpdateTest()</code></p>
+<p>替换成</p>
+<p><code>$msg = &quot;&lt;div style=\&quot;line-height:36px;height:36px\&quot;&gt;{$msg}&lt;/div&gt;&quot;.GetUpdateTest().$mobile_update_revalue;</code></p>
+<p>也就是连接我们上面写的字符串</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dedecms/">dedecms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wap/">wap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/织梦/">织梦</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-the-first-one" class="article article-type-post" itemscope itemprop="blogPost">
   
