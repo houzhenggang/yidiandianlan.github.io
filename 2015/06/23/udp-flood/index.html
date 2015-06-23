@@ -3,17 +3,40 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: wap | helonghua</title>
+  <title>udp flood 攻击防御总结 | helonghua</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="helonghua">
-<meta property="og:url" content="http://yoursite.com/tags/wap/index.html">
+  <meta name="description" content="[TOC]
+
+分析日志今天睡完觉起来、发现服务器被阿里云关停了，由于被DDos攻击，造成机房不稳定，拒绝手工解除。等待2.5小时之后自动解除。
+查看阿里云被攻击日志，日志是.cap格式的，正常抓包生成的格式，可以用Wireshark打开，
+
+一看全是NTP UDP流量攻击
+
+无论是基于 DNS 还是基于 NTP，其最终都是基于 UDP 协议的。在 UDP 协议中正常情况下客户端发送请求包到服务端，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="udp flood 攻击防御总结">
+<meta property="og:url" content="http://yoursite.com/2015/06/23/udp-flood/index.html">
 <meta property="og:site_name" content="helonghua">
-<meta property="og:description">
+<meta property="og:description" content="[TOC]
+
+分析日志今天睡完觉起来、发现服务器被阿里云关停了，由于被DDos攻击，造成机房不稳定，拒绝手工解除。等待2.5小时之后自动解除。
+查看阿里云被攻击日志，日志是.cap格式的，正常抓包生成的格式，可以用Wireshark打开，
+
+一看全是NTP UDP流量攻击
+
+无论是基于 DNS 还是基于 NTP，其最终都是基于 UDP 协议的。在 UDP 协议中正常情况下客户端发送请求包到服务端，">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/005ItG0Rjw1etefgu2jh8j31ke0ion4y.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/005ItG0Rjw1etefgte7luj30no0ai420.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="helonghua">
-<meta name="twitter:description">
+<meta name="twitter:title" content="udp flood 攻击防御总结">
+<meta name="twitter:description" content="[TOC]
+
+分析日志今天睡完觉起来、发现服务器被阿里云关停了，由于被DDos攻击，造成机房不稳定，拒绝手工解除。等待2.5小时之后自动解除。
+查看阿里云被攻击日志，日志是.cap格式的，正常抓包生成的格式，可以用Wireshark打开，
+
+一看全是NTP UDP流量攻击
+
+无论是基于 DNS 还是基于 NTP，其最终都是基于 UDP 协议的。在 UDP 协议中正常情况下客户端发送请求包到服务端，">
   
     <link rel="alternative" href="/atom.xml" title="helonghua" type="application/atom+xml">
   
@@ -185,51 +208,132 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-udp-flood" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/03/23/dedecms-wap/" class="archive-article-date">
-  	<time datetime="2015-03-22T19:09:07.000Z" itemprop="datePublished">Mar 23</time>
+    <div class="article-meta">
+      <a href="/2015/06/23/udp-flood/" class="article-date">
+  	<time datetime="2015-06-23T14:51:44.000Z" itemprop="datePublished">2015-06-23</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/23/dedecms-wap/">织梦移动端生成静态页的开发</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      udp flood 攻击防御总结
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dedecms/">dedecms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wap/">wap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动端/">移动端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/织梦/">织梦</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DDos攻击/">DDos攻击</a></li></ul>
 	</div>
 
-          
+        
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<hr>
+<h2 id="分析日志">分析日志</h2><p>今天睡完觉起来、发现服务器被阿里云关停了，由于被DDos攻击，造成机房不稳定，拒绝手工解除。等待2.5小时之后自动解除。</p>
+<p>查看阿里云被攻击日志，日志是.cap格式的，正常抓包生成的格式，可以用Wireshark打开，</p>
+<p><img src="http://ww2.sinaimg.cn/large/005ItG0Rjw1etefgu2jh8j31ke0ion4y.jpg" alt=""></p>
+<p>一看全是NTP UDP流量攻击</p>
+<blockquote>
+<p>无论是基于 DNS 还是基于 NTP，其最终都是基于 UDP 协议的。在 UDP 协议中正常情况下客户端发送请求包到服务端，服务端返回响应包到客户端，但是 UDP 协议是面向无连接的，所以客户端发送请求包的源 IP 很容易进行伪造，当把源 IP 修改为受害者的 IP，最终服务端返回的响应包就会返回到受害者的 IP。这就形成了一次反射攻击。</p>
+</blockquote>
+<p>详细介绍请看：<a href="http://drops.wooyun.org/papers/926" target="_blank" rel="external">http://drops.wooyun.org/papers/926</a></p>
+<h2 id="解决方式">解决方式</h2><p>这种情况可以考虑封禁IP，不过IP实在是是太多了，而且攻击已经过去了。</p>
+<p>网上找了很多解决方式，可少国内对于这方面的解决办法少得可怜。</p>
+<p>1，关闭现在 NTP 服务的 monlist 功能，在ntp.conf配置文件中增加<code>disable monitor</code>选项</p>
+<p>配置文件一般在<code>/etc/ntp.conf</code> 添加<code>disable monitor</code><br>重启<code>service ntpd restart</code></p>
+<p>2，</p>
+<p>最后还是使用比较暴力的方法：直接禁止UDP 进出口</p>
+<p>参考：<a href="http://www.myhack58.com/Article/60/sort096/2012/33087.htm" target="_blank" rel="external">http://www.myhack58.com/Article/60/sort096/2012/33087.htm</a></p>
+<p>iptables防火墙就不多介绍了，写完命令之后，</p>
+<p>命令：</p>
+<pre><code>iptables -A OUTPUT -<span class="tag">p</span> udp -j DROP
+iptables -A INPUT -<span class="tag">p</span> udp -j DROP
+</code></pre><p>由于这台服务器不做DNS解析，所以不用开启udp的53端口。</p>
+<p>先</p>
+<pre><code>/etc/rc.<span class="keyword">d</span>/init.<span class="keyword">d</span>/iptables <span class="keyword">save</span>
+</code></pre><p>再</p>
+<pre><code><span class="keyword">service</span> iptables <span class="literal">restart</span>
+</code></pre><p>查看：<code>iptables -L -n</code></p>
+<p><img src="http://ww3.sinaimg.cn/large/005ItG0Rjw1etefgte7luj30no0ai420.jpg" alt=""></p>
+<hr>
+<p>忽然感觉、弄台服务器都不能睡好觉了~</p>
+
+      
+    </div>
+    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/06/03/google-adsense/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">谷歌联盟Google AdSense使用总结</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="udp-flood" data-title="udp flood 攻击防御总结" data-url="http://yoursite.com/2015/06/23/udp-flood/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 </div>
       <footer id="footer">
   <div class="outer">
