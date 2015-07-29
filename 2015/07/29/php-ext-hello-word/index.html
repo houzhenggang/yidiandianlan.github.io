@@ -3,17 +3,53 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: php | helonghua</title>
+  <title>PHP扩展hello word | helonghua</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="helonghua">
-<meta property="og:url" content="http://yoursite.com/tags/php/index.html">
+  <meta name="description" content="[toc]
+前言：记录文档
+环境：mac 10.10.1
+PHP版本：php5.6.6 自编译
+
+一查看自己版本php php -v
+到官网下载相同版本的php包
+解压之后进入：php-5.6.6/ext/
+执行： 
+./ext_skel --extname=hello  //这里我们假设开发一个 hello 的扩展
+ext_skel是php官方提供的扩展代码生成器
+二cd hello
+打开生成的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP扩展hello word">
+<meta property="og:url" content="http://yoursite.com/2015/07/29/php-ext-hello-word/index.html">
 <meta property="og:site_name" content="helonghua">
-<meta property="og:description">
+<meta property="og:description" content="[toc]
+前言：记录文档
+环境：mac 10.10.1
+PHP版本：php5.6.6 自编译
+
+一查看自己版本php php -v
+到官网下载相同版本的php包
+解压之后进入：php-5.6.6/ext/
+执行： 
+./ext_skel --extname=hello  //这里我们假设开发一个 hello 的扩展
+ext_skel是php官方提供的扩展代码生成器
+二cd hello
+打开生成的">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="helonghua">
-<meta name="twitter:description">
+<meta name="twitter:title" content="PHP扩展hello word">
+<meta name="twitter:description" content="[toc]
+前言：记录文档
+环境：mac 10.10.1
+PHP版本：php5.6.6 自编译
+
+一查看自己版本php php -v
+到官网下载相同版本的php包
+解压之后进入：php-5.6.6/ext/
+执行： 
+./ext_skel --extname=hello  //这里我们假设开发一个 hello 的扩展
+ext_skel是php官方提供的扩展代码生成器
+二cd hello
+打开生成的">
   
     <link rel="alternative" href="/atom.xml" title="helonghua" type="application/atom+xml">
   
@@ -185,113 +221,132 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-php-ext-hello-word" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a href="/2015/07/29/php-ext-hello-word/" class="article-date">
+  	<time datetime="2015-07-29T15:40:39.000Z" itemprop="datePublished">2015-07-29</time>
+</a>
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP扩展hello word
+    </h1>
+  
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php扩展/">php扩展</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/05/01/php-redis/" class="archive-article-date">
-  	<time datetime="2015-04-30T18:06:36.000Z" itemprop="datePublished">May 1</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/05/01/php-redis/">mac下php redis 初体验</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<p>前言：记录文档</p>
+<p>环境：mac 10.10.1</p>
+<p>PHP版本：php5.6.6 自编译</p>
+<hr>
+<h2 id="一">一</h2><p>查看自己版本php <code>php -v</code></p>
+<p>到官网下载相同版本的php包</p>
+<p>解压之后进入：<code>php-5.6.6/ext/</code></p>
+<p>执行： </p>
+<pre><code>./ext_skel --extname=hello  <span class="comment">//这里我们假设开发一个 hello 的扩展</span>
+</code></pre><p>ext_skel是php官方提供的扩展代码生成器</p>
+<h2 id="二">二</h2><p><code>cd hello</code></p>
+<p>打开生成的 <code>php-hello.h</code></p>
+<p>末尾添加函数：</p>
+<pre><code>PHP_FUNCTION<span class="list">(<span class="keyword">hello</span>)</span><span class="comment">;</span>
+</code></pre><p>打开代码 hello.c, PHP_FE(confirm_hello_compiled, NULL) 后加一行</p>
+<pre><code><span class="function"><span class="title">PHP_FE</span><span class="params">(hello,   NULL)</span></span>
+</code></pre><p>然后，你可以在PHP_FUNCTION(confirm_widuu_compiled) 后定义一个函数，代码如下</p>
+<pre><code>PHP_FUNCTION(hello){
+    php_<span class="built_in">printf</span>(<span class="string">"hello word"</span>);
+}
+</code></pre><p>在修改 config.m4 中的文件，去除这三行文件前边的dnl，如下效果</p>
+<pre><code>PHP_ARG_ENABLE(hello, whether <span class="keyword">to</span> enable hello support,
+Make sure <span class="keyword">that</span> <span class="keyword">the</span> comment <span class="keyword">is</span> aligned:
+[  <span class="comment">--enable-hello           Enable hello support]) </span>
+</code></pre><h2 id="三">三</h2><p>编译</p>
+<pre><code><span class="regexp">/usr/</span>local<span class="regexp">/php/</span>bin/phpize 
+.<span class="regexp">/configure --with-php-config=/</span>usr<span class="regexp">/local/</span>php<span class="regexp">/bin/</span>php-config
+make
+</code></pre><p>在php.ini里添加hello.so</p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/07/process-understand/" class="archive-article-date">
-  	<time datetime="2015-04-07T15:07:42.000Z" itemprop="datePublished">Apr 7</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/07/process-understand/">nodejs|php|nginx|apache多进程与多线程的理解</a>
-    </h1>
   
+    <a href="/2015/06/23/udp-flood/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">udp flood 攻击防御总结</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/process/">process</a></li></ul>
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/04/01/mac-install-new-php/" class="archive-article-date">
-  	<time datetime="2015-03-31T16:11:42.000Z" itemprop="datePublished">Apr 1</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/01/mac-install-new-php/">mac下重新编译php新版本</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mac/">mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li></ul>
-	</div>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="php-ext-hello-word" data-title="PHP扩展hello word" data-url="http://yoursite.com/2015/07/29/php-ext-hello-word/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+
 </div>
       <footer id="footer">
   <div class="outer">
