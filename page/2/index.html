@@ -148,6 +148,168 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/11/srcElement-fromElement-toElement/" itemprop="url">
+                srcElement、fromElement、toElement、target、currentTarget这些都是什么
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-04-11T00:16:52+08:00" content="2015-04-11">
+            2015-04-11
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h4 id="srcElement、fromElement、toElement、target、currentTarget这些都是什么">srcElement、fromElement、toElement、target、currentTarget这些都是什么</h4><p>作为一个javascript的新手很可能经常搞混了这几个对象</p>
+<h5 id="分派系">分派系</h5><p>首先分一下派系：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">对象\浏览器</th>
+<th style="text-align:left">FF</th>
+<th style="text-align:center">Chrom</th>
+<th style="text-align:center">IE678</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">srcElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">fromElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">toElement</td>
+<td style="text-align:left">no</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">target</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+</tr>
+<tr>
+<td style="text-align:left">currentTarget</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:center">yes</td>
+<td style="text-align:center">no</td>
+</tr>
+</tbody>
+</table>
+<h6 id="关于：srcElement、fromElement、toElement">关于：srcElement、fromElement、toElement</h6><blockquote>
+<p>event.srcElement：引发事件的目标对象，常用于onclick事件。</p>
+<p>event.fromElement：常用于onmouseout和onmouseover事件</p>
+<p>event.toElement：常用于onmouseout和onmouseover事件</p>
+<p>onmouseover时，srcElement相当于toElement<br>onmouseout时，srcElement相当于fromSrcElement</p>
+</blockquote>
+<h6 id="关于：srcElement_target">关于：srcElement  target</h6><p>火狐下的<code>event.target = event.srcElement</code>(IE)</p>
+<p>所以我们经常看见这样的兼容代码：</p>
+<pre><code><span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{
+    <span class="keyword">var</span> e=event || <span class="built_in">window</span>.event; <span class="comment">//火狐和IE的事件对象区分</span>
+    <span class="keyword">var</span> srcElement = e.srcElement || e.target; 
+}
+</code></pre><h6 id="target_与currentTarget_以及this的区别">target 与currentTarget 以及this的区别</h6><blockquote>
+<p>在事件处理程序内部，对象this始终等于currentTarget的值，而target则只包含事件的实际目标。如果直接将事件处理程序指定给了目标元素，则this、currentTarget和target包含相同的值</p>
+</blockquote>
+<pre><code><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>);
+btn.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
+    alert(event.currentTarget === <span class="keyword">this</span>); <span class="comment">//ture</span>
+    alert(event.target === <span class="keyword">this</span>); <span class="comment">//ture</span>
+};
+</code></pre><p>看一下冒泡的过程，有什么区别：</p>
+<pre><code><span class="built_in">document</span>.body.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
+    alert(event.currentTarget === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
+    alert(<span class="keyword">this</span> === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
+    alert(event.target === <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>)); <span class="comment">//ture</span>
+};
+</code></pre><p>点击上面这个例子的按钮时，this和currentTarget都等于document.body，因为事件处理程序是注册到这个元素的。然而，target元素却等于按钮元素，以为它是click事件真正的目标。由于按钮上并没有注册事件处理程序，结果click事件就冒泡到了document.body，在那里事件才得到了处理。</p>
+<p>所以有以下结论：</p>
+<blockquote>
+<p>js中target与currentTarget的区别的关键在于他们所处在的事件流的阶段是不一样的，target处于事件流的目标阶段，currentTarget处理事件流的捕获、处于目标阶段和冒泡阶段。只有当他们同事处于目标阶段的时候他们的指向才是一样的</p>
+</blockquote>
+<p>例子代码：试一下就明白了</p>
+<pre><code><span class="doctype">&lt;!DOCTYPE HTML&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> /&gt;</span>
+<span class="tag">&lt;<span class="title">title</span>&gt;</span>js性能优化<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span> 
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"outer"</span>&gt;</span>
+        outer
+        <span class="tag">&lt;<span class="title">p</span>&gt;</span>
+            inner
+        <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="clojure">
+<span class="list">(<span class="keyword">function</span><span class="list">()</span><span class="collection">{
+    var a=document.getElementById<span class="list">(<span class="keyword">'outer'</span>)</span><span class="comment">;</span>
+        a.addEventListener<span class="list">(<span class="keyword">'click'</span>,function<span class="list">(<span class="keyword">e</span>)</span><span class="collection">{
+        alert<span class="list">(<span class="keyword">e.target.innerHTML</span>)</span><span class="comment">;</span>
+        alert<span class="list">(<span class="keyword">e.currentTarget.innerHTML</span>)</span><span class="comment">;</span>
+        alert<span class="list">(<span class="keyword">e.currentTarget</span> === e.target)</span><span class="comment">;</span>
+    }</span>,<span class="literal">false</span>)</span><span class="comment">;</span>
+}</span>)</span><span class="list">()</span><span class="comment">;</span>
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</code></pre></span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/04/07/process-understand/" itemprop="url">
                 nodejs|php|nginx|apache多进程与多线程的理解
               </a>
@@ -923,7 +1085,7 @@ hexo <span class="variable">n =</span>= hexo new
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

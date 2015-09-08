@@ -1,0 +1,717 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+    
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.4"/>
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
+
+
+<meta name="description" content="[TOC]
+前言什么是模板引擎，说的简单点，就是一个字符串中有几个变量待定。比如：
+var tpl = &apos;Hei, my name is &amp;lt;%name%&amp;gt;, and I\&apos;m &amp;lt;%age%&amp;gt; years old.&apos;;
+通过模板引擎函数把数据塞进去，
+var data = {
+    &quot;name&quot;: &quot;Barret Lee&quot;,
+    &quot;age&quot;: &quot;20&quot;
+};
+
+var">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript模板引擎原理">
+<meta property="og:url" content="http://yoursite.com/2015/09/09/a-sample-javascript-template/index.html">
+<meta property="og:site_name" content="helonghua">
+<meta property="og:description" content="[TOC]
+前言什么是模板引擎，说的简单点，就是一个字符串中有几个变量待定。比如：
+var tpl = &apos;Hei, my name is &amp;lt;%name%&amp;gt;, and I\&apos;m &amp;lt;%age%&amp;gt; years old.&apos;;
+通过模板引擎函数把数据塞进去，
+var data = {
+    &quot;name&quot;: &quot;Barret Lee&quot;,
+    &quot;age&quot;: &quot;20&quot;
+};
+
+var">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript模板引擎原理">
+<meta name="twitter:description" content="[TOC]
+前言什么是模板引擎，说的简单点，就是一个字符串中有几个变量待定。比如：
+var tpl = &apos;Hei, my name is &amp;lt;%name%&amp;gt;, and I\&apos;m &amp;lt;%age%&amp;gt; years old.&apos;;
+通过模板引擎函数把数据塞进去，
+var data = {
+    &quot;name&quot;: &quot;Barret Lee&quot;,
+    &quot;age&quot;: &quot;20&quot;
+};
+
+var">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post'
+  };
+</script>
+
+    <title> JavaScript模板引擎原理 // helonghua </title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+
+
+<div class="container one-column page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">helonghua</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+        </div>
+    </header>
+
+    <main id="main" class="main">
+        <div class="main-inner">
+            <div id="content" class="content">
+                
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              JavaScript模板引擎原理
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-09-09T01:40:54+08:00" content="2015-09-09">
+            2015-09-09
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>[TOC]</p>
+<h2 id="前言">前言</h2><p>什么是模板引擎，说的简单点，就是一个字符串中有几个变量待定。比如：</p>
+<pre><code>var tpl = 'Hei, <span class="keyword">my</span> <span class="property">name</span> <span class="keyword">is</span> &lt;%<span class="property">name</span>%&gt;, <span class="keyword">and</span> I\'m &lt;%age%&gt; years old.';
+</code></pre><p>通过模板引擎函数把数据塞进去，</p>
+<pre><code><span class="keyword">var</span> data = {
+    <span class="string">"name"</span>: <span class="string">"Barret Lee"</span>,
+    <span class="string">"age"</span>: <span class="string">"20"</span>
+};
+
+<span class="keyword">var</span> <span class="literal">result</span> = tplEngine(tpl, data);
+//<span class="type">Hei</span>, my name <span class="keyword">is</span> <span class="type">Barret</span> <span class="type">Lee</span>, <span class="keyword">and</span> I'm <span class="number">20</span> years old.
+</code></pre><p>JS模板引擎应该做哪些事情</p>
+<pre><code>var tpl = <span class="comment">'<span class="xmlDocTag">&lt;% for(var i = 0; i &lt; this.posts.length; i++) {' +　
+    'var post = posts[i]; %&gt;</span>' +</span>
+    <span class="comment">'<span class="xmlDocTag">&lt;% if(!post.expert){ %&gt;</span>' +</span>
+    <span class="comment">'<span class="xmlDocTag">&lt;span&gt;</span>post is null<span class="xmlDocTag">&lt;/span&gt;</span>' +</span>
+    <span class="comment">'<span class="xmlDocTag">&lt;% } else { %&gt;</span>' +</span>
+    <span class="comment">'<span class="xmlDocTag">&lt;a href="#"&gt;</span><span class="xmlDocTag">&lt;% post.expert %&gt;</span> at <span class="xmlDocTag">&lt;% post.time %&gt;</span><span class="xmlDocTag">&lt;/a&gt;</span>' +</span>
+    <span class="comment">'<span class="xmlDocTag">&lt;% } %&gt;</span>' +</span>
+<span class="comment">'<span class="xmlDocTag">&lt;% } %&gt;</span>';</span>
+</code></pre><p>送入的数据是：</p>
+<pre><code><span class="variable"><span class="keyword">var</span> data</span> = {
+    <span class="string">"posts"</span>: [{
+        <span class="string">"expert"</span>: <span class="string">"content 1"</span>,
+        <span class="string">"time"</span>: <span class="string">"yesterday"</span>
+    },{
+        <span class="string">"expert"</span>: <span class="string">"content 2"</span>,
+        <span class="string">"time"</span>: <span class="string">"today"</span>
+    },{
+        <span class="string">"expert"</span>: <span class="string">"content 3"</span>,
+        <span class="string">"time"</span>: <span class="string">"tomorrow"</span>
+    },{
+        <span class="string">"expert"</span>: <span class="string">""</span>,
+        <span class="string">"time"</span>: <span class="string">"eee"</span>
+    }]
+};
+</code></pre><p>输出：</p>
+<pre><code>&lt;<span class="operator">a</span> href=<span class="string">"#"</span>&gt;content <span class="number">1</span> <span class="keyword">at</span> yesterday&lt;/<span class="operator">a</span>&gt;
+&lt;<span class="operator">a</span> href=<span class="string">"#"</span>&gt;content <span class="number">2</span> <span class="keyword">at</span> today&lt;/<span class="operator">a</span>&gt;
+&lt;<span class="operator">a</span> href=<span class="string">"#"</span>&gt;content <span class="number">3</span> <span class="keyword">at</span> tomorrow&lt;/<span class="operator">a</span>&gt;
+&lt;span&gt;<span class="built_in">post</span> is <span class="constant">null</span>&lt;/span&gt;
+</code></pre><h2 id="JS模板引擎的实现原理">JS模板引擎的实现原理</h2><p><strong>1.正则抠出要匹配的内容</strong><br>针对这一串代码，通过正则获取内容</p>
+<pre><code>var tpl = 'Hei, <span class="keyword">my</span> <span class="property">name</span> <span class="keyword">is</span> &lt;%<span class="property">name</span>%&gt;, <span class="keyword">and</span> I\'m &lt;%age%&gt; years old.';
+var data = {
+    <span class="string">"name"</span>: <span class="string">"Barret Lee"</span>,
+    <span class="string">"age"</span>: <span class="string">"20"</span>
+};
+</code></pre><p>最简单的方式就是通过replace函数了：</p>
+<pre><code><span class="keyword">var</span> <span class="literal">result</span> = tpl.replace(/&lt;%([^%&gt;]+)?%&gt;/g, function(s0, s1){
+    <span class="keyword">return</span> data[s1];
+});
+</code></pre><p> 通过正则替换，我们很轻松的拿到了result，你可以去试一试，他正式我们想要的结果。但是这里又有了一个问题，改一下data和tpl，</p>
+<pre><code>var tpl = 'Hei, <span class="keyword">my</span> <span class="property">name</span> <span class="keyword">is</span> &lt;%<span class="property">name</span>%&gt;, <span class="keyword">and</span> I\'m &lt;%info.age%&gt; years old.';
+
+var data = {
+    <span class="string">"name"</span>: <span class="string">"Barret Lee"</span>,
+    <span class="string">"info"</span>: { age<span class="string">": "</span><span class="number">20</span><span class="string">"}
+};</span>
+</code></pre><p> 再用上面的方式去获取结果，呵呵，不行了吧~ 这里data[“info.age”]本身就是undefined，所以我们需要换一种方式来处理这个问题，那就是将它转换成真正的JS代码。如：</p>
+<pre><code>return <span class="string">'Hei, my name is '</span> + data<span class="class">.name</span> + <span class="string">', and I\'m '</span> + data<span class="class">.info</span><span class="class">.age</span><span class="string">' + '</span> years old.<span class="string">'</span>
+</code></pre><p> 但是接着又有一个问题来了，当我们的代码中出现for循环和if的时候，上面的转换明显是不起作用的，如：</p>
+<pre><code>var <span class="variable">tpl =</span> 'Posts: ' +
+    '&lt;% for(<span class="variable">var=</span><span class="string">""</span> <span class="variable">i=</span><span class="string">"0;"</span> &lt;=<span class="string">""</span> post.length;=<span class="string">""</span> i++)=<span class="string">""</span> {'+=<span class="string">""</span> '&lt;<span class="variable">a=</span><span class="string">""</span> <span class="variable">href=</span><span class="string">"#"</span>&gt;&lt;% post[i].<span class="variable">expert=</span><span class="string">""</span> %=<span class="string">""</span>&gt;' +
+    '&lt;% }=<span class="string">""</span> %=<span class="string">""</span>&gt;'
+</code></pre><p> 如果继续采用上面的方式，得到的结果便是：</p>
+<pre><code><span class="keyword">return</span> <span class="string">'Posts: '</span> +
+       <span class="keyword">for</span>(var <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; post.<span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{ +
+         <span class="string">'&lt;a href="#"&gt;'</span> + post[i].exper + <span class="string">'&lt;/a&gt;'</span> +
+       }</span>
+</code></pre><p> 这显然不是我们愿意看到的，稍微观察一下上面的结构，如果可以返回一个这样的结果也挺不错哦：</p>
+<pre><code><span class="string">'Posts: '</span>
+<span class="keyword">for</span>(var <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; post.<span class="built_in">length</span>; <span class="built_in">i</span>++) <span class="cell">{
+    <span class="string">'&lt;a href="#"&gt;'</span> + post[i].exper + <span class="string">'&lt;/a&gt;'</span>
+}</span>
+</code></pre><p> 但是我们需要得到的是一个字符串，而不是上面这样零散的片段，因此可以把这些东西装入数组中。</p>
+<p><strong>2.装入数组</strong></p>
+<pre><code>var r = [];
+r.push<span class="comment">('Posts: ' )</span>;
+r.push<span class="comment">(for(var i = 0; i &lt; post.length; i++)</span> {);
+r.push<span class="comment">('&lt;a href="#"&gt;')</span>;
+r.push<span class="comment">(post[i].exper)</span>;
+r.push<span class="comment">('&lt;/a&gt;')</span>;
+r.push<span class="comment">(})</span>;
+</code></pre><p> 有人看到上面的代码就要笑了，第三行和最后一行代码的逻辑明显是不正确的嘛，那肿么办呢？呵呵，很简单，不放进去就行了呗，</p>
+<pre><code>var r = [];
+r.push<span class="comment">('Posts: ' )</span>;
+for<span class="comment">(var i = 0; i &lt; post.length; i++)</span> {
+    r.push<span class="comment">('&lt;a href="#"&gt;')</span>;
+    r.push<span class="comment">(post[i].exper)</span>;
+    r.push<span class="comment">('&lt;/a&gt;')</span>;
+}
+</code></pre><p> 这样的逻辑就十分完善了，不存在太多的漏洞，但是这个转化的过程是如何实现的？我们必须还是要写一个解析的模板函数出来。</p>
+<p><strong>3.分辨js逻辑部分</strong></p>
+<pre><code><span class="keyword">var</span> r = [];
+tpl.replace(<span class="regexp">/&lt;%([^%&gt;]+)?%&gt;/g</span>, <span class="function"><span class="keyword">function</span><span class="params">(s0, s1)</span></span>{
+    <span class="comment">//完蛋了，这里貌似又要回到上面那可笑的逻辑有错误的一步啦... 该怎么处理比较好？</span>
+});
+</code></pre><p> 完蛋了，这里貌似又要回到上面那可笑的逻辑有错误的一步啦… 该怎么处理比较好？我们知道，JS给我们提供了构造函数的\类”，</p>
+<pre><code><span class="keyword">var</span> fn = <span class="keyword">new</span> <span class="function"><span class="keyword">Function</span><span class="params">("data",
+    "<span class="keyword">var</span> r = []; <span class="keyword">for</span>(<span class="keyword">var</span> i <span class="keyword">in</span> data)</span><span class="comment">{ r.push(data[i]); }</span> <span class="title">return</span> <span class="title">r</span>.<span class="title">join</span><span class="params">(<span class="string">' '</span>)</span>");</span>
+fn(<span class="comment">{"name": "barretlee", "age": "20"}</span>); <span class="comment">// barretlee 20</span>
+</code></pre><p> 知道了这个就好办了，我们可以把逻辑部分和非逻辑部分的代码链接成一个字符串，然后利用类似fn的函数直接编译代码。而<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20808;&#30475;&#19968;&#20010;&#31616;&#21333;&#30340;&#20363;&#23376;&#65306;&#10;&#9;&#10;&#9;var reg = /&#60;%([^%&#62;]+)?%&#62;/g;&#10;&#9;var tpl = &#39;Hei, my name is &#60;%name%&#62;, and I\&#39;m &#60;%age%&#62; years old.&#39;;&#10;&#9;var match = reg.exec(tpl);&#10;&#9;console.log(match);&#10;&#9; &#10;&#30475;&#21040;&#30340;&#26159;&#65306;&#10;&#10;&#9;[&#10;&#9;    0: &#34;&#60;%name%&#62;&#34;,&#10;&#9;    1: name,&#10;&#9;    index: 16,&#10;&#9;    input: &#34;Hei, my name is &#60;%name%&#62;, and I&#39;m &#60;%age%&#62; years old.&#34;&#10;&#9;    length: 2&#10;&#9;]&#10;&#9;&#10; &#36825;&#12290;&#12290;&#12290;&#25105;&#20204;&#21487;&#26159;&#24819;&#24471;&#21040;&#25152;&#26377;&#30340;&#21305;&#37197;&#21834;&#65292;&#20182;&#31455;&#28982;&#21482;&#33719;&#21462;&#20102;name&#32780;&#24573;&#30053;&#20102;&#21518;&#38754;&#30340;age&#65292;&#22909;&#21543;&#65292;&#23545;&#27491;&#21017;&#31245;&#24494;&#29087;&#24713;&#28857;&#30340;&#31461;&#38795;&#19968;&#23450;&#20250;&#30693;&#36947;&#24212;&#35813;&#36825;&#26679;&#22788;&#29702;&#65306;&#10;&#9;&#10;&#9;var reg = /&#60;%([^%&#62;]+)?%&#62;/g;&#10;&#9;while(match = reg.exec(tpl)) &#123;&#10;&#9;    console.log(match);&#10;&#9;&#125;&#10;&#9;&#10; &#20851;&#20110;&#27491;&#21017;&#34920;&#36798;&#24335;&#30340;&#20869;&#23481;&#23601;&#19981;&#22312;&#36825;&#37324;&#32454;&#35828;&#20102;&#65292;&#26377;&#20852;&#36259;&#30340;&#21516;&#23398;&#21487;&#20197;&#22810;&#21435;&#20102;&#35299;&#19979;match,exec,search&#31561;&#27491;&#21017;&#30340;&#30456;&#20851;&#20989;&#25968;&#12290;&#36825;&#37324;&#20027;&#35201;&#26159;&#38752;match&#30340;index&#23646;&#24615;&#26469;&#23450;&#20301;&#36941;&#21382;&#20301;&#32622;&#65292;&#28982;&#21518;&#21033;&#29992;while&#24490;&#29615;&#33719;&#21462;&#25152;&#26377;&#30340;&#20869;&#23481;&#12290;&#10;&#10;**4.&#24341;&#25806;&#20989;&#25968;**&#10;&#10;&#25152;&#20197;&#25105;&#20204;&#30340;&#24341;&#25806;&#20989;&#25968;&#38607;&#24418;&#24046;&#19981;&#22810;&#23601;&#20986;&#26469;&#20102;&#65306;&#10;&#10;```javascript&#10;var tplEngine = function(tpl, data) &#123;&#10;    var reg = /&#60;%([^%&#62;]+)?%&#62;/g,&#10;    code = &#39;var r=[];\n&#39;,&#10;    cursor = 0; //&#20027;&#35201;&#30340;&#20316;&#29992;&#26159;&#23450;&#20301;&#20195;&#30721;&#26368;&#21518;&#19968;&#25130;&#10;    var add = function(line) &#123;&#10;        code += &#39;r.push(&#34;&#39; + line.replace(/&#34;/g, &#39;\\&#34;&#39;) + &#39;&#34;);\n&#39;;&#10;    &#125;;&#10;&#10;    while (match = reg.exec(tpl)) &#123;&#10;        add(tpl.slice(cursor, match.index)); //&#28155;&#21152;&#38750;&#36923;&#36753;&#37096;&#20998;&#10;        add(match[1]); //&#28155;&#21152;&#36923;&#36753;&#37096;&#20998; match[0] = &#34;&#60;%&#34; +=&#34;&#34; match[1]=&#34;&#34; &#34;%=&#34;&#34;&#62;&#34;;&#10;        cursor = match.index + match[0].length;&#10;    &#125;&#10;&#10;    add(tpl.substr(cursor, tpl.length - cursor)); //&#20195;&#30721;&#30340;&#26368;&#21518;&#19968;&#25130; &#22914;:&#34; years old.&#34;&#10;    code += &#39;return r.join(&#34;&#34;);&#39;; // &#36820;&#22238;&#32467;&#26524;&#65292;&#22312;&#36825;&#37324;&#25105;&#20204;&#23601;&#25343;&#21040;&#20102;&#35013;&#20837;&#25968;&#32452;&#21518;&#30340;&#20195;&#30721;&#10;    console.log(code);&#10;&#10;    return tpl;&#10;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p> 这样一来，测试一个小demo:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="keyword">var</span> tpl = <span class="string">'&lt;% for(var="" i="0;" &lt;="" this.posts.length;="" i++)="" &#123;'</span>=<span class="string">""</span> +　=<span class="string">""</span> <span class="string">'var="" post="posts[i];" %=""&gt;'</span> +</span><br><span class="line">        <span class="string">'&lt;% if(!post.expert)&#123;="" %=""&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;span&gt;post is null&lt;/span&gt;'</span> +</span><br><span class="line">        <span class="string">'&lt;% &#125;="" else="" &#123;="" %=""&gt;'</span> +</span><br><span class="line">            <span class="string">'&lt;a href="#"&gt;&lt;% post.expert="" %=""&gt; at &lt;% post.time="" %=""&gt;&lt;/%&gt;&lt;/%&gt;&lt;/a&gt;'</span> +</span><br><span class="line">        <span class="string">'&lt;% &#125;="" %=""&gt;'</span> +</span><br><span class="line">    <span class="string">'&lt;% &#125;="" %=""&gt;'</span>;</span><br><span class="line">tplEngine(tpl, data);</span><br></pre></td></tr></table></figure>
+<p> 返回的结果让人很满意：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var r=[];</span><br><span class="line">r.push("");</span><br><span class="line">r.push(" for(var i = 0; i &lt; this.posts.length; i++) &#123;var post = posts[i]; ");</span><br><span class="line">r.push("");</span><br><span class="line">r.push(" if(!post.expert)&#123; ");</span><br><span class="line">r.push("&lt;span&gt;post is null&lt;/span&gt;");</span><br><span class="line">r.push(" &#125; else &#123; ");</span><br><span class="line">r.push("&lt;a href="\"#\""&gt;");</span><br><span class="line">r.push(" post.expert ");</span><br><span class="line">r.push(" at ");</span><br><span class="line">r.push(" post.time ");</span><br><span class="line">r.push("&lt;/a&gt;");</span><br><span class="line">r.push(" &#125; ");</span><br><span class="line">r.push("");</span><br><span class="line">r.push(" &#125; ");</span><br><span class="line">r.push("");</span><br><span class="line">return r.join("");</span><br></pre></td></tr></table></figure>
+<p> 不过我们并需要for，if，switch等这些东西也push到r数组中去，所以呢，还得改善下上面的代码，如果在line中发现了包含js逻辑的代码，我们就不应该让他进门：</p>
+<pre><code>regOut = /(^( )?(<span class="keyword">if</span>|<span class="keyword">for</span>|<span class="keyword">else</span>|switch|case|<span class="keyword">break</span>|{|}))(.*)?/<span class="keyword">g</span>;
+<span class="keyword">var</span> add = function(<span class="keyword">line</span>, js) {
+    js? code += <span class="keyword">line</span>.<span class="literal">match</span>(regOut) ? <span class="keyword">line</span> + '\<span class="keyword">n</span>' : 'r.push(' + <span class="keyword">line</span> + ');\<span class="keyword">n</span>' :
+        code += 'r.push(<span class="string">"' + line.replace(/"</span>/<span class="keyword">g</span>, '\\<span class="string">"') + '"</span>);\<span class="keyword">n</span>';
+};
+</code></pre><p> 所以我们只剩下最后一步工作了，把data扔进去！</p>
+<p><strong>5.把data扔进去</strong></p>
+<p>没有比完成这东西更简单的事情啦，通过上面对Function这个函数的讲解，大家应该也知道怎么做了。</p>
+<figure class="highlight"><figcaption><span>new Function(code).apply(data);```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10; &#20351;&#29992;apply&#30340;&#20316;&#29992;&#23601;&#26159;&#35753;code&#20013;&#30340;&#19968;&#20123;&#21464;&#37327;&#20316;&#29992;&#22495;&#32465;&#23450;&#21040;data&#19978;&#65292;&#19981;&#28982;&#20316;&#29992;&#22495;&#23601;&#20250;&#36305;&#21040;global&#19978;&#65292;&#36825;&#26679;&#24471;&#21040;&#30340;&#25968;&#25454;&#32034;&#24341;&#23601;&#20250;&#20986;&#38382;&#39064;&#21862;~ &#24403;&#28982;&#25105;&#20204;&#21487;&#20197;&#20877;&#20248;&#21270;&#19968;&#19979;&#65306;&#10;&#10;```return new Function(code.replace(/[\r\t\n]/g, &#39;&#39;)).apply(data);</span><br></pre></td></tr></table></figure>
+<p> 把回车换行以及tab键都给匹配掉，让代码更加干净一点。那么最终的代码就是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tplEngine = <span class="function"><span class="keyword">function</span><span class="params">(tpl, data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> reg = <span class="regexp">/&lt;%([^%&gt;]+)?%&gt;/g</span>,</span><br><span class="line">    regOut = <span class="regexp">/(^( )?(if|for|else|switch|case|break|&#123;|&#125;))(.*)?/g</span>,</span><br><span class="line">    code = <span class="string">'var r=[];\n'</span>,</span><br><span class="line">    cursor = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span><span class="params">(line, js)</span> </span>&#123;</span><br><span class="line">        js ? (code += line.match(regOut) ? line + <span class="string">'\n'</span>: <span class="string">'r.push('</span> + line + <span class="string">');\n'</span>) : (code += line != <span class="string">''</span> ? <span class="string">'r.push("'</span> + line.replace(<span class="regexp">/"/g</span>, <span class="string">'\\"'</span>) + <span class="string">'");\n'</span>: <span class="string">''</span>);</span><br><span class="line">        <span class="keyword">return</span> add;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (match = reg.exec(tpl)) &#123;</span><br><span class="line">        add(tpl.slice(cursor, match.index))(match[<span class="number">1</span>], <span class="literal">true</span>);</span><br><span class="line">        cursor = match.index + match[<span class="number">0</span>].length;</span><br><span class="line">    &#125;</span><br><span class="line">    add(tpl.substr(cursor, tpl.length - cursor));</span><br><span class="line">    code += <span class="string">'return r.join("");'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Function</span>(code.replace(<span class="regexp">/[\r\t\n]/g</span>, <span class="string">''</span>)).apply(data);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="应用">应用</h2><p>毕竟是前端代码，所以写出来是要为前端服务的，平时我们处理的一般是一个html的模板，通常的情况下，模板代码是放在script标签或者textarea中，所以首先是要获取到这里头的东西，然后再来做解析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> barretTpl = <span class="function"><span class="keyword">function</span><span class="params">(str, data)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取元素</span></span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.getElementById(str);</span><br><span class="line">    <span class="keyword">if</span> (element) &#123;</span><br><span class="line">        <span class="comment">//textarea或input则取value，其它情况取innerHTML</span></span><br><span class="line">        <span class="keyword">var</span> html = <span class="regexp">/^(textarea|input)$/i</span>.test(element.nodeName) ? element.value : element.innerHTML;</span><br><span class="line">        <span class="keyword">return</span> tplEngine(html, data);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//是模板字符串，则生成一个函数</span></span><br><span class="line">        <span class="comment">//如果直接传入字符串作为模板，则可能变化过多，因此不考虑缓存</span></span><br><span class="line">        <span class="keyword">return</span> tplEngine(str, data);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> tplEngine = <span class="function"><span class="keyword">function</span><span class="params">(tpl, data)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// content above</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这样一来就更加简单了，使用方式就是 barretTpl(str, data)， 这里的str可以是模板代码，也可以是一个DOM元素的id~ 可以看看这两段代码：<a href="https://gist.github.com/barretlee/7765698" target="_blank" rel="external">https://gist.github.com/barretlee/7765698</a>, <a href="https://gist.github.com/barretlee/7765587" target="_blank" rel="external">https://gist.github.com/barretlee/7765587</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag">#javascript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/29/php-ext-hello-word/" rel="next">PHP扩展hello word</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+            </div>
+
+            
+
+            
+              <div class="comments" id="comments">
+                
+              </div>
+            
+        </div>
+
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://my.csdn.net/uploads/avatar/B/7/1/1_yidiandianlan.jpg" alt="yidiandianlan" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">yidiandianlan</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yidiandianlan" target="_blank">github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS模板引擎的实现原理"><span class="nav-number">2.</span> <span class="nav-text">JS模板引擎的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="footer-inner">
+            <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yidiandianlan</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+        </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+</div>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.4"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.4" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (CONFIG.sidebar === 'always') {
+            displaySidebar();
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+<!-- lazyload -->
+<script type="text/javascript" src="/js/lazyload.js"></script>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#posts img").lazyload({
+            placeholder: "/images/loading.gif",
+            effect: "fadeIn"
+        });
+    });
+</script>
+</body>
+</html>
