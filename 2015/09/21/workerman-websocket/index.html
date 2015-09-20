@@ -25,7 +25,7 @@
 
 
 
-  <meta name="keywords" content="javascript," />
+  <meta name="keywords" content="php,websocket,workerman," />
 
 
 
@@ -34,99 +34,26 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
-分派系首先分一下派系：
+<meta name="description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
+PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
 
-
-
-对象\浏览器
-FF
-Chrom
-IE678
-
-
-
-
-srcElement
-no
-yes
-yes
-
-
-fromElement
-no
-yes
-yes
-
-
-toElement
-no
-yes
-yes">
+stream_s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么">
-<meta property="og:url" content="http://yoursite.com/2015/04/11/srcElement-fromElement-toElement/index.html">
+<meta property="og:title" content="PHP websocket 框架workerman">
+<meta property="og:url" content="http://yoursite.com/2015/09/21/workerman-websocket/index.html">
 <meta property="og:site_name" content="helonghua">
-<meta property="og:description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
-分派系首先分一下派系：
+<meta property="og:description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
+PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
 
-
-
-对象\浏览器
-FF
-Chrom
-IE678
-
-
-
-
-srcElement
-no
-yes
-yes
-
-
-fromElement
-no
-yes
-yes
-
-
-toElement
-no
-yes
-yes">
+stream_s">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9ggpijqqj314q11o12x.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9gqpxmm6j30y80oqmzo.jpg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么">
-<meta name="twitter:description" content="srcElement、fromElement、toElement、target、currentTarget这些都是什么作为一个javascript的新手很可能经常搞混了这几个对象
-分派系首先分一下派系：
+<meta name="twitter:title" content="PHP websocket 框架workerman">
+<meta name="twitter:description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
+PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
 
-
-
-对象\浏览器
-FF
-Chrom
-IE678
-
-
-
-
-srcElement
-no
-yes
-yes
-
-
-fromElement
-no
-yes
-yes
-
-
-toElement
-no
-yes
-yes">
+stream_s">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -136,7 +63,7 @@ yes">
   };
 </script>
 
-    <title> srcElement、fromElement、toElement、target、currentTarget这些都是什么 // helonghua </title>
+    <title> PHP websocket 框架workerman // helonghua </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -230,7 +157,7 @@ yes">
           
           
             
-              srcElement、fromElement、toElement、target、currentTarget这些都是什么
+              PHP websocket 框架workerman
             
           
         </h1>
@@ -239,8 +166,8 @@ yes">
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-04-11T00:16:52+08:00" content="2015-04-11">
-            2015-04-11
+          <time itemprop="dateCreated" datetime="2015-09-21T02:17:13+08:00" content="2015-09-21">
+            2015-09-21
           </time>
         </span>
 
@@ -258,108 +185,28 @@ yes">
       
 
       
-        <span itemprop="articleBody"><h4 id="srcElement、fromElement、toElement、target、currentTarget这些都是什么">srcElement、fromElement、toElement、target、currentTarget这些都是什么</h4><p>作为一个javascript的新手很可能经常搞混了这几个对象</p>
-<h5 id="分派系">分派系</h5><p>首先分一下派系：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">对象\浏览器</th>
-<th style="text-align:left">FF</th>
-<th style="text-align:center">Chrom</th>
-<th style="text-align:center">IE678</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">srcElement</td>
-<td style="text-align:left">no</td>
-<td style="text-align:center">yes</td>
-<td style="text-align:center">yes</td>
-</tr>
-<tr>
-<td style="text-align:left">fromElement</td>
-<td style="text-align:left">no</td>
-<td style="text-align:center">yes</td>
-<td style="text-align:center">yes</td>
-</tr>
-<tr>
-<td style="text-align:left">toElement</td>
-<td style="text-align:left">no</td>
-<td style="text-align:center">yes</td>
-<td style="text-align:center">yes</td>
-</tr>
-<tr>
-<td style="text-align:left">target</td>
-<td style="text-align:left">yes</td>
-<td style="text-align:center">yes</td>
-<td style="text-align:center">no</td>
-</tr>
-<tr>
-<td style="text-align:left">currentTarget</td>
-<td style="text-align:left">yes</td>
-<td style="text-align:center">yes</td>
-<td style="text-align:center">no</td>
-</tr>
-</tbody>
-</table>
-<h6 id="关于：srcElement、fromElement、toElement">关于：srcElement、fromElement、toElement</h6><blockquote>
-<p>event.srcElement：引发事件的目标对象，常用于onclick事件。</p>
-<p>event.fromElement：常用于onmouseout和onmouseover事件</p>
-<p>event.toElement：常用于onmouseout和onmouseover事件</p>
-<p>onmouseover时，srcElement相当于toElement<br>onmouseout时，srcElement相当于fromSrcElement</p>
-</blockquote>
-<h6 id="关于：srcElement_target">关于：srcElement  target</h6><p>火狐下的<code>event.target = event.srcElement</code>(IE)</p>
-<p>所以我们经常看见这样的兼容代码：</p>
-<pre><code><span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{
-    <span class="keyword">var</span> e=event || <span class="built_in">window</span>.event; <span class="comment">//火狐和IE的事件对象区分</span>
-    <span class="keyword">var</span> srcElement = e.srcElement || e.target; 
-}
-</code></pre><h6 id="target_与currentTarget_以及this的区别">target 与currentTarget 以及this的区别</h6><blockquote>
-<p>在事件处理程序内部，对象this始终等于currentTarget的值，而target则只包含事件的实际目标。如果直接将事件处理程序指定给了目标元素，则this、currentTarget和target包含相同的值</p>
-</blockquote>
-<pre><code><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>);
-btn.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
-    alert(event.currentTarget === <span class="keyword">this</span>); <span class="comment">//ture</span>
-    alert(event.target === <span class="keyword">this</span>); <span class="comment">//ture</span>
-};
-</code></pre><p>看一下冒泡的过程，有什么区别：</p>
-<pre><code><span class="built_in">document</span>.body.onclick = <span class="function"><span class="keyword">function</span> <span class="params">(event)</span> </span>{
-    alert(event.currentTarget === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
-    alert(<span class="keyword">this</span> === <span class="built_in">document</span>.body); <span class="comment">//ture</span>
-    alert(event.target === <span class="built_in">document</span>.getElementById(<span class="string">"myBtn"</span>)); <span class="comment">//ture</span>
-};
-</code></pre><p>点击上面这个例子的按钮时，this和currentTarget都等于document.body，因为事件处理程序是注册到这个元素的。然而，target元素却等于按钮元素，以为它是click事件真正的目标。由于按钮上并没有注册事件处理程序，结果click事件就冒泡到了document.body，在那里事件才得到了处理。</p>
-<p>所以有以下结论：</p>
-<blockquote>
-<p>js中target与currentTarget的区别的关键在于他们所处在的事件流的阶段是不一样的，target处于事件流的目标阶段，currentTarget处理事件流的捕获、处于目标阶段和冒泡阶段。只有当他们同事处于目标阶段的时候他们的指向才是一样的</p>
-</blockquote>
-<p>例子代码：试一下就明白了</p>
-<pre><code><span class="doctype">&lt;!DOCTYPE HTML&gt;</span>
-<span class="tag">&lt;<span class="title">html</span>&gt;</span>
-<span class="tag">&lt;<span class="title">head</span>&gt;</span>
-<span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span> /&gt;</span>
-<span class="tag">&lt;<span class="title">title</span>&gt;</span>js性能优化<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-<span class="tag">&lt;<span class="title">body</span>&gt;</span> 
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"outer"</span>&gt;</span>
-        outer
-        <span class="tag">&lt;<span class="title">p</span>&gt;</span>
-            inner
-        <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="clojure">
-<span class="list">(<span class="keyword">function</span><span class="list">()</span><span class="collection">{
-    var a=document.getElementById<span class="list">(<span class="keyword">'outer'</span>)</span><span class="comment">;</span>
-        a.addEventListener<span class="list">(<span class="keyword">'click'</span>,function<span class="list">(<span class="keyword">e</span>)</span><span class="collection">{
-        alert<span class="list">(<span class="keyword">e.target.innerHTML</span>)</span><span class="comment">;</span>
-        alert<span class="list">(<span class="keyword">e.currentTarget.innerHTML</span>)</span><span class="comment">;</span>
-        alert<span class="list">(<span class="keyword">e.currentTarget</span> === e.target)</span><span class="comment">;</span>
-    }</span>,<span class="literal">false</span>)</span><span class="comment">;</span>
-}</span>)</span><span class="list">()</span><span class="comment">;</span>
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
-</code></pre></span>
+        <span itemprop="articleBody"><h1 id="PHP_websocket_框架workerman">PHP websocket 框架workerman</h1><p>前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色</p>
+<p>PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：stream<em>socket</em>* 函数。</p>
+<ul>
+<li>stream_socket_server</li>
+<li>stream_socket_accept</li>
+<li>stream_socket_recvfrom</li>
+<li>stream_socket_client</li>
+</ul>
+<p>workerman就是基于这几个函数构建的；</p>
+<h2 id="workerman_认识">workerman 认识</h2><p>看了一下workerman代码示例，到处飘散着反人类的气息，各种PHP匿名函数，闭包回调，正常来讲，这在PHP里面很少见。</p>
+<p>严格来讲workerman不算一个框架，更像一个工具，一个基于libevent、pcntl、posix 这几个扩展，以及socket协议的工具。</p>
+<p>工作流程图：<br><img src="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9ggpijqqj314q11o12x.jpg" alt=""></p>
+<p>采用master fork worker 模式。所以必须依赖pcntl扩展，<br>为了使用epoll 必须使用php libevent扩展</p>
+<p>详细写法查看：Worker.php这个文件</p>
+<h2 id="workerman_server">workerman server</h2><p>workermain自带webserver，不过这个webserver还是不够强大。基于Worker这个类，监听server端口，将所有的字符串拼装完之后，接上http头部返回给浏览器，一个基本的webserver就完成了。</p>
+<p>不过框架的优势是做php websocket服务端端，并不是web server 解析</p>
+<h2 id="websocket例子">websocket例子</h2><p><img src="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9gqpxmm6j30y80oqmzo.jpg" alt=""></p>
+<p>一个简单的websocket例子，监控机器的性能。<br>部署代码非常简单，直接启用start.php即可。</p>
+<p>http访问建立有两种方式，一种是nginx 访问，一种是workerman自带的web server 。验证都是可以正常实现的。</p>
+<p>官方github：<a href="https://github.com/walkor/workerman-vmstat" target="_blank" rel="external">https://github.com/walkor/workerman-vmstat</a></p>
+<p>更多内容，下次再分享</p>
+</span>
       
     </div>
 
@@ -367,7 +214,11 @@ btn.onclick = <span class="function"><span class="keyword">function</span> <span
       
         <div class="post-tags">
           
-            <a href="/tags/javascript/" rel="tag">#javascript</a>
+            <a href="/tags/php/" rel="tag">#php</a>
+          
+            <a href="/tags/websocket/" rel="tag">#websocket</a>
+          
+            <a href="/tags/workerman/" rel="tag">#workerman</a>
           
         </div>
       
@@ -376,13 +227,11 @@ btn.onclick = <span class="function"><span class="keyword">function</span> <span
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/14/nginx-config/" rel="prev">nginx常用配置</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/07/process-understand/" rel="next">nodejs|php|nginx|apache多进程与多线程的理解</a>
+              <a href="/2015/09/09/a-sample-javascript-template/" rel="next">JavaScript模板引擎原理</a>
             
           </div>
         </div>
@@ -493,7 +342,7 @@ btn.onclick = <span class="function"><span class="keyword">function</span> <span
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#srcElement、fromElement、toElement、target、currentTarget这些都是什么"><span class="nav-number">1.</span> <span class="nav-text">srcElement、fromElement、toElement、target、currentTarget这些都是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分派系"><span class="nav-number">1.1.</span> <span class="nav-text">分派系</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#关于：srcElement、fromElement、toElement"><span class="nav-number">1.1.1.</span> <span class="nav-text">关于：srcElement、fromElement、toElement</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#关于：srcElement_target"><span class="nav-number">1.1.2.</span> <span class="nav-text">关于：srcElement  target</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#target_与currentTarget_以及this的区别"><span class="nav-number">1.1.3.</span> <span class="nav-text">target 与currentTarget 以及this的区别</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP_websocket_框架workerman"><span class="nav-number">1.</span> <span class="nav-text">PHP websocket 框架workerman</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#workerman_认识"><span class="nav-number">1.1.</span> <span class="nav-text">workerman 认识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workerman_server"><span class="nav-number">1.2.</span> <span class="nav-text">workerman server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#websocket例子"><span class="nav-number">1.3.</span> <span class="nav-text">websocket例子</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
