@@ -25,7 +25,7 @@
 
 
 
-  <meta name="keywords" content="php,websocket,workerman," />
+  <meta name="keywords" content="php,session," />
 
 
 
@@ -34,26 +34,24 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
-PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
-
-stream_s">
+<meta name="description" content="[toc]
+最近由于承接了麦当娜微信公众号码抽奖活动开发。微软云主机给了3台高配置centos虚拟机。由于负责服务器搭建这一块，所以对负载均衡中session的问题有新的认识；
+session存在的问题关于session的基础原理，可以参看PHP session的内核：http://blog.csdn.net/ohmygirl/article/details/43152683
+php.ini中默认">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP websocket 框架workerman">
-<meta property="og:url" content="http://yoursite.com/2015/09/21/workerman-websocket/index.html">
+<meta property="og:title" content="php session">
+<meta property="og:url" content="http://yoursite.com/2015/10/20/php-session/index.html">
 <meta property="og:site_name" content="helonghua">
-<meta property="og:description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
-PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
-
-stream_s">
-<meta property="og:image" content="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9ggpijqqj314q11o12x.jpg">
-<meta property="og:image" content="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9gqpxmm6j30y80oqmzo.jpg">
+<meta property="og:description" content="[toc]
+最近由于承接了麦当娜微信公众号码抽奖活动开发。微软云主机给了3台高配置centos虚拟机。由于负责服务器搭建这一块，所以对负载均衡中session的问题有新的认识；
+session存在的问题关于session的基础原理，可以参看PHP session的内核：http://blog.csdn.net/ohmygirl/article/details/43152683
+php.ini中默认">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP websocket 框架workerman">
-<meta name="twitter:description" content="PHP websocket 框架workerman前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色
-PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：streamsocket* 函数。
-
-stream_s">
+<meta name="twitter:title" content="php session">
+<meta name="twitter:description" content="[toc]
+最近由于承接了麦当娜微信公众号码抽奖活动开发。微软云主机给了3台高配置centos虚拟机。由于负责服务器搭建这一块，所以对负载均衡中session的问题有新的认识；
+session存在的问题关于session的基础原理，可以参看PHP session的内核：http://blog.csdn.net/ohmygirl/article/details/43152683
+php.ini中默认">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -63,7 +61,7 @@ stream_s">
   };
 </script>
 
-    <title> PHP websocket 框架workerman // helonghua </title>
+    <title> php session // helonghua </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -157,7 +155,7 @@ stream_s">
           
           
             
-              PHP websocket 框架workerman
+              php session
             
           
         </h1>
@@ -166,8 +164,8 @@ stream_s">
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-09-21T02:17:13+08:00" content="2015-09-21">
-            2015-09-21
+          <time itemprop="dateCreated" datetime="2015-10-20T23:22:34+08:00" content="2015-10-20">
+            2015-10-20
           </time>
         </span>
 
@@ -185,27 +183,50 @@ stream_s">
       
 
       
-        <span itemprop="articleBody"><h1 id="PHP_websocket_框架workerman">PHP websocket 框架workerman</h1><p>前言：websocket 双屏互动小游戏大部分都是用 nodejs + redis 来构建服务层的，自己也接触过一些。不过本文要说的是PHP在这方面也毫不逊色</p>
-<p>PHP在低版本就已经提供了很多socket方面的函数，由于各种原因，这些函数出镜率不高，基本被大家扔在垃圾堆里了。剩下最好用的应该也是：stream<em>socket</em>* 函数。</p>
+        <span itemprop="articleBody"><p>[toc]</p>
+<p>最近由于承接了麦当娜微信公众号码抽奖活动开发。微软云主机给了3台高配置centos虚拟机。由于负责服务器搭建这一块，所以对负载均衡中session的问题有新的认识；</p>
+<h2 id="session存在的问题">session存在的问题</h2><p>关于session的基础原理，可以参看<br>PHP session的内核：<a href="http://blog.csdn.net/ohmygirl/article/details/43152683" target="_blank" rel="external">http://blog.csdn.net/ohmygirl/article/details/43152683</a></p>
+<p>php.ini中默认session.save_handler=files其实是有一定的弊端的</p>
+<h3 id="session文件锁">session文件锁</h3><p>如果session信息以文件方式存储，好几个脚本同时对一个session文件进行修改，读取，等操作，会出现阻塞情况；</p>
+<blockquote>
+<p>在session/mod_files.c中ps_files_open函数中追踪到这样一句：<br>flock(data-&gt;fd, LOCK_EX);<br>由于是LOCK_EX（互斥锁）,因而在文件锁定期间，即使是读取文件的数据也是不允许的。这就造成要写入或读取的进程必须等待，直到前一进程释放锁（这通常发生在脚本执行完毕或者用户调用</p>
+</blockquote>
+<h3 id="session-save_path层级问题">session.save_path层级问题</h3><p>session.save<em>path 默认是/tmp目录。如果不设置层级的话，/tmp目录会出现几万个sess</em>*的文件<br>，文件读取性能很差</p>
+<p><strong>如果要分层</strong></p>
 <ul>
-<li>stream_socket_server</li>
-<li>stream_socket_accept</li>
-<li>stream_socket_recvfrom</li>
-<li>stream_socket_client</li>
+<li>目录php不会自己生成</li>
+<li>php不会自己gc回收</li>
 </ul>
-<p>workerman就是基于这几个函数构建的；</p>
-<h2 id="workerman_认识">workerman 认识</h2><p>看了一下workerman代码示例，到处飘散着反人类的气息，各种PHP匿名函数，闭包回调，正常来讲，这在PHP里面很少见。</p>
-<p>严格来讲workerman不算一个框架，更像一个工具，一个基于libevent、pcntl、posix 这几个扩展，以及socket协议的工具。</p>
-<p>工作流程图：<br><img src="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9ggpijqqj314q11o12x.jpg" alt=""></p>
-<p>采用master fork worker 模式。所以必须依赖pcntl扩展，<br>为了使用epoll 必须使用php libevent扩展</p>
-<p>详细写法查看：Worker.php这个文件</p>
-<h2 id="workerman_server">workerman server</h2><p>workermain自带webserver，不过这个webserver还是不够强大。基于Worker这个类，监听server端口，将所有的字符串拼装完之后，接上http头部返回给浏览器，一个基本的webserver就完成了。</p>
-<p>不过框架的优势是做php websocket服务端端，并不是web server 解析</p>
-<h2 id="websocket例子">websocket例子</h2><p><img src="http://ww4.sinaimg.cn/large/005ItG0Rjw1ew9gqpxmm6j30y80oqmzo.jpg" alt=""></p>
-<p>一个简单的websocket例子，监控机器的性能。<br>部署代码非常简单，直接启用start.php即可。</p>
-<p>http访问建立有两种方式，一种是nginx 访问，一种是workerman自带的web server 。验证都是可以正常实现的。</p>
-<p>官方github：<a href="https://github.com/walkor/workerman-vmstat" target="_blank" rel="external">https://github.com/walkor/workerman-vmstat</a></p>
-<p>更多内容，下次再分享</p>
+<p>正常我们如果设置层级的话一般3层最为普遍，不过3层目录php不会自己生成，php有自带的生成脚本<br>php源码包找到：ext/session/mod_files.sh<br>执行: <code>bash mod_files.sh /tmp/session 3 5</code><br>3:代表3层<br>5:对应于php.ini中的 session.hash_bits_per_character,这个值默认是4，development和production版本的默认配置里是5、执行前先看一下这个值session.hash_bits_per_character</p>
+<p>生成目录需要一部分时间，记得给权限！！！</p>
+<p><strong>关于过期session文件回收：</strong></p>
+<pre><code><span class="keyword">find</span> <span class="regexp">/tmp/</span>session  -amin +<span class="number">180</span> -exec rm -rf {} \;
+</code></pre><p>这个脚本的意思是获取/tmp/session 目录下文件最后一次操作时间是180分钟之前的文件，进行删除<br>可以放到crontab里面，1分钟执行一次</p>
+<h3 id="session共享以及磁盘IO问题">session共享以及磁盘IO问题</h3><p>这个就是以下要说的重点了，此次部署采用的redis存储session，避免了这两个问题</p>
+<h2 id="分布式环境共享session">分布式环境共享session</h2><p>分布式环境共享session有很多种方法：</p>
+<ol>
+<li>服务器session文件实时同步</li>
+<li>nginx 负载均衡 ip_hash</li>
+<li>nosql存储</li>
+</ol>
+<p>如果不采用nosql，第二种是最简单，直接的。一个ip的用户固定将请求打到一台服务器上</p>
+<p>我采用的redis来存储，至于为啥不用memcache，考虑的原因是redis操作便捷性比memcache强很多；<br>另一个角度来讲redis hset这个hash数据结构更适合存储session</p>
+<h3 id="采用redis存储session">采用redis存储session</h3><h4 id="自定义封装类操作session">自定义封装类操作session</h4><p>如果系统依赖session存储很多东西，或者是对session的操作很复杂，建议自己封装php类来操作session存取redis</p>
+<p>参考文章：<a href="http://blog.chinaunix.net/uid-11121450-id-3284875.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-11121450-id-3284875.html</a></p>
+<p>这种写法，session的扩展性强了许多；</p>
+<h4 id="系统直接接入">系统直接接入</h4><p>秀代码：</p>
+<pre><code>ini_<span class="built_in">set</span>(<span class="string">'session.save_handler'</span>, <span class="string">'redis'</span>);
+ini_<span class="built_in">set</span>(<span class="string">'session.save_path'</span>, <span class="string">'tcp://127.0.0.1:6379'</span>);
+ini_<span class="built_in">set</span>(<span class="string">'session.name'</span>, <span class="string">'hahatest'</span>);
+ini_<span class="built_in">set</span>(<span class="string">'session.gc_maxlifetime'</span>, <span class="string">'7200'</span>);
+</code></pre><p>在入口文件，直接这么写就没事了，存文件的时候session怎么写，现在还是怎么写，这样比较适合从存文件这种方式，直接切换到redis</p>
+<p>同理memcache也是如此写法；</p>
+<h2 id="CI框架特有的session">CI框架特有的session</h2><p>CI框架的session坑了我一把，一开始怎么都没有找到session存放的位置；</p>
+<p>CI彻底抛弃了php session 的存储方式，session加密之后都放到客户端了</p>
+<p>关于这个问题不是本文要讨论的，不过这也是别样session的实现方式，更多问题请百度</p>
+<h2 id="问答">问答</h2><p>如何设置一个30分钟过期的Session</p>
+<p>鸟哥的博客都是精品：</p>
+<p><a href="http://www.laruence.com/2012/01/10/2469.html" target="_blank" rel="external">http://www.laruence.com/2012/01/10/2469.html</a></p>
 </span>
       
     </div>
@@ -216,9 +237,7 @@ stream_s">
           
             <a href="/tags/php/" rel="tag">#php</a>
           
-            <a href="/tags/websocket/" rel="tag">#websocket</a>
-          
-            <a href="/tags/workerman/" rel="tag">#workerman</a>
+            <a href="/tags/session/" rel="tag">#session</a>
           
         </div>
       
@@ -227,13 +246,11 @@ stream_s">
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/20/php-session/" rel="prev">php session</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/09/a-sample-javascript-template/" rel="next">JavaScript模板引擎原理</a>
+              <a href="/2015/09/21/workerman-websocket/" rel="next">PHP websocket 框架workerman</a>
             
           </div>
         </div>
@@ -344,7 +361,7 @@ stream_s">
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP_websocket_框架workerman"><span class="nav-number">1.</span> <span class="nav-text">PHP websocket 框架workerman</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#workerman_认识"><span class="nav-number">1.1.</span> <span class="nav-text">workerman 认识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workerman_server"><span class="nav-number">1.2.</span> <span class="nav-text">workerman server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#websocket例子"><span class="nav-number">1.3.</span> <span class="nav-text">websocket例子</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#session存在的问题"><span class="nav-number">1.</span> <span class="nav-text">session存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session文件锁"><span class="nav-number">1.1.</span> <span class="nav-text">session文件锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-save_path层级问题"><span class="nav-number">1.2.</span> <span class="nav-text">session.save_path层级问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session共享以及磁盘IO问题"><span class="nav-number">1.3.</span> <span class="nav-text">session共享以及磁盘IO问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式环境共享session"><span class="nav-number">2.</span> <span class="nav-text">分布式环境共享session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#采用redis存储session"><span class="nav-number">2.1.</span> <span class="nav-text">采用redis存储session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义封装类操作session"><span class="nav-number">2.1.1.</span> <span class="nav-text">自定义封装类操作session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统直接接入"><span class="nav-number">2.1.2.</span> <span class="nav-text">系统直接接入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CI框架特有的session"><span class="nav-number">3.</span> <span class="nav-text">CI框架特有的session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问答"><span class="nav-number">4.</span> <span class="nav-text">问答</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
