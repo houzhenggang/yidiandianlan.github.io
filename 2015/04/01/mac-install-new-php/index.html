@@ -217,40 +217,8 @@ make install
 </ul>
 <h1 id="php编译">php编译</h1><p>开始进入正题了、先把安装包下载回来，直接上php.net down安装包、5.6： <a href="http://cn2.php.net/distributions/php-5.6.6.tar.gz" target="_blank" rel="external">http://cn2.php.net/distributions/php-5.6.6.tar.gz</a>  解压…..</p>
 <h3 id="编译参数">编译参数</h3><p>参数仿照aliyun、记得把fpm参数加上（第一次没加上，重新编译一次）<br>其中apx2 路径需要先查看，libpng、freetype、jpeg参数都是上面编译的路径</p>
-<pre><code>./configure --prefix=/usr/local/php \
--<span class="ruby">-with-config-file-path=<span class="regexp">/usr/local</span><span class="regexp">/php/etc</span> \
-</span>-<span class="ruby">-with-apxs2=<span class="regexp">/usr/sbin</span><span class="regexp">/apxs \
-</span></span>-<span class="ruby">-with-mysql=mysqlnd \
-</span>-<span class="ruby">-with-mysqli=mysqlnd \
-</span>-<span class="ruby">-with-pdo-mysql=mysqlnd \
-</span>-<span class="ruby">-enable-static \
-</span>-<span class="ruby">-enable-maintainer-zts \
-</span>-<span class="ruby">-enable-zend-multibyte \
-</span>-<span class="ruby">-enable-inline-optimization \
-</span>-<span class="ruby">-enable-sockets \
-</span>-<span class="ruby">-enable-wddx \
-</span>-<span class="ruby">-enable-zip \
-</span>-<span class="ruby">-enable-fpm \
-</span>-<span class="ruby">-with-fpm-user=www \
-</span>-<span class="ruby">-with-fpm-group=www \
-</span>-<span class="ruby">-enable-calendar \
-</span>-<span class="ruby">-enable-bcmath \
-</span>-<span class="ruby">-enable-soap \
-</span>-<span class="ruby">-with-zlib \
-</span>-<span class="ruby">-with-iconv \
-</span>-<span class="ruby">-with-gd \
-</span>-<span class="ruby">-with-xmlrpc \
-</span>-<span class="ruby">-enable-mbstring \
-</span>-<span class="ruby">-without-sqlite \
-</span>-<span class="ruby">-with-curl \
-</span>-<span class="ruby">-enable-ftp \
-</span>-<span class="ruby">-with-mcrypt  \
-</span>-<span class="ruby">-with-freetype-dir=<span class="regexp">/usr/local</span><span class="regexp">/freetype \
-</span></span>-<span class="ruby">-with-jpeg-dir=<span class="regexp">/usr/local</span><span class="regexp">/jpeg \
-</span></span>-<span class="ruby">-with-png-dir=<span class="regexp">/usr/local</span><span class="regexp">/libpng
-</span></span>
-
-make &amp;&amp; make install
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/local/php \</span><br><span class="line">-<span class="ruby">-with-config-file-path=<span class="regexp">/usr/local</span><span class="regexp">/php/etc</span> \</span><br><span class="line"></span>-<span class="ruby">-with-apxs2=<span class="regexp">/usr/sbin</span><span class="regexp">/apxs \</span><br><span class="line"></span></span>-<span class="ruby">-with-mysql=mysqlnd \</span><br><span class="line"></span>-<span class="ruby">-with-mysqli=mysqlnd \</span><br><span class="line"></span>-<span class="ruby">-with-pdo-mysql=mysqlnd \</span><br><span class="line"></span>-<span class="ruby">-enable-static \</span><br><span class="line"></span>-<span class="ruby">-enable-maintainer-zts \</span><br><span class="line"></span>-<span class="ruby">-enable-zend-multibyte \</span><br><span class="line"></span>-<span class="ruby">-enable-inline-optimization \</span><br><span class="line"></span>-<span class="ruby">-enable-sockets \</span><br><span class="line"></span>-<span class="ruby">-enable-pcntl \</span><br><span class="line"></span>-<span class="ruby">-enable-wddx \</span><br><span class="line"></span>-<span class="ruby">-enable-zip \</span><br><span class="line"></span>-<span class="ruby">-enable-fpm \</span><br><span class="line"></span>-<span class="ruby">-with-fpm-user=www \</span><br><span class="line"></span>-<span class="ruby">-with-fpm-group=www \</span><br><span class="line"></span>-<span class="ruby">-enable-calendar \</span><br><span class="line"></span>-<span class="ruby">-enable-bcmath \</span><br><span class="line"></span>-<span class="ruby">-enable-soap \</span><br><span class="line"></span>-<span class="ruby">-with-zlib \</span><br><span class="line"></span>-<span class="ruby">-with-iconv \</span><br><span class="line"></span>-<span class="ruby">-with-gd \</span><br><span class="line"></span>-<span class="ruby">-with-openssl \</span><br><span class="line"></span>-<span class="ruby">-with-xmlrpc \</span><br><span class="line"></span>-<span class="ruby">-enable-mbstring \</span><br><span class="line"></span>-<span class="ruby">-without-sqlite \</span><br><span class="line"></span>-<span class="ruby">-with-curl \</span><br><span class="line"></span>-<span class="ruby">-enable-ftp \</span><br><span class="line"></span>-<span class="ruby">-with-mcrypt  \</span><br><span class="line"></span>-<span class="ruby">-with-freetype-dir=<span class="regexp">/usr/local</span><span class="regexp">/freetype \</span><br><span class="line"></span></span>-<span class="ruby">-with-jpeg-dir=<span class="regexp">/usr/local</span><span class="regexp">/jpeg \</span><br><span class="line"></span></span>-<span class="ruby">-with-png-dir=<span class="regexp">/usr/local</span><span class="regexp">/libpng</span></span></span><br></pre></td></tr></table></figure>
+<pre><code><span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install
 </code></pre><p>这两个参数可以在<code>/usr/local/php/etc/php-fpm.conf</code>里面修改</p>
 <pre><code>--<span class="keyword">with</span>-fpm-user=www <span class="string">\</span>
 --<span class="keyword">with</span>-fpm-group=www <span class="string">\</span>
