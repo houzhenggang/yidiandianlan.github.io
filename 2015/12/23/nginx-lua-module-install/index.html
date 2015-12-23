@@ -25,7 +25,7 @@
 
 
 
-  <meta name="keywords" content="dedecms,织梦," />
+  <meta name="keywords" content="lua,nginx," />
 
 
 
@@ -34,21 +34,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="当网站静态文件太多的时候，是时候该把静态文件换qiniu了，毕竟速度很不错，阿里云的带宽也比较昂贵，还可以减少服务器nginx的请求
-七牛配置申请一个空间、配置自己的自定义域名（高级设置里面）七牛默认给你分配的是7x.ajjah.qiniucdn.com这种域名，由于图片url需要入库，不建议使用这种方式，可以自己cname 域名到 qiniu。配置自己的域名，防止以后迁移带来的麻烦。 
-织梦整合">
+<meta name="description" content="nginx lua module install[TOC]
+nginx与lua结合的项目最先OpenResty这个团队组织的。目前市场上用的最多的两个版本：Tengine 与 lua-nginx-module有一句话评价很到位：1&amp;#10;&amp;#20026;&amp;#20160;&amp;#20040;&amp;#38656;&amp;#35201;lua&amp;#65306;&amp;#10;&amp;#62;nginx&amp;#26412;&amp;#3652">
 <meta property="og:type" content="article">
-<meta property="og:title" content="织梦dedecms 整合七牛云存储">
-<meta property="og:url" content="http://yoursite.com/2015/05/16/dedecms-qiniu/index.html">
+<meta property="og:title" content="nginx lua module install">
+<meta property="og:url" content="http://yoursite.com/2015/12/23/nginx-lua-module-install/index.html">
 <meta property="og:site_name" content="helonghua">
-<meta property="og:description" content="当网站静态文件太多的时候，是时候该把静态文件换qiniu了，毕竟速度很不错，阿里云的带宽也比较昂贵，还可以减少服务器nginx的请求
-七牛配置申请一个空间、配置自己的自定义域名（高级设置里面）七牛默认给你分配的是7x.ajjah.qiniucdn.com这种域名，由于图片url需要入库，不建议使用这种方式，可以自己cname 域名到 qiniu。配置自己的域名，防止以后迁移带来的麻烦。 
-织梦整合">
+<meta property="og:description" content="nginx lua module install[TOC]
+nginx与lua结合的项目最先OpenResty这个团队组织的。目前市场上用的最多的两个版本：Tengine 与 lua-nginx-module有一句话评价很到位：1&amp;#10;&amp;#20026;&amp;#20160;&amp;#20040;&amp;#38656;&amp;#35201;lua&amp;#65306;&amp;#10;&amp;#62;nginx&amp;#26412;&amp;#3652">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="织梦dedecms 整合七牛云存储">
-<meta name="twitter:description" content="当网站静态文件太多的时候，是时候该把静态文件换qiniu了，毕竟速度很不错，阿里云的带宽也比较昂贵，还可以减少服务器nginx的请求
-七牛配置申请一个空间、配置自己的自定义域名（高级设置里面）七牛默认给你分配的是7x.ajjah.qiniucdn.com这种域名，由于图片url需要入库，不建议使用这种方式，可以自己cname 域名到 qiniu。配置自己的域名，防止以后迁移带来的麻烦。 
-织梦整合">
+<meta name="twitter:title" content="nginx lua module install">
+<meta name="twitter:description" content="nginx lua module install[TOC]
+nginx与lua结合的项目最先OpenResty这个团队组织的。目前市场上用的最多的两个版本：Tengine 与 lua-nginx-module有一句话评价很到位：1&amp;#10;&amp;#20026;&amp;#20160;&amp;#20040;&amp;#38656;&amp;#35201;lua&amp;#65306;&amp;#10;&amp;#62;nginx&amp;#26412;&amp;#3652">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -58,7 +55,7 @@
   };
 </script>
 
-    <title> 织梦dedecms 整合七牛云存储 // helonghua </title>
+    <title> nginx lua module install // helonghua </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -152,7 +149,7 @@
           
           
             
-              织梦dedecms 整合七牛云存储
+              nginx lua module install
             
           
         </h1>
@@ -161,8 +158,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-05-16T14:47:36+08:00" content="2015-05-16">
-            2015-05-16
+          <time itemprop="dateCreated" datetime="2015-12-23T13:29:44+08:00" content="2015-12-23">
+            2015-12-23
           </time>
         </span>
 
@@ -180,52 +177,33 @@
       
 
       
-        <span itemprop="articleBody"><p>当网站静态文件太多的时候，是时候该把静态文件换qiniu了，毕竟速度很不错，阿里云的带宽也比较昂贵，还可以减少服务器nginx的请求</p>
-<h2 id="七牛配置">七牛配置</h2><p>申请一个空间、配置自己的自定义域名（高级设置里面）<br>七牛默认给你分配的是<code>7x.ajjah.qiniucdn.com</code>这种域名，由于图片url需要入库，不建议使用这种方式，可以自己cname 域名到 qiniu。配置自己的域名，防止以后迁移带来的麻烦。 </p>
-<h2 id="织梦整合">织梦整合</h2><p>这里需要我们换编辑器了，利用百度编辑器ueditor二次开发</p>
-<p>下载地址（含使用教程）：<a href="https://github.com/widuu/qiniu_ueditor_1.4.3" target="_blank" rel="external">https://github.com/widuu/qiniu_ueditor_1.4.3</a></p>
-<h3 id="ueditor修改">ueditor修改</h3><h4 id="织梦默认分页修改">织梦默认分页修改</h4><p>修改<code>ueditor/ueditor.config.js</code></p>
-<p>修改<code>include/inc/inc_fun_funAdmin.php</code><br>找到<code>//,pageBreakTag:&#39;_ueditor_page_break_tag_&#39;</code><br>改为<code>,pageBreakTag:&#39;#p#副标题#e#&#39;</code> <strong>注意：有个逗号！！！！</strong></p>
-<h3 id="配置信息修改">配置信息修改</h3><p><code>include/ueditor/php/conf.php</code> 配置你的七牛信息</p>
-<h3 id="织梦编辑器替换">织梦编辑器替换</h3><p>下载编辑器，按自己的要求修改之后，文件夹改名为ueditor ，复制到 <code>include</code>目录</p>
-<p>打开<code>/include/inc/inc_fun_funAdmin.php</code><br>找到编辑器判断的if语句结尾，大概227行，加入</p>
-<pre><code><span class="keyword">else</span> <span class="keyword">if</span>(<span class="variable">$GLOBALS</span>[<span class="string">'cfg_html_editor'</span>]==<span class="string">'ueditor'</span>) 
-{ 
-    <span class="variable">$fvalue</span> = <span class="variable">$fvalue</span>==<span class="string">''</span> ? <span class="string">'&lt;p&gt;&lt;/p&gt;'</span> : <span class="variable">$fvalue</span>; 
-    <span class="variable">$code</span> = <span class="string">'&lt;script type="text/javascript" charset="utf-8" src="'</span>.<span class="variable">$GLOBALS</span>[<span class="string">'cfg_cmspath'</span>].<span class="string">'/include/ueditor/ueditor.config.js"&gt;&lt;/script&gt; 
-    &lt;script type="text/javascript" charset="utf-8" src="'</span>.<span class="variable">$GLOBALS</span>[<span class="string">'cfg_cmspath'</span>].<span class="string">'/include/ueditor/ueditor.all.min.js"&gt;&lt;/script&gt; 
-    &lt;link rel="stylesheet" type="text/css" href="'</span>.<span class="variable">$GLOBALS</span>[<span class="string">'cfg_cmspath'</span>].<span class="string">'/include/ueditor/themes/default/css/ueditor.css"/&gt; 
-    &lt;textarea name="'</span>.<span class="variable">$fname</span>.<span class="string">'" id="'</span>.<span class="variable">$fname</span>.<span class="string">'" style="width:100%;height:500px;"&gt;'</span>.<span class="variable">$fvalue</span>.<span class="string">'&lt;/textarea&gt; 
-    &lt;script type="text/javascript"&gt;var ue = new baidu.editor.ui.Editor();ue.render("'</span>.<span class="variable">$fname</span>.<span class="string">'");&lt;/script&gt;'</span>; 
-    <span class="keyword">if</span>(<span class="variable">$gtype</span>==<span class="string">"print"</span>) 
-    { 
-        <span class="built_in">echo</span> <span class="variable">$code</span>; 
-    } 
-    <span class="keyword">else</span> 
-    { 
-        <span class="built_in">return</span> <span class="variable">$code</span>; 
-    } 
+        <span itemprop="articleBody"><h1 id="nginx_lua_module_install">nginx lua module install</h1><p>[TOC]</p>
+<p>nginx与lua结合的项目最先OpenResty这个团队组织的。目前市场上用的最多的两个版本：Tengine 与 lua-nginx-module<br>有一句话评价很到位：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20026;&#20160;&#20040;&#38656;&#35201;lua&#65306;&#10;&#62;nginx&#26412;&#36523;&#21482;&#26159;&#19968;&#20010;&#39640;&#24615;&#33021;,&#36731;&#37327;&#32423;web&#26381;&#21153;&#22120;&#65292;&#20511;&#21161;lua&#65292;&#21487;&#20197;&#20570;&#24456;&#22810;&#19994;&#21153;&#30456;&#20851;&#30340;&#20107;&#24773;&#65292;&#27604;&#22914;&#21644;redis&#65292;memcache&#65292;DNS&#20197;&#21450;&#26500;&#24314;waf&#12290;&#24615;&#33021;&#21487;&#20197;&#25552;&#21319;&#24456;&#22823;&#12290;&#10;&#10;##&#23433;&#35013;&#10;&#10;&#26368;&#22909;&#30340;&#23433;&#35013;&#39034;&#24207;&#26159;&#65306;&#10;&#10;* lua&#10;* &#19979;&#36733;lua-nginx-module &#21644; ngx_devel_kit&#10;* &#19979;&#36733;nginx &#32534;&#35793;&#23433;&#35013;nginx&#10;&#10;&#25105;&#30340;&#30005;&#33041;&#20043;&#21069;&#24050;&#32463;&#26377;nginx&#65292;&#32780;&#19988;&#26159;mac &#19979;&#29992;brew&#23433;&#35013;&#30340;&#65292;&#37197;&#32622;&#20102;&#24456;&#22810;&#19996;&#35199;&#65292;&#24182;&#19981;&#20687;&#21368;&#36733;&#12290;nginx&#21448;&#19981;&#33021;&#21160;&#24577;&#23433;&#35013;&#27169;&#22359;&#12290;&#10;&#35299;&#20915;&#21150;&#27861;&#65306;&#19979;&#36733;&#19968;&#20010;&#21644;&#20320;&#24403;&#21069;nginx&#29256;&#26412;&#19968;&#26679;&#30340;nginx&#32534;&#35793;&#23433;&#35013;&#65292;&#28982;&#21518;&#26367;&#25442;nginx&#25191;&#34892;&#25991;&#20214;&#10;1. &#33719;&#21462;&#24403;&#21069;&#29256;&#26412;&#32534;&#35793;&#21442;&#25968;&#65306;&#10;```nginx -V</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--prefix=/usr/<span class="keyword">local</span>/Cellar/nginx/1.8.0 --with-http_ssl_module --with-pcre --with-ipv6 --sbin-path=/usr/<span class="keyword">local</span>/Cellar/nginx/1.8.0/bin/nginx --with-<span class="keyword">cc</span>-opt='-I/usr/<span class="keyword">local</span>/Cellar/pcre/8.38/<span class="keyword">include</span> -I/usr/<span class="keyword">local</span>/Cellar/openssl/1.0.2e/<span class="keyword">include</span>' --with-ld-opt='-<span class="keyword">L</span>/usr/<span class="keyword">local</span>/Cellar/pcre/8.38/lib -<span class="keyword">L</span>/usr/<span class="keyword">local</span>/Cellar/openssl/1.0.2e/lib' --<span class="keyword">conf</span>-path=/usr/<span class="keyword">local</span>/etc/nginx/nginx.<span class="keyword">conf</span> --pid-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx.pid --lock-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx.lock --http-client-body-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/client_body_temp --http-proxy-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/proxy_temp --http-fastcgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/fastcgi_temp --http-uwsgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/uwsgi_temp --http-scgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/scgi_temp --http-<span class="keyword">log</span>-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/access.<span class="keyword">log</span> --<span class="keyword">error</span>-<span class="keyword">log</span>-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/<span class="keyword">error</span>.<span class="keyword">log</span> --with-http_gzip_static_module</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装lua或者luajit</li>
+</ol>
+<p>mac命令：<figure class="highlight"><figcaption><span>install luajit```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;3. &#37325;&#26032;&#32534;&#35793;nginx&#10;&#10;&#37325;&#26032;&#32534;&#35793;&#20043;&#21069;&#65292;&#20808;&#35774;&#23450;&#21464;&#37327;&#65306;&#10;&#10;&#9;# export LUAJIT_LIB=/usr/local/Cellar/luajit/2.0.3_1/lib&#10;&#9;# export LUAJIT_INC=/usr/local/Cellar/luajit/2.0.3_1/include/luajit-2.0&#10;&#10;**&#28155;&#21152;&#21442;&#25968;&#65306;**&#10;&#22312;&#26411;&#23614;&#21152;&#19978;```--add-module=/Users/helonghua/lua-nginx-module --add-module=/Users/helonghua/ngx_devel_kit-0.2.19</span><br></pre></td></tr></table></figure></p>
+<p>同时，一定要确认—with-cc-opt 和  —with-ld-opt 这个路径的正确性</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/nginx/</span><span class="number">1.8</span>.<span class="number">0</span> --with-http_ssl_module --with-pcre --with-ipv6 --sbin-path=<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin<span class="regexp">/nginx --with-cc-opt='-I/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/pcre/</span><span class="number">8.38</span><span class="regexp">/include -I/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/openssl/</span><span class="number">1.0</span>.<span class="number">2</span>e<span class="regexp">/include' --with-ld-opt='-L/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/pcre/</span><span class="number">8.38</span><span class="regexp">/lib -L/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/openssl/</span><span class="number">1.0</span>.<span class="number">2</span>e<span class="regexp">/lib' --conf-path=/u</span>sr<span class="regexp">/local/</span>etc<span class="regexp">/nginx/</span>nginx.conf --pid-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx.pid --lock-path=/u</span>sr<span class="regexp">/local/</span>var<span class="regexp">/run/</span>nginx.lock --http-client-body-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>client_body_temp --http-proxy-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>proxy_temp --http-fastcgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>fastcgi_temp --http-uwsgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/u</span>wsgi_temp --http-scgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>scgi_temp --http-log-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>log<span class="regexp">/nginx/</span>access.log --error-log-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>log<span class="regexp">/nginx/</span>error.log --with-http_gzip_static_module --add-module=<span class="regexp">/Users/</span>helonghua<span class="regexp">/lua-nginx-module --add-module=/U</span>sers<span class="regexp">/helonghua/</span>ngx_devel_kit-<span class="number">0.2</span>.<span class="number">19</span></span><br></pre></td></tr></table></figure>
+<p><strong>编译（只要make不要make install）：</strong></p>
+<pre><code>#make
+<span class="comment">//删除原nginx</span>
+#rm -rf  <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin/nginx
+#cp objs<span class="regexp">/nginx /</span>usr<span class="regexp">/local/</span>Cellar<span class="regexp">/nginx/</span><span class="number">1.8</span>.0<span class="regexp">/bin/</span>
+</code></pre><p><strong>启动</strong></p>
+<pre><code><span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin<span class="regexp">/nginx</span>
+</code></pre><p><strong>测试</strong></p>
+<pre><code><span class="comment">//找一个域名server，添加</span>
+location /hello {
+       default_type 'text/plain';
+       content_by_lua 'ngx.say(<span class="string">"hello, lua"</span>)';
 }
-</code></pre><p>修改织梦后台”基本参数&gt;&gt;核心设置&gt;&gt;Html编辑器”</p>
-<p>完成~~~~</p>
-<h3 id="织梦关闭下载远程图片">织梦关闭下载远程图片</h3><p>由于我们吧资源放到七牛，图片的url 成这个样子：<br><code>http://aaa.qiniu.com/777799.png</code><br><code>http://img.****.com/777799.png</code></p>
-<p>织梦提交文档的时候，会把这些文档再一次本地化。</p>
-<p><strong>解决方案1：</strong><br>后台直接关闭【下载远程图片】此功能</p>
-<p><strong>解决办法2：</strong></p>
-<p>修改判断远程图片下载方法<br>找到<code>dede/inc/inc_archives_function.php</code>里面<br><code>function GetCurContent</code><br>把这个<code>$basehost = &quot;http://&quot;.$_SERVER[&quot;HTTP_HOST&quot;];</code><br>直接修改为你的主域名<code>$basehost = &#39;baidu.com&#39;;</code>这样，就不会把该主域名的图片本地化</p>
-<p>或者写个正则（添加以下代码），输出主域名：</p>
-<pre><code>preg_match('/[<span class="link_label">\w</span>][<span class="link_reference">\w-</span>]*\.(?:com|cn|net)(\/|$)/isU', $basehost, $domain);
-$basehost = rtrim($domain[0], '/');
-</code></pre><h3 id="织梦旧资源同步到七牛">织梦旧资源同步到七牛</h3><p>现在在编辑器中可以吧图片上传到七牛，对于以前存在自己服务器上的图片，也可以同步七牛上，再替换数据库表<code>dede_addonarticle</code>中body字段</p>
-<p>首先上七牛下载同步工具：<a href="http://developer.qiniu.com/docs/v6/tools/qrsync.html" target="_blank" rel="external">http://developer.qiniu.com/docs/v6/tools/qrsync.html</a></p>
-<p>按说明很简单的配置，直接在linux主机上运行就ok了</p>
-<p>同步上去之后，替换数据库</p>
-<pre><code><span class="label">$mysql</span> -<span class="keyword">u</span> root -p
-$输入密码
-<span class="label">$use</span> 数据库名称;
-mysql&gt;<span class="keyword">update</span> dede_addonarticle <span class="keyword">set</span> body =<span class="keyword">REPLACE</span>(body,'src=<span class="string">"/uploads/allimg','src="</span>http:<span class="comment">//qinniu.qiniu.com/uploads/allimg');</span>
-<span class="comment">//用后者的字符串，替换前者。可以使用 where =</span>
-</code></pre><p>生成全部文档~OK</p>
+</code></pre><p><code>nginx -t</code>是否报错</p>
+<p>打开网址测试：<a href="http://127.0.0.1/hello" target="_blank" rel="external">http://127.0.0.1/hello</a></p>
+<h2 id="nginx_lua在waf上应用">nginx lua在waf上应用</h2><p>github:<a href="https://github.com/loveshell/ngx_lua_waf" target="_blank" rel="external">https://github.com/loveshell/ngx_lua_waf</a></p>
+<p>测试了一下，AB压测的确很简单的被防御了。应该CC攻击也没有问题，其中也过滤了很多常用的注入手段</p>
+<p>对比：<a href="http://helonghua.com/2015/05/12/limit-zone-limie-req-zone/" target="_blank" rel="external">mit_zone、limie_req_zone nginx</a>自带的这两个模块。还是这个强大，好用</p>
 </span>
       
     </div>
@@ -234,9 +212,9 @@ mysql&gt;<span class="keyword">update</span> dede_addonarticle <span class="keyw
       
         <div class="post-tags">
           
-            <a href="/tags/dedecms/" rel="tag">#dedecms</a>
+            <a href="/tags/lua/" rel="tag">#lua</a>
           
-            <a href="/tags/织梦/" rel="tag">#织梦</a>
+            <a href="/tags/nginx/" rel="tag">#nginx</a>
           
         </div>
       
@@ -245,13 +223,11 @@ mysql&gt;<span class="keyword">update</span> dede_addonarticle <span class="keyw
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/03/google-adsense/" rel="prev">谷歌联盟Google AdSense使用总结</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/12/limit-zone-limie-req-zone/" rel="next">nginx限制连接模块limit_zone、limie_req_zone测试</a>
+              <a href="/2015/10/20/php-session/" rel="next">php session</a>
             
           </div>
         </div>
@@ -362,7 +338,7 @@ mysql&gt;<span class="keyword">update</span> dede_addonarticle <span class="keyw
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#七牛配置"><span class="nav-number">1.</span> <span class="nav-text">七牛配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#织梦整合"><span class="nav-number">2.</span> <span class="nav-text">织梦整合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ueditor修改"><span class="nav-number">2.1.</span> <span class="nav-text">ueditor修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#织梦默认分页修改"><span class="nav-number">2.1.1.</span> <span class="nav-text">织梦默认分页修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置信息修改"><span class="nav-number">2.2.</span> <span class="nav-text">配置信息修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#织梦编辑器替换"><span class="nav-number">2.3.</span> <span class="nav-text">织梦编辑器替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#织梦关闭下载远程图片"><span class="nav-number">2.4.</span> <span class="nav-text">织梦关闭下载远程图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#织梦旧资源同步到七牛"><span class="nav-number">2.5.</span> <span class="nav-text">织梦旧资源同步到七牛</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx_lua_module_install"><span class="nav-number">1.</span> <span class="nav-text">nginx lua module install</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx_lua在waf上应用"><span class="nav-number">1.1.</span> <span class="nav-text">nginx lua在waf上应用</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

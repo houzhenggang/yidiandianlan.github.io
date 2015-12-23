@@ -148,6 +148,94 @@
           
           
             
+              <a class="post-title-link" href="/2015/12/23/nginx-lua-module-install/" itemprop="url">
+                nginx lua module install
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-12-23T13:29:44+08:00" content="2015-12-23">
+            2015-12-23
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h1 id="nginx_lua_module_install">nginx lua module install</h1><p>[TOC]</p>
+<p>nginx与lua结合的项目最先OpenResty这个团队组织的。目前市场上用的最多的两个版本：Tengine 与 lua-nginx-module<br>有一句话评价很到位：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20026;&#20160;&#20040;&#38656;&#35201;lua&#65306;&#10;&#62;nginx&#26412;&#36523;&#21482;&#26159;&#19968;&#20010;&#39640;&#24615;&#33021;,&#36731;&#37327;&#32423;web&#26381;&#21153;&#22120;&#65292;&#20511;&#21161;lua&#65292;&#21487;&#20197;&#20570;&#24456;&#22810;&#19994;&#21153;&#30456;&#20851;&#30340;&#20107;&#24773;&#65292;&#27604;&#22914;&#21644;redis&#65292;memcache&#65292;DNS&#20197;&#21450;&#26500;&#24314;waf&#12290;&#24615;&#33021;&#21487;&#20197;&#25552;&#21319;&#24456;&#22823;&#12290;&#10;&#10;##&#23433;&#35013;&#10;&#10;&#26368;&#22909;&#30340;&#23433;&#35013;&#39034;&#24207;&#26159;&#65306;&#10;&#10;* lua&#10;* &#19979;&#36733;lua-nginx-module &#21644; ngx_devel_kit&#10;* &#19979;&#36733;nginx &#32534;&#35793;&#23433;&#35013;nginx&#10;&#10;&#25105;&#30340;&#30005;&#33041;&#20043;&#21069;&#24050;&#32463;&#26377;nginx&#65292;&#32780;&#19988;&#26159;mac &#19979;&#29992;brew&#23433;&#35013;&#30340;&#65292;&#37197;&#32622;&#20102;&#24456;&#22810;&#19996;&#35199;&#65292;&#24182;&#19981;&#20687;&#21368;&#36733;&#12290;nginx&#21448;&#19981;&#33021;&#21160;&#24577;&#23433;&#35013;&#27169;&#22359;&#12290;&#10;&#35299;&#20915;&#21150;&#27861;&#65306;&#19979;&#36733;&#19968;&#20010;&#21644;&#20320;&#24403;&#21069;nginx&#29256;&#26412;&#19968;&#26679;&#30340;nginx&#32534;&#35793;&#23433;&#35013;&#65292;&#28982;&#21518;&#26367;&#25442;nginx&#25191;&#34892;&#25991;&#20214;&#10;1. &#33719;&#21462;&#24403;&#21069;&#29256;&#26412;&#32534;&#35793;&#21442;&#25968;&#65306;&#10;```nginx -V</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--prefix=/usr/<span class="keyword">local</span>/Cellar/nginx/1.8.0 --with-http_ssl_module --with-pcre --with-ipv6 --sbin-path=/usr/<span class="keyword">local</span>/Cellar/nginx/1.8.0/bin/nginx --with-<span class="keyword">cc</span>-opt='-I/usr/<span class="keyword">local</span>/Cellar/pcre/8.38/<span class="keyword">include</span> -I/usr/<span class="keyword">local</span>/Cellar/openssl/1.0.2e/<span class="keyword">include</span>' --with-ld-opt='-<span class="keyword">L</span>/usr/<span class="keyword">local</span>/Cellar/pcre/8.38/lib -<span class="keyword">L</span>/usr/<span class="keyword">local</span>/Cellar/openssl/1.0.2e/lib' --<span class="keyword">conf</span>-path=/usr/<span class="keyword">local</span>/etc/nginx/nginx.<span class="keyword">conf</span> --pid-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx.pid --lock-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx.lock --http-client-body-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/client_body_temp --http-proxy-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/proxy_temp --http-fastcgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/fastcgi_temp --http-uwsgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/uwsgi_temp --http-scgi-temp-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/scgi_temp --http-<span class="keyword">log</span>-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/access.<span class="keyword">log</span> --<span class="keyword">error</span>-<span class="keyword">log</span>-path=/usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/<span class="keyword">error</span>.<span class="keyword">log</span> --with-http_gzip_static_module</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装lua或者luajit</li>
+</ol>
+<p>mac命令：<figure class="highlight"><figcaption><span>install luajit```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;3. &#37325;&#26032;&#32534;&#35793;nginx&#10;&#10;&#37325;&#26032;&#32534;&#35793;&#20043;&#21069;&#65292;&#20808;&#35774;&#23450;&#21464;&#37327;&#65306;&#10;&#10;&#9;# export LUAJIT_LIB=/usr/local/Cellar/luajit/2.0.3_1/lib&#10;&#9;# export LUAJIT_INC=/usr/local/Cellar/luajit/2.0.3_1/include/luajit-2.0&#10;&#10;**&#28155;&#21152;&#21442;&#25968;&#65306;**&#10;&#22312;&#26411;&#23614;&#21152;&#19978;```--add-module=/Users/helonghua/lua-nginx-module --add-module=/Users/helonghua/ngx_devel_kit-0.2.19</span><br></pre></td></tr></table></figure></p>
+<p>同时，一定要确认—with-cc-opt 和  —with-ld-opt 这个路径的正确性</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/configure --prefix=/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/nginx/</span><span class="number">1.8</span>.<span class="number">0</span> --with-http_ssl_module --with-pcre --with-ipv6 --sbin-path=<span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin<span class="regexp">/nginx --with-cc-opt='-I/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/pcre/</span><span class="number">8.38</span><span class="regexp">/include -I/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/openssl/</span><span class="number">1.0</span>.<span class="number">2</span>e<span class="regexp">/include' --with-ld-opt='-L/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/pcre/</span><span class="number">8.38</span><span class="regexp">/lib -L/u</span>sr<span class="regexp">/local/</span>Cellar<span class="regexp">/openssl/</span><span class="number">1.0</span>.<span class="number">2</span>e<span class="regexp">/lib' --conf-path=/u</span>sr<span class="regexp">/local/</span>etc<span class="regexp">/nginx/</span>nginx.conf --pid-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx.pid --lock-path=/u</span>sr<span class="regexp">/local/</span>var<span class="regexp">/run/</span>nginx.lock --http-client-body-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>client_body_temp --http-proxy-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>proxy_temp --http-fastcgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>fastcgi_temp --http-uwsgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/u</span>wsgi_temp --http-scgi-temp-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>run<span class="regexp">/nginx/</span>scgi_temp --http-log-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>log<span class="regexp">/nginx/</span>access.log --error-log-path=<span class="regexp">/usr/</span>local<span class="regexp">/var/</span>log<span class="regexp">/nginx/</span>error.log --with-http_gzip_static_module --add-module=<span class="regexp">/Users/</span>helonghua<span class="regexp">/lua-nginx-module --add-module=/U</span>sers<span class="regexp">/helonghua/</span>ngx_devel_kit-<span class="number">0.2</span>.<span class="number">19</span></span><br></pre></td></tr></table></figure>
+<p><strong>编译（只要make不要make install）：</strong></p>
+<pre><code>#make
+<span class="comment">//删除原nginx</span>
+#rm -rf  <span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin/nginx
+#cp objs<span class="regexp">/nginx /</span>usr<span class="regexp">/local/</span>Cellar<span class="regexp">/nginx/</span><span class="number">1.8</span>.0<span class="regexp">/bin/</span>
+</code></pre><p><strong>启动</strong></p>
+<pre><code><span class="regexp">/usr/</span>local<span class="regexp">/Cellar/</span>nginx<span class="regexp">/1.8.0/</span>bin<span class="regexp">/nginx</span>
+</code></pre><p><strong>测试</strong></p>
+<pre><code><span class="comment">//找一个域名server，添加</span>
+location /hello {
+       default_type 'text/plain';
+       content_by_lua 'ngx.say(<span class="string">"hello, lua"</span>)';
+}
+</code></pre><p><code>nginx -t</code>是否报错</p>
+<p>打开网址测试：<a href="http://127.0.0.1/hello" target="_blank" rel="external">http://127.0.0.1/hello</a></p>
+<h2 id="nginx_lua在waf上应用">nginx lua在waf上应用</h2><p>github:<a href="https://github.com/loveshell/ngx_lua_waf" target="_blank" rel="external">https://github.com/loveshell/ngx_lua_waf</a></p>
+<p>测试了一下，AB压测的确很简单的被防御了。应该CC攻击也没有问题，其中也过滤了很多常用的注入手段</p>
+<p>对比：<a href="http://helonghua.com/2015/05/12/limit-zone-limie-req-zone/" target="_blank" rel="external">mit_zone、limie_req_zone nginx</a>自带的这两个模块。还是这个强大，好用</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/20/php-session/" itemprop="url">
                 php session
               </a>
@@ -1127,81 +1215,6 @@ cp .<span class="regexp">/src/</span>redis-* <span class="regexp">/usr/</span>lo
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/26/open-js-select/" itemprop="url">
-                js表单选择中国大学、大学专业、中国省市区三级联动
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-04-26T22:26:26+08:00" content="2015-04-26">
-            2015-04-26
-          </time>
-        </span>
-
-        
-
-        
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><h2 id="js表单选择中国大学、大学专业、中国省市区三级联动">js表单选择中国大学、大学专业、中国省市区三级联动</h2><p>[TOC]</p>
-<p>由于做了几个教育网站，经常跟大学、专业报名、考生籍贯等信息打交道，把网站常用的中国大学js选择、大学专业js选择等资源共享。</p>
-<p>github下载地址：<a href="https://github.com/yidiandianlan/openSelect/" target="_blank" rel="external">https://github.com/yidiandianlan/openSelect/</a></p>
-<h3 id="json信息库">json信息库</h3><p><strong>大学信息json库</strong>：<code>universitySelect/chinaUniversityList.js</code></p>
-<p>由于业务没有扩展到国际~~~目前只有中国的大学</p>
-<p><strong>大学专业json库</strong>：<code>majorSelect/majorList.js</code></p>
-<p>手工从51job上复制、目前只有本科专业，没有专科专业信息。</p>
-<p><strong>省市区县地方信息库</strong>： <code>chinaCitySelect/chinaCityList.js</code></p>
-<h3 id="jquery操作表单联动">jquery操作表单联动</h3><p>jquery操作表单联动，附带搜索功能，文件夹中各有一个<code>*Select.js</code>、都是简单的js操作，注释写的比较全。可以按照自己的要求修改</p>
-<h3 id="例子">例子</h3><p>如果需要对例子中提供的模板样式修改，建议根据json信息库，重新自己写js。</p>
-<p>样式都是统一的~</p>
-<p><img src="http://ww1.sinaimg.cn/bmiddle/005ItG0Rjw1er918dsr1tj310q0mgahs.jpg" alt="大学"></p>
-<p><img src="http://ww3.sinaimg.cn/bmiddle/005ItG0Rjw1er915yjq9fj310u0nstfq.jpg" alt="地区"></p>
-<p><img src="http://ww3.sinaimg.cn/bmiddle/005ItG0Rjw1er912q3nyjj30zu0pgdna.jpg" alt="专业"></p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1241,7 +1254,7 @@ cp .<span class="regexp">/src/</span>redis-* <span class="regexp">/usr/</span>lo
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1255,7 +1268,7 @@ cp .<span class="regexp">/src/</span>redis-* <span class="regexp">/usr/</span>lo
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
